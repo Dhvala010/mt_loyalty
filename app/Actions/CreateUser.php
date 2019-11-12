@@ -24,17 +24,11 @@ class CreateUser
     }
 
     public function execute(array $data){
-        $email = $data['email'];
-        if($this->user->whereEmail($email)->first()){
-            throw new EmailNotUniqueException("$email should be unique");
-        }
         $data['role'] = config("loyalty.user_role.".$data['role']);
-
         begin();
         try {
             $data['password'] = HashPassword($data['password']);
             $user = $this->user->create($data);
-
         } catch (\Exception $e) {
             rollback();
             throw new Exception(ResponseMessage::ERROR_CREATING_USER);
@@ -42,7 +36,6 @@ class CreateUser
         try {
             $user->devices()->create($data);
         } catch (\Exception $e) {
-
             rollback();
             throw new Exception(ResponseMessage::ERROR_CREATING_DEVICE);
         }

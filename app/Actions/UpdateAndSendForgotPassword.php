@@ -3,9 +3,11 @@
 
 namespace App\Actions;
 
-use App\User;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\ForgotPassword;
+use App\Notifications\PasswordResetRequest;
+use App\User,
+    App\PasswordReset;
 /**
  * Response represents an HTTP response.
  *
@@ -16,18 +18,17 @@ class UpdateAndSendForgotPassword
     protected $user;
     public function __construct(User $user)
     {
-        $this->user = $user; 
+        $this->user = $user;
     }
 
-    public function execute($user,$newPassword = NULL){
-        $email = $user->email;
-        $password = $newPassword ? $newPassword : RandomPassword(8);
-        $user->update(['password' => HashPassword($password)]);
-        $data['username'] = $user['first_name'] . ' ' . $user['last_name'];
-        $data['password'] = $password;
+    public function execute($user){
+        $token = RandomPassword(60);
+        $passwordReset = PasswordReset::updateOrCreate(['email' => $user->email],['email' => $user->email,'token' => \Hash::make($token)]);
+        // $user->update(['password' => HashPassword($password)]);
         try {
-            Mail::to($email)->queue(new ForgotPassword($data));
+            $user->notify(new PasswordResetRequest($token));
         } catch (\Exception $exception) {
+            dd($exception);
         }
     }
 }
