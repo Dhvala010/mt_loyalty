@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'title' => 'Medical',
+    'title' => 'Loyalty',
 
     'title_prefix' => '',
 
@@ -128,7 +128,7 @@ return [
     */
 
     'menu' => [
-       
+
         ['header' => 'main_navigation'],
         [
             'text' => 'blog',
@@ -151,7 +151,7 @@ return [
             'url'  => 'admin/settings',
             'icon' => 'fas fa-fw fa-lock',
         ],
-       
+
     ],
 
     /*
