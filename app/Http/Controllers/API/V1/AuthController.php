@@ -37,7 +37,7 @@ class AuthController extends Controller
             $user = Auth::user();
             $user->token = $user->createToken('loyalty')->accessToken;
             $user->devices()->create($request->all());
-            return response()->success(ResponseMessage::LOGIN_SUCCESS,["user" => replace_null_with_empty_string($user)]);
+            return response()->success(ResponseMessage::LOGIN_SUCCESS,replace_null_with_empty_string($user));
         } else {
             return response()->error(ResponseMessage::LOGIN_UNAUTHORIZED,Response::HTTP_UNAUTHORIZED);
         }
