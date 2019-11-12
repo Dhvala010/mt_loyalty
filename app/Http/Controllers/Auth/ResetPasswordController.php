@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Str;
 use Illuminate\Foundation\Auth\ResetsPasswords;
 use Session;
+use Illuminate\Support\Facades\Auth;
 
 class ResetPasswordController extends Controller
 {
@@ -21,6 +22,10 @@ class ResetPasswordController extends Controller
     */
 
     use ResetsPasswords;
+    public function __construct()
+    {
+        $this->middleware('guest');
+    }
 
     /**
      * Where to redirect users after resetting their password.
@@ -29,9 +34,12 @@ class ResetPasswordController extends Controller
      */
     protected $redirectTo = '/login';
 
-    public function __construct()
+
+
+
+    protected function sendResetResponse($response)
     {
-        $this->middleware('guest');
+        return redirect()->back()->with('status', "Password changes successfully");
     }
 
     protected function resetPassword($user, $password)

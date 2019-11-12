@@ -16,7 +16,11 @@
             <p class="login-box-msg">{{ __('adminlte::adminlte.password_reset_message') }}</p>
             <form action="{{ url(config('adminlte.password_reset_url', 'password/reset')) }}" method="post">
                 {{ csrf_field() }}
-
+                @if (session('status'))
+                    <div class="alert alert-success" role="alert">
+                        {{ session('status') }}
+                    </div>
+                @endif
                 <input type="hidden" name="token" value="{{ $token }}">
 
                 <div class="form-group has-feedback {{ $errors->has('email') ? 'has-error' : '' }}">
