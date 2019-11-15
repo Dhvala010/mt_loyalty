@@ -50,20 +50,11 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
-
-        if ($request->wantsJson()) {   //add Accept: application/json in request
-
+        if ( $request->is('api/*') ) {
             return $this->handleApiException($request, $exception);
         } else {
-
-            if ($exception instanceof MethodNotAllowedHttpException) {
-                return redirect()->back();
-            }
-
             return parent::render($request, $exception);
-
         }
-
     }
     private function handleApiException($request,  $exception)
     {
@@ -75,7 +66,6 @@ class Handler extends ExceptionHandler
         else if ($exception instanceof \Illuminate\Validation\ValidationException) {
             $exception = $this->convertValidationExceptionToResponse($exception, $request);
         }
-
         return $this->customApiResponse($exception);
     }
     private function customApiResponse($exception)
@@ -86,7 +76,7 @@ class Handler extends ExceptionHandler
             $statusCode = 500;
         }
         $response = [];
-        $response['status'] = $statusCode;
+        $response['status'] = 400;
 
         switch ($statusCode) {
 

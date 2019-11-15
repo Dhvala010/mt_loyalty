@@ -137,18 +137,17 @@ return [
         ],
         [
             'text'        => 'User Management',
-            'url'         => 'admin/users',
-            'icon'        => 'users'
+            'url'         => 'admin/user',
+            'icon'        => 'fas fa-fw fa-user'
         ],
-        ['header' => 'account_settings'],
         [
-            'text' => 'profile',
-            'url'  => 'admin/settings',
-            'icon' => 'fas fa-fw fa-user',
+            'text'        => 'Store Management',
+            'url'         => 'admin/store',
+            'icon'        => 'fas fa-fw fa-file'
         ],
         [
             'text' => 'change_password',
-            'url'  => 'admin/settings',
+            'url'  => 'admin/user/ChangePassword',
             'icon' => 'fas fa-fw fa-lock',
         ],
 

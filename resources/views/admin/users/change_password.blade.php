@@ -8,10 +8,20 @@
 			<h3 class="box-title">Change Password</h3>
 		</div>
 		<div class="box-body">
-			<form action="{{ url('admin/ChangePasswords') }}" method="post">
+			<form action="{{ url('admin/user/ChangePasswords') }}" method="post">
                 {!! csrf_field() !!}
-				@if (!empty($success))
-					<h1>{{$success}}</h1>
+				@if (session()->has('success'))
+					<div class="alert alert-success">
+						@if(is_array(session()->get('success')))
+						<ul>
+							@foreach (session()->get('success') as $message)
+								<li>{{ $message }}</li>
+							@endforeach
+						</ul>
+						@else
+							{{ session()->get('success') }}
+						@endif
+					</div>
 				@endif
 				@if (!empty($errors->toarray()))
 				 <div class="alert alert-danger">
@@ -20,12 +30,12 @@
 				@endif
 				<div class="form-group">
                     <input type="password" name="current_password" class="form-control"
-                           placeholder="Enter Current Password">                 
+                           placeholder="Enter Current Password">
                 </div>
                 <div class="form-group">
                     <input type="password" name="password" class="form-control"
                            placeholder="Enter New Password">
-                 
+
                 </div>
                 <div class="form-group">
                     <input type="password" name="password_confirmation" class="form-control"
@@ -45,5 +55,5 @@
 
 @stop
 @section('js')
-	
+
 @stop

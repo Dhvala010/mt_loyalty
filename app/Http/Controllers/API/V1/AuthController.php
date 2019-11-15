@@ -10,29 +10,37 @@ use App\Http\Requests\StoreChangePasswordRequest;
 use App\Http\Requests\StoreForgotPasswordRequest;
 use App\Http\Requests\StoreLoginRequest;
 use App\Http\Requests\StoreRegiserRequest;
+use App\Http\Requests\CheckSocialLoginRequest;
 use App\Mail\ForgotPassword;
 use Illuminate\Support\Facades\Auth;
-use App\User;
+
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use Symfony\Component\HttpFoundation\Response;
+
+use App\User,
+    App\Country;
+
 
 class AuthController extends Controller
 {
     /*
 		Register Api
     */
-    public function register(StoreRegiserRequest $request,CreateUser $createUser)
-    {
+    public function register(StoreRegiserRequest $request,CreateUser $createUser){
+
         $response = $createUser->execute($request->all());
-        $response->token = $response->createToken('loyalty')->accessToken;
-        return response()->success(ResponseMessage::REGISTER_SUCCESS,replace_null_with_empty_string($response));
+        $user = User::find($response->id);
+        $user->token = $user->createToken('loyalty')->accessToken;
+
+        return response()->success(ResponseMessage::REGISTER_SUCCESS,replace_null_with_empty_string($user));
     }
 
     /*
 		Login Api
     */
-    public function login(StoreLoginRequest $request)
-    {
+    public function login(StoreLoginRequest $request){
+
         if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
             $user = Auth::user();
             $user->token = $user->createToken('loyalty')->accessToken;
@@ -46,8 +54,8 @@ class AuthController extends Controller
     /*
 		Forgot password Api
 	*/
-    public function forgotPassword(StoreForgotPasswordRequest $request,UpdateAndSendForgotPassword $updateAndSendForgotPassword)
-    {
+    public function forgotPassword(StoreForgotPasswordRequest $request,UpdateAndSendForgotPassword $updateAndSendForgotPassword){
+
         $email = $request->email;
         $user = User::where(['email' => $email])->first();
         if(!$user){
@@ -72,8 +80,7 @@ class AuthController extends Controller
 		User Logout Api
 	*/
 
-    public function changePassword(StoreChangePasswordRequest $request)
-    {
+    public function changePassword(StoreChangePasswordRequest $request){
         $old_password = $request->old_password;
         $new_password = $request->new_password;
         $user = Auth::user();
@@ -83,5 +90,19 @@ class AuthController extends Controller
         } else {
             return response()->error(ResponseMessage::PASSWORD_DO_NOT_MATCH,Response::HTTP_UNAUTHORIZED);
         }
+    }
+
+    public function checkSocialLogin(CheckSocialLoginRequest $request){
+
+    }
+
+    public function configuration(Request $request){
+        $data['country'] = Country::get();
+        return response()->success(ResponseMessage::COMMON_MESSAGE,$data);
+    }
+
+    public function UserDetail(Request $request){
+        $user = Auth::user();
+        return response()->success(ResponseMessage::COMMON_MESSAGE,replace_null_with_empty_string($user));
     }
 }

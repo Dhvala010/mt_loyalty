@@ -44,4 +44,14 @@ function rollback()
     \DB::rollBack();
 }
 
+function ImageUpload($profile_img, $folder = "users") {
+    $info = pathinfo($profile_img->getClientOriginalName());
+    $ext = $info['extension'];
+    $img_name = time() . "-" . rand(11111, 99999) . "." . $ext;
+    $path = \Storage::disk('public')->putFileAs(
+            $folder, $profile_img, $img_name
+    );
+    return $path;
+}
+
 ?>

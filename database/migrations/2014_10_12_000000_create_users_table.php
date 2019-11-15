@@ -36,16 +36,23 @@ class CreateUsersTable extends Migration
             $table->bigIncrements('id');
             $table->string('first_name')->nullable();
             $table->string('last_name')->nullable();
-            $table->string('email')->unique();
+            $table->string('email');
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->enum('role',$user_roles)->comment($this->user_staring);
+            $table->bigInteger('country_code')->unsigned()->nullable();
+            $table->string('phone_number')->nullable();
             $table->string('fbid')->nullable();
+            $table->string('gid')->nullable();
+            $table->string('tid')->nullable();
             $table->string('profile_picture')->nullable();
             $table->boolean('is_agree_terms')->default(false);
+            $table->boolean('is_active')->default(true);
             $table->rememberToken();
             $table->timestamps();
             $table->softDeletes();
+
+            $table->foreign('country_code')->references('id')->on('countries');
         });
     }
 

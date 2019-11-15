@@ -20,4 +20,5 @@ class ResponseMessage
     const ERROR_CREATING_USER = "Error in creating user";
     const ERROR_CREATING_DEVICE = "Error in creating user device detail";
     const USER_NOT_FOUND = 'User not found.';
+    const COMMON_MESSAGE = "Sucess";
 }

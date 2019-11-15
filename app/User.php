@@ -24,7 +24,9 @@ class User extends Authenticatable
         'password',
         'role',
         'profile_picture',
-        'is_aggree_terms'
+        'is_aggree_terms',
+        'phone_number',
+        'country_code'
     ];
 
     /**
@@ -45,9 +47,26 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    protected $appends = ['country_code_name'];
+
     public function devices()
     {
         return $this->hasMany(UserDevice::class, 'user_id', 'id');
     }
+
+    public function getCounrtyData(){
+        return $this->hasOne(Country::class, 'id', 'country_code');
+    }
+
+
+    public function getCountryCodeNameAttribute()
+    {
+        if(!empty($this->country_code)){
+            return $this->getCounrtyData->phonecode;
+        }else{
+            return "";
+        }
+    }
+
 
 }

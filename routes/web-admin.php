@@ -15,11 +15,17 @@ Auth::routes();
 
 
 Route::group(['middleware' => 'auth','check-admin'], function () {
-    
+
     Route::get('/home', function() {
         return view('home');
     })->name('home');
 
-	Route::resource('users', 'UsersController');
+
+    Route::post('user/GetDataById', 'UsersController@GetDataById');
+    Route::get('user/ChangePassword', 'UsersController@ChangePassword');
+    Route::post('user/ChangePasswords', 'UsersController@ChangePasswords');
+    Route::resource('user', 'UsersController');
+    Route::post('store/GetDataById', 'StoreController@GetDataById');
+    Route::resource('store', 'StoreController');
 
 });

@@ -30,7 +30,7 @@ class UsersController extends Controller
                     ->rawColumns(['action'])
                     ->make(true);
         }
-		return view('admin.users.index');
+		    return view('admin.users.index');
     }
 
     /**
@@ -52,52 +52,46 @@ class UsersController extends Controller
     public function store(Request $request)
     {
         $input = $request->all();
-		$validation = [];
-		$validation = [
-			'first_name' => 'required',
-			'last_name' => 'required',
-		];
-		if(!empty($request->id)){
-			$validation['email'] = 'required|email|unique:users,email,'.$request->id;
+        $validation = [];
+        $validation = [
+          'first_name' => 'required',
+          'last_name' => 'required',
+        ];
+        if(!empty($request->id)){
+          $validation['email'] = 'required|email|unique:users,email,'.$request->id.',id,deleted_at,NULL';
+        }else{
+          $validation['email'] = 'required|email|unique:users,email,NULL,id,deleted_at,NULL';
+          $validation['password'] = 'min:6|same:password_confirmation';
+        }
+        if(isset($input["image"]) && !empty($input["image"])) {
+          $file = $request->file('image') ?? '';
+          $validation['image'] = 'mimes:jpeg,jpg,png,gif';
+        }
 
-		}else{
-			$validation['email'] = 'required|email|unique:users,email';
-			$validation['password'] = 'min:6|same:password_confirmation';
-		}
-		if(isset($input["image"]) && !empty($input["image"])) {
-			$file = $input["image"];
-			$file = $request->file('image');
-		}
-		if(!empty($file) && !is_string($file)) {
-			$validation['image'] = 'mimes:jpeg,jpg,png,gif';
-		}
-		// dd($request->all());
-		$validator = Validator::make($input ,$validation);
-		if($validator->fails()){
-			return response()->json([ 'status' => 0 , 'errors'=>$validator->errors()->all()]);
-		}
-		$profile_img= $input["image"] ?? '';
-		if(!empty($profile_img)){
-			$imagename = ImageUpload($profile_img);
-			$input['image'] = $imagename;
-		}
+        $validator = Validator::make($input ,$validation);
+        if($validator->fails()){
+          return response()->json([ 'status' => 0 , 'errors'=>$validator->errors()->all()]);
+        }
 
-		if(!empty($request->id)){
+        if(!empty($file)){
+          $imagename = ImageUpload($file);
+          $input['profile_picture'] = $imagename;
+        }
 
-			$User = User::find($input['id']);
-			$User->fill($input);
-			$User->save();
+        if(!empty($request->id)){
+          unset($input['password']);
+          $User = User::find($input['id']);
 
-			return response()->json([ 'status' => 1 ,  'success'=>'Record Edited successfully']);
-		}
-		else{
-			// dd($request);
-			$User = new User();
-			$User->fill($input);
-			$User->save();
-
-			return response()->json([ 'status' => 1 ,  'success'=>'Record added successfully']);
-		}
+          $User->fill($input);
+          $User->save();
+          return response()->json([ 'status' => 1 ,  'success'=>'Record Edited successfully']);
+        }
+        else{
+          $User = new User();
+          $User->fill($input);
+          $User->save();
+          return response()->json([ 'status' => 1 ,  'success'=>'Record added successfully' , 'data' =>$User ]);
+        }
     }
 
     /**
@@ -109,6 +103,12 @@ class UsersController extends Controller
     public function show($id)
     {
         //
+    }
+
+    public function GetDataById(Request $request){
+      $Id = $request->id;
+      $category = User::where('id',$Id)->first();
+      return response()->json([ 'status' => 1 ,  'success'=>'success' , 'data' => $category ]);
     }
 
     /**
@@ -140,44 +140,48 @@ class UsersController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
-    {
-        $User = User::where('id', $id)->delete();
-		return response()->json([ 'status' => 1 ,  'success'=>'success' ]);
+    public function destroy($id){
+        User::where('id', $id)->delete();
+		    return response()->json([ 'status' => 1 ,  'success'=>'success' ]);
     }
 
     public function ChangePassword(){
-		return view('admin.users.change_password');
-	}
+      return view('admin.users.change_password');
+    }
 
 	public function ChangePasswords(Request $request){
+      $request_data = $request->All();
+      $validator = $this->admin_credential_rules($request_data);
+      if($validator->fails()){
+        return redirect()->back()->withErrors($validator->getMessageBag()->toArray());
+      }
+      else{
+        $current_password = Auth::User()->password;
+        if(Hash::check($request_data['current_password'], $current_password)){
+          $user_id = Auth::User()->id;
+          $obj_user = User::find($user_id);
+          $obj_user->password = Hash::make($request_data['password']);;
+          $obj_user->save();
+          return redirect()->back()->withSuccess('Password change successfully');
+        }
+        else{
+          return redirect()->back()->withErrors('Please enter correct current password');
+        }
+      }
+  }
 
-		$request_data = $request->All();
-		$validator = $this->admin_credential_rules($request_data);
-		if($validator->fails())
-		{
+  public function admin_credential_rules(array $data){
+	  $messages = [
+      'current_password.required' => 'Please enter current password',
+      'password.required' => 'Please enter password',
+	  ];
 
-			return redirect()->back()->withErrors($validator->getMessageBag()->toArray());
+	  $validator = Validator::make($data, [
+      'current_password' => 'required',
+      'password' => 'required|same:password',
+      'password_confirmation' => 'required|same:password',
+	  ], $messages);
+	  return $validator;
+  }
 
-		  return response()->json(array('error' => $validator->getMessageBag()->toArray()), 400);
-		}
-		else
-		{
-		  $current_password = Auth::User()->password;
-		  if(Hash::check($request_data['current_password'], $current_password))
-		  {
-			$user_id = Auth::User()->id;
-			$obj_user = User::find($user_id);
-			$obj_user->password = Hash::make($request_data['password']);;
-			$obj_user->save();
-			return redirect()->back()->withSuccess('Password change successfully');
-		  }
-		  else
-		  {
-			$error = array('current_password' => 'Please enter correct current password');
-			return redirect()->back()->withErrors('Please enter correct current password');
-		  }
-		}
-
-	}
 }
