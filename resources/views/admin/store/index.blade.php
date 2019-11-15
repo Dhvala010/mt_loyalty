@@ -69,6 +69,7 @@
 			<div class="form-group">
 			  <input type="text" class="form-control form-control-user" name="location_address" id="location_address" placeholder="Enter Location Address..." />
 			</div>
+
 			<div class="form-group">
 			  <input type="text" class="form-control form-control-user" name="email" id="email" placeholder="Enter Email Address..." />
 			</div>

@@ -23,9 +23,17 @@ class UpdateAndSendForgotPassword
 
     public function execute($user){
         $token = RandomPassword(60);
-        $passwordReset = PasswordReset::updateOrCreate(['email' => $user->email],['email' => $user->email,'token' => \Hash::make($token)]);
-        // $user->update(['password' => HashPassword($password)]);
         try {
+            $passwordReset = PasswordReset::updateOrCreate(
+                ['email' => $user->email],
+                [
+                    'email' => $user->email,
+                    'token' => \Hash::make($token)
+                ]
+            );
+
+        // $user->update(['password' => HashPassword($password)]);
+
             $user->notify(new PasswordResetRequest($token));
         } catch (\Exception $exception) {
             dd($exception);

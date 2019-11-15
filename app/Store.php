@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Store extends Model
 {
     protected $fillable = [
-        'first_name',
+        'title',
         'last_name',
         'email',
         'password',
