@@ -25,6 +25,18 @@ class CreateUser
 
     public function execute(array $data){
         $data['role'] = config("loyalty.user_role.".$data['role']);
+        if(!empty($data['fbid'])||!empty($data['tid'])||!empty($data['gid'])){
+            $user = User::where(['email' => $data['email'])->first();
+            if(!empty($user)){
+                $update = [];
+                $update['fbid'] = $data['fbid'];
+                $update['tid'] = $data['tid'];
+                $update['gid'] = $data['gid'];
+                User::where('id', $user->id)
+                    ->where($update);
+                return $user;            
+            }
+        }
         begin();
         try {
             $data['password'] = HashPassword($data['password']);

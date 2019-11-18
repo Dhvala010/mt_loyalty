@@ -28,7 +28,6 @@ class AuthController extends Controller
 		Register Api
     */
     public function register(StoreRegiserRequest $request,CreateUser $createUser){
-
         $response = $createUser->execute($request->all());
         $user = User::find($response->id);
         $user->token = $user->createToken('loyalty')->accessToken;
@@ -93,6 +92,18 @@ class AuthController extends Controller
     }
 
     public function checkSocialLogin(CheckSocialLoginRequest $request){
+        $social_media_id = $request->social_media_id;
+        $user = User::where(['fbid' => $social_media_id])
+                ->orWhere(['gid'=> $social_media_id])
+                ->orWhere(['tid'=> $social_media_id])
+                ->first();
+
+        if(!empty($user)){
+            $user->token = $user->createToken('loyalty')->accessToken;
+            return response()->success(ResponseMessage::COMMON_MESSAGE,replace_null_with_empty_string($user));
+        }else{
+            return response()->error(ResponseMessage::SOCIAL_MEDIA_NOT_FOUND,201);
+        }   
 
     }
 

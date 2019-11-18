@@ -26,7 +26,10 @@ class User extends Authenticatable
         'profile_picture',
         'is_aggree_terms',
         'phone_number',
-        'country_code'
+        'country_code',
+        'fbid',
+        'gid',
+        'tid',
     ];
 
     /**
