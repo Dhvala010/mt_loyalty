@@ -20,7 +20,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 use App\User,
     App\Country;
-
+use League\Flysystem\Config;
 
 class AuthController extends Controller
 {
@@ -68,7 +68,6 @@ class AuthController extends Controller
     /*
 		User Logout Api
 	*/
-
     public function logout()
     {
         $user = Auth::user();
@@ -77,9 +76,8 @@ class AuthController extends Controller
     }
 
     /*
-		User Logout Api
+		User change Password Api
 	*/
-
     public function changePassword(StoreChangePasswordRequest $request){
         $old_password = $request->old_password;
         $new_password = $request->new_password;
@@ -92,15 +90,25 @@ class AuthController extends Controller
         }
     }
 
+    /*
+		Check Social Login Api
+    */
     public function checkSocialLogin(CheckSocialLoginRequest $request){
-
+        $uesr_type = Config('loyalty.user_type');
+        return response()->success(ResponseMessage::COMMON_MESSAGE);
     }
 
+    /*
+		Check Configuration listing api
+    */
     public function configuration(Request $request){
         $data['country'] = Country::get();
         return response()->success(ResponseMessage::COMMON_MESSAGE,$data);
     }
 
+    /*
+		User Detail APi
+    */
     public function UserDetail(Request $request){
         $user = Auth::user();
         return response()->success(ResponseMessage::COMMON_MESSAGE,replace_null_with_empty_string($user));

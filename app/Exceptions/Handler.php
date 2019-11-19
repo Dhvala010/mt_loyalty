@@ -84,7 +84,7 @@ class Handler extends ExceptionHandler
                 $response['message'] = 'Unauthorized.';
                 break;
             case 403:
-                $response['message'] = 'Forbidden.';
+                $response['message'] = $exception->getMessage();
                 break;
             case 404:
                 $response['message'] = $exception->getMessage();
@@ -100,6 +100,6 @@ class Handler extends ExceptionHandler
                 break;
         }
         $response['data'] = (object)[];
-        return response()->json($response, $statusCode);
+        return response()->json($response,200);
     }
 }

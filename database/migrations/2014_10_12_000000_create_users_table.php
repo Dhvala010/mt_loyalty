@@ -13,16 +13,7 @@ class CreateUsersTable extends Migration
 
     public function __construct()
     {
-        $this->user_roles = config('loyalty.user_role');
-        $p = $this->user_roles;
-        $args = "";
-        array_walk(
-            $p,
-            function ($item, $key) use (&$args) {
-                $args .= $key ." = '" . $item . "' ";
-            }
-        );
-        $this->user_staring = $args;
+
     }
     /**
      * Run the migrations.
@@ -31,15 +22,23 @@ class CreateUsersTable extends Migration
      */
     public function up()
     {
-        Schema::create('users', function (Blueprint $table) {
-            $user_roles = $this->user_roles;
+
+        $user_roles = config('loyalty.user_role');
+        $user_staring = "";
+        array_walk( $user_roles,
+            function ($item, $key) use (&$user_staring) {
+                $user_staring .= $key ." = '" . $item . "' ";
+            }
+        );
+
+        Schema::create('users', function (Blueprint $table) use( $user_roles ,$user_staring) {
             $table->bigIncrements('id');
             $table->string('first_name')->nullable();
             $table->string('last_name')->nullable();
             $table->string('email');
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-            $table->enum('role',$user_roles)->comment($this->user_staring);
+            $table->enum('role',$user_roles)->comment($user_staring);
             $table->bigInteger('country_code')->unsigned()->nullable();
             $table->string('phone_number')->nullable();
             $table->string('fbid')->nullable();

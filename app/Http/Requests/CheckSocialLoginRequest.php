@@ -13,7 +13,7 @@ class CheckSocialLoginRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -23,8 +23,11 @@ class CheckSocialLoginRequest extends FormRequest
      */
     public function rules()
     {
+        $user_type_array = array_values(config('loyalty.user_type'));
+        $user_type_string = implode(",",$user_type_array);
         return [
-
+            'uesr_type' => [ 'required' , 'in:'.$user_type_string ],
+            'value' => [ 'required' ]
         ];
     }
 }
