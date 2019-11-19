@@ -47,6 +47,9 @@ class CreateUser
         }
         begin();
         try {
+            if(empty($data['password']))
+                $data['password'] = RandomPassword(8);
+            //dd($data['password']);
             $data['password'] = HashPassword($data['password']);
             $user = $this->user->create($data);
         } catch (\Exception $e) {
