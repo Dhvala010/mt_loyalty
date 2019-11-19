@@ -22,4 +22,5 @@ class ResponseMessage
     const USER_NOT_FOUND = 'User not found.';
     const COMMON_MESSAGE = "Sucess";
     const SOCIAL_MEDIA_NOT_FOUND = "Social media id not found";
+    const USER_EMAIL_EXIST = "The email has already been taken.";
 }

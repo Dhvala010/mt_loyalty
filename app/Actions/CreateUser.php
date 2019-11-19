@@ -28,6 +28,7 @@ class CreateUser
         $data['role'] = config("loyalty.user_role.".$data['role']);
         $user = User::where(['email' => $data['email'] ])->first();
         if(!empty($data['fbid']) || !empty($data['tid']) || !empty($data['gid'])){
+
             if(!empty($user)){
                 if(!empty($data['fbid']))
                     $user->fbid = $data['fbid'];
@@ -41,7 +42,7 @@ class CreateUser
             }
         }else{
             if(!empty($user)){
-                throw new ModelNotFoundException("The email has already been taken.");
+                throw new ModelNotFoundException(ResponseMessage::USER_EMAIL_EXIST);
             }
         }
         begin();
