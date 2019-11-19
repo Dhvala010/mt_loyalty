@@ -7,6 +7,7 @@ use App\Constants\ResponseMessage;
 use App\Exceptions\EmailNotUniqueException;
 use App\User;
 use Exception;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\Hash;
 use Symfony\Component\HttpFoundation\Response;
 /**
@@ -25,6 +26,24 @@ class CreateUser
 
     public function execute(array $data){
         $data['role'] = config("loyalty.user_role.".$data['role']);
+        $user = User::where(['email' => $data['email'] ])->first();
+        if(!empty($data['fbid']) || !empty($data['tid']) || !empty($data['gid'])){
+            if(!empty($user)){
+                if(!empty($data['fbid']))
+                    $user->fbid = $data['fbid'];
+                if(!empty($data['tid']))
+                    $user->tid = $data['tid'];
+                if(!empty($data['gid']))
+                    $user->gid = $data['gid'];
+
+                $user->save();
+                return $user;
+            }
+        }else{
+            if(!empty($user)){
+                throw new ModelNotFoundException("The email has already been taken.");
+            }
+        }
         begin();
         try {
             $data['password'] = HashPassword($data['password']);
