@@ -39,8 +39,8 @@ class AuthController extends Controller
 		Login Api
     */
     public function login(StoreLoginRequest $request){
-
-        if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
+        $role = config("loyalty.user_role.".$request->role);
+        if (Auth::attempt(['email' => $request->email, 'password' => $request->password , 'role' => $role])) {
             $user = Auth::user();
             $user->token = $user->createToken('loyalty')->accessToken;
             $user->devices()->create($request->all());

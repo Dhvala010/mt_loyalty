@@ -27,7 +27,7 @@ class CheckSocialLoginRequest extends FormRequest
         $user_type_string = implode(",",$user_type_array);
         return [
             'uesr_type' => [ 'required' , 'in:'.$user_type_string ],
-            'value' => [ 'required' ]
+            'social_media_id' => [ 'required' ]
         ];
     }
 }
