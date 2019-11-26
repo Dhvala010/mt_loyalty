@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\API\V1;
 
 use App\Actions\CreateMerchantStore;
+use App\Actions\CreatePromoCode;
+
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Constants\ResponseMessage;
@@ -12,6 +14,7 @@ use App\Store;
 
 use App\Http\Requests\MerchantStoreRegiserRequest;
 use App\Http\Requests\DeleteMerchentStoreRequest;
+use App\Http\Requests\CreateStorePromocodeRequest;
 
 
 class MerchantStoreController extends Controller
@@ -46,5 +49,13 @@ class MerchantStoreController extends Controller
         $total_page = $store['last_page'];
 
         return response()->paginate(ResponseMessage::COMMON_MESSAGE,$store_data,$total_record,$total_page );
+    }
+
+    public function CreatePromocode(CreateStorePromocodeRequest $request,CreatePromoCode $createPromoCode){
+        $user = Auth::user();
+        $input = $request->all();
+
+        $response = $createPromoCode->execute($input);
+        return response()->success(ResponseMessage::MERCHANT_STORE_REGISTER_SUCCESS,replace_null_with_empty_string($response));
     }
 }

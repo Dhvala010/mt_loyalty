@@ -3,8 +3,6 @@
 
 namespace App\Actions;
 
-use Illuminate\Support\Facades\Mail;
-use App\Mail\ForgotPassword;
 use App\Notifications\PasswordResetRequest;
 use App\User,
     App\PasswordReset;
