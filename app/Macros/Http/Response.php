@@ -23,5 +23,14 @@ class Response
                 'data' => (object)[]
               ], $status);
         });
+        HttpResponse::macro('paginate', function ($message,$data,$totalRecord,$totalPage) {
+            return response()->json([
+                'status' => SymfonyResponse::HTTP_OK,
+                'message' => $message,
+                'total_record' => $totalRecord,
+                'total_page' => $totalPage,
+                'data' => $data
+              ],SymfonyResponse::HTTP_OK);
+        });
     }
 }

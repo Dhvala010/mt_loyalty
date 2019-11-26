@@ -35,4 +35,13 @@ class MerchantStoreController extends Controller
         $store->delete();
         return response()->success(ResponseMessage::MERCHANT_STORE_DELETE);
     }
+
+    public function MerchantStoreList(Request $request){
+        $offset = $request->offset ? $request->offset : 10;
+        $store = Store::paginate($offset)->toArray();
+        $store_data = replace_null_with_empty_string($store['data']);
+        $total_record = $store['total'];
+        $total_page = $store['last_page'];
+        return response()->paginate(ResponseMessage::COMMON_MESSAGE,$store_data,$total_record,$total_page );
+    }
 }

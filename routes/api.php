@@ -33,6 +33,7 @@ Route::group(['namespace'=>'API\V1','prefix'=>'v1'], function () {
         /*Merchant Store Routes*/
         Route::post('add_edit_merchant_store', 'MerchantStoreController@AddEditMerchantStore');
         Route::post('delete_merchant_store', 'MerchantStoreController@DeleteMerchantStore');
+        Route::post('merchant_store_listing', 'MerchantStoreController@MerchantStoreList');
         /*End Merchant Store Routes*/
     });
 });
