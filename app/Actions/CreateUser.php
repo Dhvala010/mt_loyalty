@@ -25,8 +25,14 @@ class CreateUser
     }
 
     public function execute(array $data){
+        $role = $data['role'];
         $data['role'] = config("loyalty.user_role.".$data['role']);
         $user = User::where(['email' => $data['email'] ])->first();
+
+        if($role=='merchant'){
+            $data['is_active'] = 0;
+        }
+
         if(!empty($data['fbid']) || !empty($data['tid']) || !empty($data['gid'])){
 
             if(!empty($user)){

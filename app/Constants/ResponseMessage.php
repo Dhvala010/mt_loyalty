@@ -23,4 +23,5 @@ class ResponseMessage
     const COMMON_MESSAGE = "Sucess";
     const SOCIAL_MEDIA_NOT_FOUND = "Social media id not found";
     const USER_EMAIL_EXIST = "The email has already been taken.";
+    const MERCHANT_STORE_REGISTER_SUCCESS = "Merchant store registed successfully";
 }

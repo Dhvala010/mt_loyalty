@@ -22,16 +22,24 @@ use App\User,
     App\Country;
 use League\Flysystem\Config;
 
+/*use App\Mail\VerifyMail;*/
+
 class AuthController extends Controller
 {
     /*
 		Register Api
     */
     public function register(StoreRegiserRequest $request,CreateUser $createUser){
-        $response = $createUser->execute($request->all());
+        $data = $request->all();
+        $response = $createUser->execute($data);
         $user = User::find($response->id);
         $user->token = $user->createToken('loyalty')->accessToken;
 
+        /*$role = $data['role'];        
+        if($role=='merchant'){
+            Mail::to($user->email)->send(new VerifyMail($user->toArray()));
+        }*/
+        
         return response()->success(ResponseMessage::REGISTER_SUCCESS,replace_null_with_empty_string($user));
     }
 
@@ -40,7 +48,8 @@ class AuthController extends Controller
     */
     public function login(StoreLoginRequest $request){
 
-        if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
+        $role = config("loyalty.user_role.".$request->role);
+        if (Auth::attempt(['email' => $request->email, 'password' => $request->password , 'role' => $role])){
             $user = Auth::user();
             $user->token = $user->createToken('loyalty')->accessToken;
             $user->devices()->create($request->all());

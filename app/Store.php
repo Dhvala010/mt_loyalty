@@ -7,12 +7,16 @@ use Illuminate\Database\Eloquent\Model;
 class Store extends Model
 {
     protected $fillable = [
+        'user_id',
         'title',
-        'last_name',
+        'description',
+        'image',
+        'phone_number',
+        'country_code',
         'email',
-        'password',
-        'role',
-        'profile_picture',
-        'is_aggree_terms'
+        'facebook_url',
+        'location_address',
+        'latitude',
+        'longitude'
     ];
 }
