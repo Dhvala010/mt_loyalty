@@ -35,11 +35,11 @@ class AuthController extends Controller
         $user = User::find($response->id);
         $user->token = $user->createToken('loyalty')->accessToken;
 
-        /*$role = $data['role'];        
+        /*$role = $data['role'];
         if($role=='merchant'){
             Mail::to($user->email)->send(new VerifyMail($user->toArray()));
         }*/
-        
+
         return response()->success(ResponseMessage::REGISTER_SUCCESS,replace_null_with_empty_string($user));
     }
 
@@ -47,7 +47,6 @@ class AuthController extends Controller
 		Login Api
     */
     public function login(StoreLoginRequest $request){
-
         $role = config("loyalty.user_role.".$request->role);
         if (Auth::attempt(['email' => $request->email, 'password' => $request->password , 'role' => $role])){
             $user = Auth::user();
@@ -76,8 +75,7 @@ class AuthController extends Controller
     /*
 		User Logout Api
 	*/
-    public function logout()
-    {
+    public function logout(){
         $user = Auth::user();
         $user->token()->revoke();
         return response()->success(ResponseMessage::LOGOUT_SUCCESS);
@@ -107,7 +105,6 @@ class AuthController extends Controller
                 ->orWhere(['gid'=> $social_media_id])
                 ->orWhere(['tid'=> $social_media_id])
                 ->first();
-
         if(!empty($user)){
             $user->token = $user->createToken('loyalty')->accessToken;
             return response()->success(ResponseMessage::COMMON_MESSAGE,replace_null_with_empty_string($user));

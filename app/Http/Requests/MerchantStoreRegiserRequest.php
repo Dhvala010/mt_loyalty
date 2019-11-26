@@ -3,6 +3,8 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Zend\Diactoros\Request;
+use Illuminate\Http\Request as ApiRequest;
 
 class MerchantStoreRegiserRequest extends FormRequest
 {
@@ -21,16 +23,16 @@ class MerchantStoreRegiserRequest extends FormRequest
      *
      * @return array
      */
-    public function rules()
+    public function rules(ApiRequest $request)
     {
         return [
-            'user_id' => ['required', 'integer','min:1'],
-            'title' => ['required', 'string','unique:stores', 'max:255'],
+            'store_id' => [ 'nullable','exists:stores,id'],
+            'title' => ['required', 'string','unique:stores,title,'.$request->store_id, 'max:255'],
             'description' => ['required', 'string', 'max:255'],
             'image' => ['required','mimes:jpeg,jpg,gif,bmp,png'],
-            'phone_number' => ['required', 'string','max:255'],
+            'phone_number' => ['required', 'integer','min:10'],
             'country_code' => ['required','exists:countries,id'],
-            'email' => [ 'required','string','email','max:255'],            
+            'email' => [ 'required','string','email','max:255'],
         ];
     }
 }

@@ -34,7 +34,6 @@ class CreateUser
         }
 
         if(!empty($data['fbid']) || !empty($data['tid']) || !empty($data['gid'])){
-
             if(!empty($user)){
                 if(!empty($data['fbid']))
                     $user->fbid = $data['fbid'];

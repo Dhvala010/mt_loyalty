@@ -30,7 +30,7 @@ class StoreRegiserRequest extends FormRequest
             'first_name' => ['required', 'string', 'max:255'],
             'last_name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255'],
-            'password' => [],
+            'password' => [ 'required_without_all:fbid,tid,gid'],
             'is_agree_terms' => ['required', 'boolean'],
             'role' => ['required','in:'.$user_role_string],
             'phone_number' => [ 'required','numeric'],

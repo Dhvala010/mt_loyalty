@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class CheckSocialLoginRequest extends FormRequest
+class DeleteMerchentStoreRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -23,12 +23,8 @@ class CheckSocialLoginRequest extends FormRequest
      */
     public function rules()
     {
-        $user_type_array = array_values(config('loyalty.user_type'));
-        $user_type_string = implode(",",$user_type_array);
-
         return [
-            'uesr_type' => [ 'required' , 'in:'.$user_type_string ],
-            'social_media_id' => [ 'required' ]
+            'store_id' => [ 'nullable','exists:stores,id'],
         ];
     }
 }

@@ -25,7 +25,13 @@ class CreateMerchantStore
     }
 
     public function execute(array $data){
-        $store = $this->store->create($data);
+        if(!empty($data['store_id'])){
+            $store = Store::find($data['store_id']);
+            $store->fill($data);
+            $store->save();
+        }else{
+            $store = $this->store->create($data);
+        }
         return $store;
     }
 }

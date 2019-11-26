@@ -31,7 +31,8 @@ Route::group(['namespace'=>'API\V1','prefix'=>'v1'], function () {
         Route::post('change_password', 'AuthController@changePassword');
         Route::post('change_password', 'AuthController@changePassword');
         /*Merchant Store Routes*/
-        Route::post('register_merchant_store', 'MerchantStoreController@register_merchant_store');
+        Route::post('add_edit_merchant_store', 'MerchantStoreController@AddEditMerchantStore');
+        Route::post('delete_merchant_store', 'MerchantStoreController@DeleteMerchantStore');
         /*End Merchant Store Routes*/
     });
 });

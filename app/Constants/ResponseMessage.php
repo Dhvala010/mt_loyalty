@@ -21,7 +21,8 @@ class ResponseMessage
     const ERROR_CREATING_DEVICE = "Error in creating user device detail";
     const USER_NOT_FOUND = 'User not found.';
     const COMMON_MESSAGE = "Sucess";
-    const SOCIAL_MEDIA_NOT_FOUND = "Social media id not found";
+    const SOCIAL_MEDIA_NOT_FOUND = "User not found";
     const USER_EMAIL_EXIST = "The email has already been taken.";
     const MERCHANT_STORE_REGISTER_SUCCESS = "Merchant store registed successfully";
+    const MERCHANT_STORE_DELETE = "Merchant store delete successfully";
 }
