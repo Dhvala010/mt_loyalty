@@ -33,6 +33,9 @@ class MerchantStoreRegiserRequest extends FormRequest
             'phone_number' => ['required', 'integer','min:10'],
             'country_code' => ['required','exists:countries,id'],
             'email' => [ 'required','string','email','max:255'],
+            'location_address' => [ 'required'],
+            'latitude' => [ 'required'],
+            'longitude' => [ 'required'],
         ];
     }
 }
