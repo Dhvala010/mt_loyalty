@@ -17,7 +17,6 @@ class Response
               ], SymfonyResponse::HTTP_OK);
         });
         HttpResponse::macro('error', function ($message,$status) {
-
             return response()->json([
                 'status' => $status,
                 'message' => $message,
