@@ -90,7 +90,7 @@ class StoreController extends Controller
           $Store = new Store();
           $Store->fill($input);
           $Store->save();
-          return response()->json([ 'status' => 1 ,  'success'=>'Record added successfully' , 'data' =>$User ]);
+          return response()->json([ 'status' => 1 ,  'success'=>'Record added successfully' , 'data' =>$Store ]);
         }
     }
 
