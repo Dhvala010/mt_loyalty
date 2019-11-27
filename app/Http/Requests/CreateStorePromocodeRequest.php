@@ -24,7 +24,8 @@ class CreateStorePromocodeRequest extends FormRequest
     public function rules()
     {
         return [
-            'title' => [ 'required'],
+            'store_id' => [ 'required','exists:stores,id'],
+            'title' => [ 'required' ],
             'count' => [ 'required' ]
         ];
     }

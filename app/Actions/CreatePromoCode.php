@@ -8,6 +8,7 @@ use App\Store;
 use App\StorePromocode;
 use Exception;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Support\Str;
 /**
  * Response represents an HTTP response.
  *
@@ -23,6 +24,7 @@ class CreatePromoCode
     }
 
     public function execute(array $data){
+        $data['unique_number'] = Str::random(30);
         $StorePromocode = $this->StorePromocode->create($data);
         return $StorePromocode;
     }
