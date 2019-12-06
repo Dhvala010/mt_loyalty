@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Http\Requests\StoreRequest;
 use App\Store;
+use App\User;
 use DataTables;
 use Validator;
 use Auth;
@@ -49,60 +51,36 @@ class StoreController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreRequest $request)
     {
         $input = $request->all();
-        $validation = [];
-        $validation = [
-          'description' => 'required',
-          'phone_number' => 'required',
-          'email' => 'required',
-          'facebook_url' => 'required',
-          'location_address' => 'required',
-        ];
-        if(!empty($request->id)){
-          $validation['title'] = 'required|unique:stores,title,'.$request->id;
-        }else{
-          $validation['title'] = 'required|unique:stores,title';
-        }
-        if(isset($input["image"]) && !empty($input["image"])) {
-          $file = $request->file('image') ?? '';
-          $validation['image'] = 'mimes:jpeg,jpg,png,gif';
-        }
-
-        $validator = Validator::make($input ,$validation);
-        if($validator->fails()){
-          return response()->json([ 'status' => 0 , 'errors'=>$validator->errors()->all()]);
-        }
-
+        $file = $request->file('image') ?? '';
         if(!empty($file)){
           $imagename = ImageUpload($file);
           $input['image'] = $imagename;
         }
-
-        if(!empty($request->id)){
-          $Store = Store::find($input['id']);
-          $Store->fill($input);
-          $Store->save();
-          return response()->json([ 'status' => 1 ,  'success'=>'Record Edited successfully']);
-        }
-        else{
           $Store = new Store();
           $Store->fill($input);
           $Store->save();
           return response()->json([ 'status' => 1 ,  'success'=>'Record added successfully' , 'data' =>$Store ]);
-        }
     }
-
+    public function getmerchant(){
+        $merchants = User::where('role',3)->get();
+        $html = '<option value="">-- Select Merchant --</option>';
+        foreach($merchants as $merchant){
+            $html .= '<option value="'.$merchant->id.'">'.$merchant->first_name.'</option>';
+        }
+        return response()->json([ 'status' => 1 ,  'success'=>'Record added successfully' , 'data' =>$html ]);
+    }
     /**
      * Display the specified resource.
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Store $store)
     {
-        //
+        return response()->json([ 'status' => 1 ,  'success'=>'success' , 'data' => $store ]);
     }
 
     /**
@@ -111,9 +89,9 @@ class StoreController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Store $store)
     {
-        //
+        return $store;
     }
 
     /**
@@ -123,9 +101,12 @@ class StoreController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(StoreRequest $request, Store $store)
     {
-        //
+        $input = $request->all();
+        $store->fill($input);
+        $store->save();
+        return response()->json([ 'status' => 1 ,  'success'=>'success' , 'data' => $store ]);
     }
 
     /**

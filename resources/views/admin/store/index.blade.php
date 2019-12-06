@@ -50,36 +50,46 @@
 		<h4 class="modal-title" id="StoreModalLabel" >Default Modal</h4>
 	  </div>
 	  <div class="modal-body">
-		<form id="CreateStoreForm" enctype="multipart/form-data" method="post" action="{{ route('admin.store.store') }}">
+		<form id="CreateStoreForm" enctype="multipart/form-data">
 			@csrf
 			<div class="Errors"></div>
 			<input type="hidden" class="form-control form-control-user" name="id" id="StoreId" />
 			<div class="form-group">
-			  <input type="text" class="form-control form-control-user" name="title" id="title" placeholder="Enter Title..." />
+				<select name="user_id" id="merchant" class="form-control form-control-user">
+					<option value="">-- Select Merchant --</option>
+				</select>
 			</div>
 			<div class="form-group">
-			  <input type="text" class="form-control form-control-user" name="description" id="description" placeholder="Enter Description..." />
+				<input type="text" class="form-control form-control-user" name="title" id="title" placeholder="Enter Title..." />
+				<span id="title_error" class="error"></span>
+			</div>
+			<div class="form-group">
+				<input type="text" class="form-control form-control-user" name="description" id="description" placeholder="Enter Description..." />
+				<span id="description_error" class="error"></span>
 			</div>
 			<div class="form-group">
 			  <input type="text" class="form-control form-control-user" name="phone_number" id="phone_number" placeholder="Enter Phone Number..." />
+				<span id="phone_number_error" class="error"></span>
 			</div>
 			<div class="form-group">
 			  <input type="text" class="form-control form-control-user" name="facebook_url" id="facebook_url" placeholder="Enter Facebook Url..." />
+				<span id="facebook_url_error" class="error"></span>
 			</div>
 			<div class="form-group">
 			  <input type="text" class="form-control form-control-user" name="location_address" id="location_address" placeholder="Enter Location Address..." />
+				<span id="location_address_error" class="error"></span>
 			</div>
 
 			<div class="form-group">
 			  <input type="text" class="form-control form-control-user" name="email" id="email" placeholder="Enter Email Address..." />
+				<span id="email_error" class="error"></span>
 			</div>
 
-			<div class="form-group">
+			<!--<div class="form-group">
 			  <input type="file" id="image" name="image" class="form-control-file">
 				<div class="image-div mt-3" style="">
-
 				</div>
-			</div>
+			</div>-->
 
 			<div class="modal-footer">
 				<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -92,6 +102,7 @@
   </div>
   <!-- /.modal-dialog -->
 </div>
+
 @endsection
 @section('css')
 	<style>
@@ -126,7 +137,15 @@
                 { "bSearchable": false, "aTargets": [ 0, 5 ] }
 				]
             });
-
+			function getmerchant(){
+				$.ajax({
+					url: "{{ url('admin/get-merchant') }}",
+					method: 'get',
+					success: function(result){
+						$("#merchant").html(result.data);
+					}
+				});
+			}
 			$(document).on("click",".CreateStore",function() {
 				$('.Errors').html('');
 				$('#CreateStoreForm').trigger("reset");
@@ -136,15 +155,16 @@
 				$('#StoreModalLabel').html('Add User');
 				$('#CreateStoreButton').html('Add User');
 				$('#StoreModal').modal('show');
+				getmerchant();
 			});
 
 			$(document).on("click","#EditStore",function() {
 				$('.Errors').html('');
 				var Id = $(this).attr('data-id');
+				getmerchant();
 				$.ajax({
-					url: "{{ url('admin/store/GetDataById') }}",
-					method: 'post',
-					data: {	id : Id },
+					url: "{{ url('admin/store/') }}/" + Id,
+					method: 'get',
 					success: function(result){
 						$('.EditInput').hide();
 						var image = "";
@@ -156,9 +176,13 @@
 						$('#CreateStoreButton').html('Edit User');
 						$('.image-div').html(image);
 						$('#StoreId').val(result.data.id);
-						$("#first_name").val(result.data.first_name);
-						$("#last_name").val(result.data.last_name);
+						$("#title").val(result.data.title);
+						$("#description").val(result.data.description);
 						$("#email").val(result.data.email);
+						$("#phone_number").val(result.data.phone_number);
+						$("#facebook_url").val(result.data.facebook_url);
+						$("#location_address").val(result.data.location_address);
+						$("#merchant").val(result.data.user_id);	
 						$('#StoreModal').modal('show');
 					}
 
@@ -181,27 +205,33 @@
 			});
 
 			$( "#CreateStoreForm" ).on('submit',(function( event ) {
+				$('.error').hide();
 				event.preventDefault();
-				$.ajax({
-					url: "{{ url('admin/store') }}",
-					method: 'post',
-					contentType: false,
-					processData:false,
-					data: new FormData(this),
-					success: function(result){
-						if(result.status == 0 ){
-							var ErrorStr = '<div class="alert alert-danger">'
-							$.each(result.errors, function(key, value){
-								ErrorStr += " <p> " + value + " </p> ";
-							});
-							ErrorStr += '</div>';
-							$(".Errors").html(ErrorStr);
-						}
-						else{
+				let data = $(this).serializeArray(); // new FormData(this);
+				let method = 'post';
+				let url = "{{ url('admin/store') }}";
+				console.log(data);
+				if(	$('#StoreId').val()){
+					method = "put"; 
+					url =  "{{ url('admin/store')}}/" + $('#StoreId').val();
+				}
+			$.ajax({
+					url: url,
+					method: method,
+					dataType : 'json',
+					data: data,
+					success: function(result){						
 							$('#StoreModal').modal('hide');
-							$('#storedatatable').DataTable().ajax.reload();
-						}
-					}
+							$('#storedatatable').DataTable().ajax.reload();						
+					},error: function (reject) {						
+             if( reject.status === 422 ) {						
+										var errors = $.parseJSON(reject.responseText);
+                    $.each(errors.errors, function (key, val) {
+												$("#" + key + "_error").show();
+                        $("#" + key + "_error").text(val[0]);
+                    });
+                }
+            }
 				});
 			}));
          });

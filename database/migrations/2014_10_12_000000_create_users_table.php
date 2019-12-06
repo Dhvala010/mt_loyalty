@@ -38,8 +38,7 @@ class CreateUsersTable extends Migration
             $table->string('email');
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-            $table->enum('role',$user_roles)->comment($user_staring);
-            $table->bigInteger('country_code')->unsigned()->nullable();
+            $table->enum('role',$user_roles)->comment($user_staring);            
             $table->string('phone_number')->nullable();
             $table->string('fbid')->nullable();
             $table->string('gid')->nullable();
@@ -51,7 +50,7 @@ class CreateUsersTable extends Migration
             $table->timestamps();
             $table->softDeletes();
 
-            $table->foreign('country_code')->references('id')->on('countries');
+            
         });
     }
 

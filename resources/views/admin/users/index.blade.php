@@ -53,7 +53,13 @@
 			@csrf
 			<div class="Errors"></div>
 			<input type="hidden" class="form-control form-control-user" name="id" id="UserId" />
-			<input type="hidden" class="form-control form-control-user" name="role" value="2" />
+			<div class="form-group">
+				<select name="role" id="user_role" class="form-control form-control-user">
+					<option value="">-- Select User type --</option>
+					<option value="2">Customer</option>
+					<option value="3">Merchant</option>
+				</select>
+			</div>
 			<div class="form-group">
 			  <input type="text" class="form-control form-control-user" name="email" id="email" placeholder="Enter Email Address..." />
 			</div>
@@ -147,7 +153,6 @@
 						if(result.data.profile_picture){
 							var image = " <img src='{{ url('public/storage') }}/" + result.data.profile_picture + "'>";
 						}
-
 						$('#UserModalLabel').html('Edit User');
 						$('#CreateUserButton').html('Edit User');
 						$('.image-div').html(image);
@@ -155,6 +160,7 @@
 						$("#first_name").val(result.data.first_name);
 						$("#last_name").val(result.data.last_name);
 						$("#email").val(result.data.email);
+						$("#user_role").val(result.data.role);
 						$('#UserModal').modal('show');
 					}
 

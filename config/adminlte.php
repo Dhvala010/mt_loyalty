@@ -136,6 +136,11 @@ return [
             'can'  => 'manage-blog',
         ],
         [
+            'text'        => 'Dashboard',
+            'url'         => 'admin/home',
+            'icon'        => 'fas fa-fw fa-home'
+        ],
+        [
             'text'        => 'User Management',
             'url'         => 'admin/user',
             'icon'        => 'fas fa-fw fa-user'

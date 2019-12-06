@@ -20,7 +20,7 @@ class CreateStoresTable extends Migration
             $table->string("description")->nullable();
             $table->string('image')->nullable();
             $table->string('phone_number')->nullable();
-            $table->bigInteger('country_code')->unsigned()->nullable();
+            
             $table->string('email')->nullable();
             $table->string('facebook_url')->nullable();
             $table->string('location_address')->nullable();
@@ -29,7 +29,6 @@ class CreateStoresTable extends Migration
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-            $table->foreign('country_code')->references('id')->on('countries');
 
         });
     }
