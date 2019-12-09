@@ -1,6 +1,6 @@
 <!-- home.blade.php -->
 @extends('adminlte::page')
-
+@section('title', 'Loyalt|Store')
 @section('content')
 <div class="box">
 	<div class="box-header">
@@ -85,11 +85,11 @@
 				<span id="email_error" class="error"></span>
 			</div>
 
-			<!--<div class="form-group">
+			<div class="form-group">
 			  <input type="file" id="image" name="image" class="form-control-file">
 				<div class="image-div mt-3" style="">
 				</div>
-			</div>-->
+			</div>
 
 			<div class="modal-footer">
 				<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -210,7 +210,6 @@
 				let data = $(this).serializeArray(); // new FormData(this);
 				let method = 'post';
 				let url = "{{ url('admin/store') }}";
-				console.log(data);
 				if(	$('#StoreId').val()){
 					method = "put"; 
 					url =  "{{ url('admin/store')}}/" + $('#StoreId').val();

@@ -58,6 +58,9 @@
 
                     <ul class="nav navbar-nav">
                         <li>
+                            <span class="hidden-xs">Welcome, Admin</span>
+                        </li>
+                        <li>
                             <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                                 <i class="fa fa-fw fa-power-off"></i> {{ __('adminlte::adminlte.log_out') }}
                             </a>

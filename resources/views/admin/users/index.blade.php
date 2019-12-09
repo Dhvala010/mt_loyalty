@@ -151,7 +151,7 @@
 						$('.EditInput').hide();
 						var image = "";
 						if(result.data.profile_picture){
-							var image = " <img src='{{ url('public/storage') }}/" + result.data.profile_picture + "'>";
+							var image = " <img src='{{ url('/uploads/users') }}/" + result.data.profile_picture + "'>";
 						}
 						$('#UserModalLabel').html('Edit User');
 						$('#CreateUserButton').html('Edit User');

@@ -56,7 +56,7 @@ class StoreController extends Controller
         $input = $request->all();
         $file = $request->file('image') ?? '';
         if(!empty($file)){
-          $imagename = ImageUpload($file);
+          $imagename = ImageUpload($file,'stores');
           $input['image'] = $imagename;
         }
           $Store = new Store();
