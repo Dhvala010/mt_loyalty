@@ -15,7 +15,7 @@ class CheckAdmin
      */
     public function handle($request, Closure $next)
     {
-        dd('a');
+       
         if (Auth::user()->user_role == config('baseapp.user_role.admin')) {
             return $next($request);
         }

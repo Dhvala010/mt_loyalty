@@ -58,7 +58,7 @@
 
                     <ul class="nav navbar-nav">
                         <li>
-                            <span class="hidden-xs">Welcome, Admin</span>
+                            <span class="hidden-xs">Welcome, {{Auth::user()->first_name}}</span>
                         </li>
                         <li>
                             <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
@@ -93,7 +93,22 @@
 
                 <!-- Sidebar Menu -->
                 <ul class="sidebar-menu" data-widget="tree">
-                    @each('adminlte::partials.menu-item', $adminlte->menu(), 'item')
+                    @if(\Auth::check())
+                    <li {{ (Request::segment(1) === 'admin' && empty(Request::segment(2))) ? 'class=active' : null }}>
+                        <a href="{{URL::to('/admin')}}"><i class="fa fa-fw fa-home "></i><span>Dashboard</span></a>
+                    </li>
+                    @if(Auth::user()->role == 1)
+                    <li {{ (Request::segment(1) === 'admin' && Request::segment(2) === 'user' &&  empty(Request::segment(3))) ? 'class=active' : null }}>
+                        <a href="{{URL::to('admin/user')}}"><i class="fa fa-fw fa-user  "></i><span>User Management</span></a>
+                    </li>
+                    @endif
+                    <li {{ (Request::segment(1) === 'admin' && Request::segment(2) === 'store' &&  empty(Request::segment(3))) ? 'class=active' : null }}>
+                        <a href="{{URL::to('admin/store')}}"><i class="fa fa-fw fa-store  "></i><span>Store Management</span></a>
+                    </li>
+                    <li {{ (Request::segment(1) === 'admin' && Request::segment(3) === 'ChangePassword' &&  empty(Request::segment(4))) ? 'class=active' : null }}>
+                        <a href="{{URL::to('admin/user/ChangePassword')}}"><i class="fas fa-fw fa-lock "></i><span>Change Password</span></a>
+                    </li>
+                    @endif
                 </ul>
                 <!-- /.sidebar-menu -->
             </section>

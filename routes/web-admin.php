@@ -10,13 +10,11 @@ use App\Store;
 | contains the "web" middleware group. Now create something great!
 |
 */
+
 Auth::routes();
-
-
-
 Route::group(['middleware' => 'auth','check-admin'], function () {
-
-    Route::get('/home', function() {
+    
+    Route::get('/', function() {
         return view('home');
     })->name('home');
 
