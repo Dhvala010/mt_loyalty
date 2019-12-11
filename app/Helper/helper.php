@@ -48,7 +48,7 @@ class Helper
         \DB::rollBack();
     }
 
-    function ImageUpload($profile_img, $folder) {
+    public static function ImageUpload($profile_img, $folder) {
         $uploadPath = public_path('/uploads/'.$folder);
         $extension = $profile_img->getClientOriginalExtension();
         $fileName = rand(11111, 99999) . '.' . $extension;

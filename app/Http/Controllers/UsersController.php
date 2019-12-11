@@ -8,7 +8,7 @@ use DataTables;
 use Validator;
 use Auth;
 use Hash;
-
+use Helper;
 class UsersController extends Controller
 {
     /**
@@ -74,7 +74,7 @@ class UsersController extends Controller
         }
 
         if(!empty($file)){
-          $imagename = ImageUpload($file,'users');
+          $imagename = Helper::ImageUpload($file,'users');
           $input['profile_picture'] = $imagename;
         }
 
