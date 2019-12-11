@@ -74,7 +74,7 @@ class UsersController extends Controller
         }
 
         if(!empty($file)){
-          $imagename = ImageUpload($file);
+          $imagename = ImageUpload($file,'users');
           $input['profile_picture'] = $imagename;
         }
 

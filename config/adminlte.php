@@ -106,7 +106,7 @@ return [
     |
     */
 
-    'dashboard_url' => 'admin/home',
+    'dashboard_url' => 'admin/',
 
     'logout_url' => 'logout',
     'logout_route' => 'admin.logout',
@@ -127,13 +127,18 @@ return [
     | layout. The 'can' is a filter on Laravel's built in Gate functionality.
     */
 
-    'menu' => [
+    /*'menu' => [
 
         ['header' => 'main_navigation'],
         [
             'text' => 'blog',
             'url'  => 'admin/blog',
             'can'  => 'manage-blog',
+        ],
+        [
+            'text'        => 'Dashboard',
+            'url'         => 'admin/',
+            'icon'        => 'fas fa-fw fa-home'
         ],
         [
             'text'        => 'User Management',
@@ -151,7 +156,7 @@ return [
             'icon' => 'fas fa-fw fa-lock',
         ],
 
-    ],
+    ],*/
 
     /*
     |--------------------------------------------------------------------------
