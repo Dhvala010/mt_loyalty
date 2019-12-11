@@ -10,6 +10,7 @@ use DataTables;
 use Validator;
 use Auth;
 use Hash;
+use Helper;
 
 class StoreController extends Controller
 {
@@ -56,7 +57,7 @@ class StoreController extends Controller
         $input = $request->all();
         $file = $request->file('image') ?? '';
         if(!empty($file)){
-          $imagename = ImageUpload($file,'stores');
+          $imagename = Helper::ImageUpload($file,'stores');
           $input['image'] = $imagename;
         }
           $Store = new Store();
@@ -104,6 +105,11 @@ class StoreController extends Controller
     public function update(StoreRequest $request, Store $store)
     {
         $input = $request->all();
+        $file = $request->file('image') ?? '';
+        if(!empty($file)){
+          $imagename = Helper::ImageUpload($file,'stores');
+          $input['image'] = $imagename;
+        }
         $store->fill($input);
         $store->save();
         return response()->json([ 'status' => 1 ,  'success'=>'success' , 'data' => $store ]);
@@ -115,9 +121,9 @@ class StoreController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Store $store)
     {
-        Store::where('id', $id)->delete();
+        $store->delete();
         return response()->json([ 'status' => 1 ,  'success'=>'success' ]);
     }
 

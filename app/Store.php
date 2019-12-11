@@ -3,9 +3,13 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Laravel\Passport\HasApiTokens;
 
 class Store extends Model
 {
+    use HasApiTokens,SoftDeletes,Notifiable;
     protected $fillable = [
         'user_id',
         'title',
@@ -19,4 +23,5 @@ class Store extends Model
         'latitude',
         'longitude'
     ];
+    protected $dates = ['deleted_at'];
 }

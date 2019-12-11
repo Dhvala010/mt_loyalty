@@ -51,6 +51,7 @@
 	  </div>
 	  <div class="modal-body">
 		<form id="CreateStoreForm" enctype="multipart/form-data">
+			<input type="hidden" class="edit_method" name="_method" value="put">
 			@csrf
 			<div class="Errors"></div>
 			<input type="hidden" class="form-control form-control-user" name="id" id="StoreId" />
@@ -147,6 +148,7 @@
 				});
 			}
 			$(document).on("click",".CreateStore",function() {
+				$('.edit_method').val("post");
 				$('.Errors').html('');
 				$('#CreateStoreForm').trigger("reset");
 				$('#StoreId').val('');
@@ -159,6 +161,7 @@
 			});
 
 			$(document).on("click","#EditStore",function() {
+				$('.edit_method').val("put");
 				$('.Errors').html('');
 				var Id = $(this).attr('data-id');
 				getmerchant();
@@ -169,7 +172,7 @@
 						$('.EditInput').hide();
 						var image = "";
 						if(result.data.image){
-							var image = " <img src='{{ url('public/storage') }}/" + result.data.image + "'>";
+							var image = " <img src='{{ url('/uploads/stores') }}/" + result.data.image + "'>";
 						}
 
 						$('#StoreModalLabel').html('Edit User');
@@ -211,14 +214,16 @@
 				let method = 'post';
 				let url = "{{ url('admin/store') }}";
 				if(	$('#StoreId').val()){
-					method = "put"; 
+					method = "post"; 
 					url =  "{{ url('admin/store')}}/" + $('#StoreId').val();
 				}
 			$.ajax({
 					url: url,
 					method: method,
-					dataType : 'json',
-					data: data,
+					//dataType : 'json',
+					contentType: false,
+					processData:false,
+					data: new FormData(this),
 					success: function(result){						
 							$('#StoreModal').modal('hide');
 							$('#storedatatable').DataTable().ajax.reload();						
