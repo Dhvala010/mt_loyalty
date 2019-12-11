@@ -49,6 +49,8 @@ class MerchantStoreController extends Controller
             'latitude'   => "numeric",
             'longitude'  => 'numeric',
         );
+
+        // test
         $validator = Validator::make($input, $rules);
         if ($validator->fails()) {
             $arr = array("status" => 400, "msg" => $validator->errors()->first(), "data" => (object) []);
