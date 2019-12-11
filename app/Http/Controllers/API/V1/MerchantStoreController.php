@@ -18,6 +18,7 @@ use App\Http\Requests\CreateStorePromocodeRequest;
 
 use DB;
 use Validator;
+use Helper;
 class MerchantStoreController extends Controller
 {
     public function AddEditMerchantStore(MerchantStoreRegiserRequest $request,CreateMerchantStore $createMerchantStore){
@@ -26,12 +27,12 @@ class MerchantStoreController extends Controller
         $image = $request->file('image') ?? '';
         $input['user_id'] = $user->id;
        	if(!empty($image)){
-          $imagename = ImageUpload($image,'store_image');
+          $imagename = Helper::ImageUpload($image,'store_image');
           $input['image'] = $imagename;
         }
         $response = $createMerchantStore->execute($input);
         $store = Store::find($response->id);
-        return response()->success(ResponseMessage::MERCHANT_STORE_REGISTER_SUCCESS,replace_null_with_empty_string($store));
+        return response()->success(ResponseMessage::MERCHANT_STORE_REGISTER_SUCCESS,Helper::replace_null_with_empty_string($store));
     }
 
     public function DeleteMerchantStore(DeleteMerchentStoreRequest $request){
@@ -78,7 +79,7 @@ class MerchantStoreController extends Controller
             }
 
             $store = $store->paginate($offset)->toArray();
-            $store_data = replace_null_with_empty_string($store['data']);
+            $store_data = Helper::replace_null_with_empty_string($store['data']);
             $total_record = $store['total'];
             $total_page = $store['last_page'];
 
@@ -91,7 +92,7 @@ class MerchantStoreController extends Controller
         $input = $request->all();
 
         $response = $createPromoCode->execute($input);
-        return response()->success(ResponseMessage::MERCHANT_STORE_REGISTER_SUCCESS,replace_null_with_empty_string($response));
+        return response()->success(ResponseMessage::MERCHANT_STORE_REGISTER_SUCCESS,Helper::replace_null_with_empty_string($response));
     }
     public function getStoreDetails(Request $request){
         $input = $request->all();
@@ -108,7 +109,7 @@ class MerchantStoreController extends Controller
                     ->where('id',$storeId)
                     ->first();
            // dd($store);
-            return response()->success(ResponseMessage::COMMON_MESSAGE,replace_null_with_empty_string($store));
+            return response()->success(ResponseMessage::COMMON_MESSAGE,Helper::replace_null_with_empty_string($store));
 
         }
     }

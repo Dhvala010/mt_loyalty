@@ -7,12 +7,12 @@ use App\Store;
 
 class Helper
 {
-    function replace_null_with_empty_string($array)
+    public static function replace_null_with_empty_string($array)
     {
         $array = collect($array)->toArray();
         foreach ($array as $key => $value) {
             if (is_array($value))
-                $array[$key] = replace_null_with_empty_string($value);
+                $array[$key] = $this->replace_null_with_empty_string($value);
             else {
                 if (is_null($value))
                     $array[$key] = "";
@@ -21,34 +21,34 @@ class Helper
         return $array;
     }
 
-    function RandomPassword($length)
+    public static function RandomPassword($length)
     {
         $chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%&*_";
         $password = substr(str_shuffle($chars), 0, $length);
         return $password;
     }
 
-    function HashPassword($password)
+    public static function HashPassword($password)
     {
         return Hash::make($password);
     }
 
-    function begin()
+    public static function begin()
     {
         \DB::beginTransaction();
     }
 
-    function commit()
+    public static function commit()
     {
         \DB::commit();
     }
 
-    function rollback()
+    public static function rollback()
     {
         \DB::rollBack();
     }
 
-    function ImageUpload($profile_img, $folder) {
+    public static function ImageUpload($profile_img, $folder) {
         $uploadPath = public_path('/uploads/'.$folder);
         $extension = $profile_img->getClientOriginalExtension();
         $fileName = rand(11111, 99999) . '.' . $extension;

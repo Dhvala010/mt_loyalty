@@ -21,6 +21,7 @@ use Symfony\Component\HttpFoundation\Response;
 use App\User,
     App\Country;
 use League\Flysystem\Config;
+use Helper;
 
 /*use App\Mail\VerifyMail;*/
 
@@ -40,7 +41,7 @@ class AuthController extends Controller
             Mail::to($user->email)->send(new VerifyMail($user->toArray()));
         }*/
 
-        return response()->success(ResponseMessage::REGISTER_SUCCESS,replace_null_with_empty_string($user));
+        return response()->success(ResponseMessage::REGISTER_SUCCESS,Helper::replace_null_with_empty_string($user));
     }
 
     /*
@@ -52,7 +53,7 @@ class AuthController extends Controller
             $user = Auth::user();
             $user->token = $user->createToken('loyalty')->accessToken;
             $user->devices()->create($request->all());
-            return response()->success(ResponseMessage::LOGIN_SUCCESS,replace_null_with_empty_string($user));
+            return response()->success(ResponseMessage::LOGIN_SUCCESS,Helper::replace_null_with_empty_string($user));
         } else {
             return response()->error(ResponseMessage::LOGIN_UNAUTHORIZED,Response::HTTP_UNAUTHORIZED);
         }
@@ -89,7 +90,7 @@ class AuthController extends Controller
         $new_password = $request->new_password;
         $user = Auth::user();
         if (\Hash::check($old_password, $user->password)) {
-            $user->update(['password' => HashPassword($new_password)]);
+            $user->update(['password' => Helper::HashPassword($new_password)]);
             return response()->success(ResponseMessage::CHANGE_PASSWORD_SUCCESS,NULL);
         } else {
             return response()->error(ResponseMessage::PASSWORD_DO_NOT_MATCH,Response::HTTP_UNAUTHORIZED);
@@ -107,7 +108,7 @@ class AuthController extends Controller
                 ->first();
         if(!empty($user)){
             $user->token = $user->createToken('loyalty')->accessToken;
-            return response()->success(ResponseMessage::COMMON_MESSAGE,replace_null_with_empty_string($user));
+            return response()->success(ResponseMessage::COMMON_MESSAGE,Helper::replace_null_with_empty_string($user));
         }else{
             return response()->error(ResponseMessage::SOCIAL_MEDIA_NOT_FOUND,201);
         }
@@ -126,6 +127,6 @@ class AuthController extends Controller
     */
     public function UserDetail(Request $request){
         $user = Auth::user();
-        return response()->success(ResponseMessage::COMMON_MESSAGE,replace_null_with_empty_string($user));
+        return response()->success(ResponseMessage::COMMON_MESSAGE,Helper::replace_null_with_empty_string($user));
     }
 }
