@@ -91,4 +91,23 @@ class MerchantStoreController extends Controller
         $response = $createPromoCode->execute($input);
         return response()->success(ResponseMessage::MERCHANT_STORE_REGISTER_SUCCESS,replace_null_with_empty_string($response));
     }
+    public function getStoreDetails(Request $request){
+        $input = $request->all();
+        $rules = array(
+            'storeId' => "required|numeric",
+        );
+        $validator = Validator::make($input, $rules);
+        if ($validator->fails()) {
+            $arr = array("status" => 400, "msg" => $validator->errors()->first(), "data" => (object) []);
+            return response($arr);
+        } else {
+            $storeId = $input["storeId"];
+            $store = DB::table('stores')
+                    ->where('id',$storeId)
+                    ->first();
+           // dd($store);
+            return response()->success(ResponseMessage::COMMON_MESSAGE,replace_null_with_empty_string($store));
+
+        }
+    }
 }
