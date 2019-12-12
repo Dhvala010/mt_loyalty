@@ -22,7 +22,6 @@ use App\User,
     App\Country;
 use League\Flysystem\Config;
 use Helper;
-
 /*use App\Mail\VerifyMail;*/
 
 class AuthController extends Controller

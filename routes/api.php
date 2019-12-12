@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Http\Request;
-
+use App\User;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -13,7 +13,9 @@ use Illuminate\Http\Request;
 |
 */
 
-
+Route::bind('user', function ($value) {
+    return User::find($value) ?? abort(404);
+});
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
@@ -43,5 +45,10 @@ Route::group(['namespace'=>'API\V1','prefix'=>'v1'], function () {
         Route::post('create_promocode', 'MerchantStoreController@CreatePromocode');
         Route::GET('get_store_details', 'MerchantStoreController@getStoreDetails');
         /*End Merchant Store Routes*/
+
+        /*Add store to wallet*/
+        Route::post('user/{user}/list_store_wallet', 'CustomerController@listWallet');
+        Route::post('user/{user}/add_store_wallet', 'CustomerController@addWallet');
+        Route::post('user/{user}/remove_store_wallet', 'CustomerController@removeWallet');
     });
 });

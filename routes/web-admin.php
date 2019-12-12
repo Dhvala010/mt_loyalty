@@ -1,5 +1,6 @@
 <?php
 use App\Store;
+use App\User;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -10,6 +11,10 @@ use App\Store;
 | contains the "web" middleware group. Now create something great!
 |
 */
+
+Route::bind('user', function ($value) {
+    return User::find($value) ?? abort(404);
+});
 
 Auth::routes();
 Route::group(['middleware' => 'auth','check-admin'], function () {
