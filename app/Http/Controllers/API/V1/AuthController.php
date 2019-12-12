@@ -115,7 +115,7 @@ class AuthController extends Controller
 
 
     /*
-		Check Configuration listing apis
+		Check Configuration listing api
     */
     public function configuration(Request $request){
         $data['country'] = Country::get();
