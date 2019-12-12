@@ -28,7 +28,7 @@ class StoreLoginRequest extends FormRequest
 
         return [
             'email' => ['required', 'string', 'email', 'max:255'],
-            'password' => ['required', 'string', 'min:8'],
+            'password' => ['required', 'string', 'min:4'],
             'role' => ['required','in:'.$user_role_string ]
         ];
     }

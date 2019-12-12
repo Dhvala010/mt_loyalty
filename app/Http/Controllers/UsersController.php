@@ -87,6 +87,7 @@ class UsersController extends Controller
           return response()->json([ 'status' => 1 ,  'success'=>'Record Edited successfully']);
         }
         else{
+          $input['password'] = Helper::HashPassword($input['password']);
           $User = new User();
           $User->fill($input);
           $User->save();

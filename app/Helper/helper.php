@@ -7,7 +7,7 @@ use App\Store;
 
 class Helper
 {
-    function replace_null_with_empty_string($array)
+    public static function replace_null_with_empty_string($array)
     {
         $array = collect($array)->toArray();
         foreach ($array as $key => $value) {
@@ -21,14 +21,14 @@ class Helper
         return $array;
     }
 
-    function RandomPassword($length)
+    public static function RandomPassword($length)
     {
         $chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%&*_";
         $password = substr(str_shuffle($chars), 0, $length);
         return $password;
     }
 
-    function HashPassword($password)
+    public static function HashPassword($password)
     {
         return Hash::make($password);
     }

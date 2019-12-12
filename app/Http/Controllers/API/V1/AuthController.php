@@ -21,7 +21,7 @@ use Symfony\Component\HttpFoundation\Response;
 use App\User,
     App\Country;
 use League\Flysystem\Config;
-
+use Helper;
 /*use App\Mail\VerifyMail;*/
 
 class AuthController extends Controller
@@ -52,7 +52,7 @@ class AuthController extends Controller
             $user = Auth::user();
             $user->token = $user->createToken('loyalty')->accessToken;
             $user->devices()->create($request->all());
-            return response()->success(ResponseMessage::LOGIN_SUCCESS,replace_null_with_empty_string($user));
+            return response()->success(ResponseMessage::LOGIN_SUCCESS,Helper::replace_null_with_empty_string($user));
         } else {
             return response()->error(ResponseMessage::LOGIN_UNAUTHORIZED,Response::HTTP_UNAUTHORIZED);
         }
