@@ -68,5 +68,5 @@ use App\Store;
         $store = Store::get()->count();
         return $store;
     }
-}
+
 ?>
