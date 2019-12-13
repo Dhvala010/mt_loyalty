@@ -10,7 +10,7 @@ use App\Store;
         $array = collect($array)->toArray();
         foreach ($array as $key => $value) {
             if (is_array($value))
-                $array[$key] = $this->replace_null_with_empty_string($value);
+                $array[$key] = replace_null_with_empty_string($value);
             else {
                 if (is_null($value))
                     $array[$key] = "";
