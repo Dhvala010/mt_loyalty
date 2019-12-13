@@ -14,7 +14,7 @@
 
             <div class="info-box-content">
               <span class="info-box-text">Users</span>
-              <span class="info-box-number">{{Helper::totaluser()}}</span>
+              <span class="info-box-number">{{totaluser()}}</span>
             </div>
             <!-- /.info-box-content -->
           </div>
@@ -27,7 +27,7 @@
 
             <div class="info-box-content">
               <span class="info-box-text">Stores</span>
-              <span class="info-box-number">{{Helper::totalstore()}}</span>
+              <span class="info-box-number">{{totalstore()}}</span>
             </div>
             <!-- /.info-box-content -->
           </div>

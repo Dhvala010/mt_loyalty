@@ -18,7 +18,7 @@ use App\Http\Requests\CreateStorePromocodeRequest;
 
 use DB;
 use Validator;
-use Helper;
+
 class CustomerController extends Controller
 {
     public function listWallet(User $user, Request $request){
@@ -28,7 +28,7 @@ class CustomerController extends Controller
         if(! $user->wallets->contains($request->store_id)){
             $user->wallets()->attach($request->store_id);
         }
-        return response()->success(ResponseMessage::COMMON_MESSAGE,Helper::replace_null_with_empty_string($user));
+        return response()->success(ResponseMessage::COMMON_MESSAGE,replace_null_with_empty_string($user));
     }
     public function removeWallet(User $user, Request $request){
         $user->wallets()->detach($request->store_id);
