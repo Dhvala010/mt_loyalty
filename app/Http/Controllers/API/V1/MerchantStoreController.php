@@ -45,37 +45,26 @@ class MerchantStoreController extends Controller
 
         $input = $request->all();
         $offset = $request->offset ? $request->offset : 10;
-        $rules = array(
-            'country' => "numeric",
-            'latitude'   => "numeric",
-            'longitude'  => 'numeric',
-        );
 
-        // test
-        $validator = Validator::make($input, $rules);
-        if ($validator->fails()) {
-            $arr = array("status" => 400, "msg" => $validator->errors()->first(), "data" => (object) []);
-            return response($arr);
-        } else {
+            if(empty($input["country"]) && empty($input["latitude"]) && empty($input["longitude"])){
+                $store = DB::table('stores')->orderBy('title','asc');
+            }
 
-            $store = Store::orderBy('title','asc');
-
-            if($request->has('latitude') && $request->has('longitude'))
+            if(!empty($input["longitude"]) && !empty($input["longitude"]))
             {
+                $max_distance = 5;
+                $lat = $input["latitude"];
+                $lng = $input["longitude"];
 
-            $max_distance = 5;
-            $lat = $input["latitude"];
-            $lng = $input["longitude"];
+                $distance = "( ( ( ACOS( SIN((" . $lat . " * PI() / 180)) * SIN((latitude * PI() / 180)) + COS((" . $lat . " * PI() / 180)) * COS((latitude * PI() / 180)) * COS( ( (" . $lng . " - longitude) * PI() / 180) ) )) * 180 / PI()) * 60 * 1.1515 * 1.609344)";
 
-            $distance = "( ( ( ACOS( SIN((" . $lat . " * PI() / 180)) * SIN((latitude * PI() / 180)) + COS((" . $lat . " * PI() / 180)) * COS((latitude * PI() / 180)) * COS( ( (" . $lng . " - longitude) * PI() / 180) ) )) * 180 / PI()) * 60 * 1.1515 * 1.609344)";
-
-            $store = DB::table('stores')->select(['id','title','description','phone_number','country_code','email', 'latitude', 'longitude', DB::raw($distance . ' AS distance')])
-                ->whereRaw("{$distance} < ?", $max_distance)
-                ->orderBy(DB::raw($distance));
+                $store = DB::table('stores')->select(['id','title','description','phone_number','country_code','email', 'latitude', 'longitude', DB::raw($distance . ' AS distance')])
+                    ->whereRaw("{$distance} < ?", $max_distance)
+                    ->orderBy(DB::raw($distance));
 
             }
-            if ($request->has('country')) {
-                 $store = $store->where("country_code", $input["country"]);
+            if (!empty($input["country"])) {
+                 $store = DB::table('stores')->where("country_code", $input["country"]);
             }
 
             $store = $store->paginate($offset)->toArray();
@@ -84,7 +73,6 @@ class MerchantStoreController extends Controller
             $total_page = $store['last_page'];
 
             return response()->paginate(ResponseMessage::COMMON_MESSAGE,$store_data,$total_record,$total_page );
-        }
 
     }
     public function CreatePromocode(CreateStorePromocodeRequest $request,CreatePromoCode $createPromoCode){
