@@ -8,7 +8,6 @@ use DataTables;
 use Validator;
 use Auth;
 use Hash;
-use Helper;
 class UsersController extends Controller
 {
     /**
@@ -74,7 +73,7 @@ class UsersController extends Controller
         }
 
         if(!empty($file)){
-          $imagename = Helper::ImageUpload($file,'users');
+          $imagename = ImageUpload($file,'users');
           $input['profile_picture'] = $imagename;
         }
 
@@ -87,7 +86,7 @@ class UsersController extends Controller
           return response()->json([ 'status' => 1 ,  'success'=>'Record Edited successfully']);
         }
         else{
-          $input['password'] = Helper::HashPassword($input['password']);
+          $input['password'] = HashPassword($input['password']);
           $User = new User();
           $User->fill($input);
           $User->save();

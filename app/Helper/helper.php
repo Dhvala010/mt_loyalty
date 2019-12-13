@@ -1,18 +1,16 @@
 <?php
-namespace App\Helper;
+//namespace App\Helper;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Hash;
 use App\User;
 use App\Store;
 
-class Helper
-{
-    public static function replace_null_with_empty_string($array)
+     function replace_null_with_empty_string($array)
     {
         $array = collect($array)->toArray();
         foreach ($array as $key => $value) {
             if (is_array($value))
-                $array[$key] = $this->replace_null_with_empty_string($value);
+                $array[$key] = replace_null_with_empty_string($value);
             else {
                 if (is_null($value))
                     $array[$key] = "";
@@ -21,34 +19,34 @@ class Helper
         return $array;
     }
 
-    public static function RandomPassword($length)
+     function RandomPassword($length)
     {
         $chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%&*_";
         $password = substr(str_shuffle($chars), 0, $length);
         return $password;
     }
 
-    public static function HashPassword($password)
+     function HashPassword($password)
     {
         return Hash::make($password);
     }
 
-    public static function begin()
+     function begin()
     {
         \DB::beginTransaction();
     }
 
-    public static function commit()
+     function commit()
     {
         \DB::commit();
     }
 
-    public static function rollback()
+    function rollback()
     {
         \DB::rollBack();
     }
 
-    public static function ImageUpload($profile_img, $folder) {
+     function ImageUpload($profile_img, $folder) {
         $uploadPath = public_path('/uploads/'.$folder);
         $extension = $profile_img->getClientOriginalExtension();
         $fileName = rand(11111, 99999) . '.' . $extension;
@@ -62,13 +60,13 @@ class Helper
         );*/
         return $profile_img;
     }
-    public static function totaluser(){
+     function totaluser(){
         $user = User::get()->count();
         return $user;
     }
-    public static function totalstore(){
+     function totalstore(){
         $store = Store::get()->count();
         return $store;
     }
-}
+
 ?>
