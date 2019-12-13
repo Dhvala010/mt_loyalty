@@ -10,7 +10,6 @@ use DataTables;
 use Validator;
 use Auth;
 use Hash;
-use Helper;
 
 class StoreController extends Controller
 {
@@ -57,7 +56,7 @@ class StoreController extends Controller
         $input = $request->all();
         $file = $request->file('image') ?? '';
         if(!empty($file)){
-          $imagename = Helper::ImageUpload($file,'stores');
+          $imagename = ImageUpload($file,'stores');
           $input['image'] = $imagename;
         }
           $Store = new Store();
@@ -107,7 +106,7 @@ class StoreController extends Controller
         $input = $request->all();
         $file = $request->file('image') ?? '';
         if(!empty($file)){
-          $imagename = Helper::ImageUpload($file,'stores');
+          $imagename = ImageUpload($file,'stores');
           $input['image'] = $imagename;
         }
         $store->fill($input);
