@@ -31,17 +31,17 @@ use App\Store;
         return Hash::make($password);
     }
 
-    public static function begin()
+     function begin()
     {
         \DB::beginTransaction();
     }
 
-    public static function commit()
+     function commit()
     {
         \DB::commit();
     }
 
-    public static function rollback()
+    function rollback()
     {
         \DB::rollBack();
     }
