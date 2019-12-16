@@ -24,4 +24,8 @@ class Store extends Model
         'longitude'
     ];
     protected $dates = ['deleted_at'];
+
+    public function merchant(){
+        return $this->belongsTo(User::class,'user_id', 'id');
+    }
 }
