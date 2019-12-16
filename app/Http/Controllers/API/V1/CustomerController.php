@@ -9,6 +9,9 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Constants\ResponseMessage;
 
+use App\Http\Resources\StoreResource;
+
+
 use Illuminate\Support\Facades\Auth;
 use App\Store;
 use App\User;
@@ -22,7 +25,6 @@ use Validator;
 class CustomerController extends Controller
 {
     public function listWallet(User $user, Request $request){
-       //return $user->wallets;
        return response()->success(ResponseMessage::COMMON_MESSAGE,replace_null_with_empty_string($user->wallets));
     }
     public function addWallet(User $user, Request $request){
@@ -34,5 +36,8 @@ class CustomerController extends Controller
     public function removeWallet(User $user, Request $request){
         $user->wallets()->detach($request->store_id);
         return response()->success(ResponseMessage::COMMON_MESSAGE,replace_null_with_empty_string($user));
+     }
+     public function storeDetail(Store $store,Request $request){
+        return response()->success(ResponseMessage::COMMON_MESSAGE,replace_null_with_empty_string(StoreResource::make($store)));
      }
 }
