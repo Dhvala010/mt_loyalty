@@ -65,11 +65,14 @@ class AuthController extends Controller
     public function forgotPassword(StoreForgotPasswordRequest $request,UpdateAndSendForgotPassword $updateAndSendForgotPassword){
 
         $email = $request->email;
+
         $user = User::where(['email' => $email])->first();
+
         if(!$user){
             return response()->error(ResponseMessage::USER_NOT_FOUND,Response::HTTP_NOT_FOUND);
         }
         $updateAndSendForgotPassword->execute($user);
+
         return response()->success(ResponseMessage::FORGOT_PASSWORD_SUCCESS);
     }
 
