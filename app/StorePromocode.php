@@ -10,6 +10,10 @@ class StorePromocode extends Model
         'store_id',
         'title',
         'count',
-        'unique_number'
+        'unique_number',
+        'offer_valid'
     ];
+    public function store(){
+        return $this->belongsTo(Store::class,'store_id', 'id');
+    }
 }

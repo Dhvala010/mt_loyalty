@@ -26,9 +26,15 @@ Route::group(['middleware' => 'auth','check-admin'], function () {
 
     Route::post('user/GetDataById', 'UsersController@GetDataById');
     Route::get('get-merchant','StoreController@getmerchant');
+    Route::get('get-store','OfferController@getstore');
     Route::get('user/ChangePassword', 'UsersController@ChangePassword');
     Route::post('user/ChangePasswords', 'UsersController@ChangePasswords');
     Route::resource('user', 'UsersController');
+    Route::post('offer/GetDataById', 'OfferController@GetDataById');
+    Route::bind('offer', function ($value) {
+        return Store::find($value) ?? abort(404);
+    });
+    Route::resource('offer', 'OfferController');
     Route::post('store/GetDataById', 'StoreController@GetDataById');
     Route::bind('store', function ($value) {
         return Store::find($value) ?? abort(404);
