@@ -25,14 +25,13 @@ class CreatePromoCode
 
     public function execute(array $data){
         if(!empty($data['promocode_id'])){
-            $store = StorePromocode::find($data['promocode_id']);
-            $store->fill($data);
-            $store->save();
+            $StorePromocode = StorePromocode::find($data['promocode_id']);
+            $StorePromocode->fill($data);
+            $StorePromocode->save();
         }else{
             $data['unique_number'] = Str::random(30);
             $StorePromocode = $this->StorePromocode->create($data);
         }
-        return $store;
 
         return $StorePromocode;
     }
