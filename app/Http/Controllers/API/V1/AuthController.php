@@ -132,4 +132,9 @@ class AuthController extends Controller
         $user = Auth::user();
         return response()->success(ResponseMessage::COMMON_MESSAGE,replace_null_with_empty_string($user));
     }
+
+    public function UpdateProfile(Request $request){
+        $user = Auth::user();
+        return response()->success(ResponseMessage::COMMON_MESSAGE,replace_null_with_empty_string($user));
+    }
 }
