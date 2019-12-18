@@ -75,13 +75,22 @@ class MerchantStoreController extends Controller
             return response()->paginate(ResponseMessage::COMMON_MESSAGE,$store_data,$total_record,$total_page );
 
     }
-    public function CreatePromocode(CreateStorePromocodeRequest $request,CreatePromoCode $createPromoCode){
+    public function AddEditpromocode(CreateStorePromocodeRequest $request,CreatePromoCode $createPromoCode){
         $user = Auth::user();
         $input = $request->all();
 
         $response = $createPromoCode->execute($input);
         return response()->success(ResponseMessage::MERCHANT_STORE_REGISTER_SUCCESS,replace_null_with_empty_string($response));
     }
+
+    public function Deletepromocode(CreateStorePromocodeRequest $request,CreatePromoCode $createPromoCode){
+        $user = Auth::user();
+        $input = $request->all();
+
+        $response = $createPromoCode->delete();
+        return response()->success(ResponseMessage::COMMON_MESSAGE,replace_null_with_empty_string($response));
+    }
+
     public function getStoreDetails(Request $request){
         $input = $request->all();
         $rules = array(
