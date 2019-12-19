@@ -69,7 +69,7 @@
 				<span id="count_error" class="error"></span>
 			</div>
 			<div class="form-group">
-			  <input type="text" class="form-control form-control-user" name="offer_valid" id="offer_valid" placeholder="Enter Offer Valid..." />
+			  <input type="text" class="form-control form-control-user datepicker1" name="offer_valid" id="offer_valid"  placeholder="Enter Offer Valid..." />
 				<span id="offer_valid_error" class="error"></span>
 			</div>
 			
@@ -96,7 +96,10 @@
 @stop
 @section('js')
 	<script>
-         $(function() {
+		$('.datepicker1').datepicker({
+		    format: "dd/mm/yyyy",
+		});
+		 $(function() {
 			 $.ajaxSetup({
 			  headers: {
 				'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -140,8 +143,7 @@
 				$('#StoreModal').modal('show');
 				getmerchant();
 			});
-
-			$(document).on("click","#EditStore",function() {
+			 $(document).on("click","#EditStore",function() {
 				$('.edit_method').val("put");
 				$('.Errors').html('');
 				var Id = $(this).attr('data-id');
