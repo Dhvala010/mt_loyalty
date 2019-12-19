@@ -32,7 +32,6 @@ class CreatePromoCode
             $data['unique_number'] = Str::random(30);
             $StorePromocode = $this->StorePromocode->create($data);
         }
-
         return $StorePromocode;
     }
 }

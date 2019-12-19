@@ -47,6 +47,8 @@ Route::group(['namespace'=>'API\V1','prefix'=>'v1'], function () {
         Route::post('delete_merchant_store', 'MerchantStoreController@DeleteMerchantStore');
         Route::post('merchant_store_listing', 'MerchantStoreController@MerchantStoreList');
         Route::post('add_edit_promocode', 'MerchantStoreController@AddEditpromocode');
+        Route::post('delete_promocode', 'MerchantStoreController@Deletepromocode');
+        Route::post('store_promocode_list', 'MerchantStoreController@promocodeList');
         Route::GET('get_store_details', 'MerchantStoreController@getStoreDetails');
         /*End Merchant Store Routes*/
 
