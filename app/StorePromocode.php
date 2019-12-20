@@ -13,6 +13,7 @@ class StorePromocode extends Model
         'unique_number',
         'offer_valid'
     ];
+    protected $dates = ['deleted_at'];
     public function store(){
         return $this->belongsTo(Store::class,'store_id', 'id');
     }
