@@ -18,7 +18,7 @@ Route::bind('user', function ($value) {
 
 Auth::routes();
 Route::group(['middleware' => 'auth','check-admin'], function () {
-    
+
     Route::get('/', function() {
         return view('home');
     })->name('home');
