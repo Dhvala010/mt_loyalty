@@ -2,24 +2,30 @@
 
 namespace App\Http\Controllers\API\V1;
 
-use App\Actions\CreateUser;
-use App\Actions\UpdateAndSendForgotPassword;
+use App\Actions\CreateUser,
+    App\Actions\UpdateAndSendForgotPassword,
+    App\Actions\UpdateUser;
+
+use Symfony\Component\HttpFoundation\Response;
 use App\Constants\ResponseMessage;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\StoreChangePasswordRequest;
-use App\Http\Requests\StoreForgotPasswordRequest;
-use App\Http\Requests\StoreLoginRequest;
-use App\Http\Requests\StoreRegiserRequest;
-use App\Http\Requests\CheckSocialLoginRequest;
+
+use Illuminate\Http\Request;
+use App\Http\Requests\StoreChangePasswordRequest,
+    App\Http\Requests\StoreForgotPasswordRequest,
+    App\Http\Requests\StoreLoginRequest,
+    App\Http\Requests\StoreRegiserRequest,
+    App\Http\Requests\CheckSocialLoginRequest,
+    App\Http\Requests\UpdateUserRequest;
+
 use App\Mail\ForgotPassword;
 use Illuminate\Support\Facades\Auth;
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
-use Symfony\Component\HttpFoundation\Response;
 
 use App\User,
     App\Country;
+
 use League\Flysystem\Config;
 
 
@@ -133,8 +139,9 @@ class AuthController extends Controller
         return response()->success(ResponseMessage::COMMON_MESSAGE,replace_null_with_empty_string($user));
     }
 
-    public function UpdateProfile(Request $request){
-        $user = Auth::user();
-        return response()->success(ResponseMessage::COMMON_MESSAGE,replace_null_with_empty_string($user));
+    public function UpdateProfile(UpdateUserRequest $request,UpdateUser $updateUser){
+        $input = $request->all();
+        $response = $updateUser->execute($input);
+        return response()->success(ResponseMessage::COMMON_MESSAGE,replace_null_with_empty_string($response));
     }
 }

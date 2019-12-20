@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreLoginRequest extends FormRequest
+class UpdateUserRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -23,13 +23,8 @@ class StoreLoginRequest extends FormRequest
      */
     public function rules()
     {
-        $user_role_array = array_keys(config('loyalty.user_role'));
-        $user_role_string = implode(",",$user_role_array);
-
         return [
-            'email' => ['required', 'string', 'email', 'max:255'],
-            // 'password' => ['required', 'string', 'min:4'],
-            'role' => ['required','in:'.$user_role_string ]
+            //
         ];
     }
 }

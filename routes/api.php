@@ -40,6 +40,7 @@ Route::group(['namespace'=>'API\V1','prefix'=>'v1'], function () {
         Route::post('user_detail', 'AuthController@UserDetail');
         Route::post('logout', 'AuthController@logout');
         Route::post('change_password', 'AuthController@changePassword');
+        Route::post('update_profile', 'AuthController@UpdateProfile');
         /*End User Management Routes*/
 
         /*Start Merchant Store Routes*/
