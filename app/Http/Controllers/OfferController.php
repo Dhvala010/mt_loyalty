@@ -11,6 +11,7 @@ use DataTables;
 use Validator;
 use Auth;
 use Hash;
+use Carbon;
 
 class OfferController extends Controller
 {
@@ -52,18 +53,14 @@ class OfferController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreRequest $request)
+    public function store(Request $request)
     {
         $input = $request->all();
-        $file = $request->file('image') ?? '';
-        if(!empty($file)){
-          $imagename = ImageUpload($file,'stores');
-          $input['image'] = $imagename;
-        }
-          $Store = new Store();
-          $Store->fill($input);
-          $Store->save();
-          return response()->json([ 'status' => 1 ,  'success'=>'Record added successfully' , 'data' =>$Store ]);
+        $input['offer_valid'] = Carbon\Carbon::parse($request->offer_valid)->format('Y-m-d');
+        $offer = new StorePromocode();
+        $offer->fill($input);
+        $offer->save();
+        return response()->json([ 'status' => 1 ,  'success'=>'Record added successfully' , 'data' =>$offer ]);
     }
     public function getstore(){
         if(Auth::user()->role == 3){
@@ -83,9 +80,9 @@ class OfferController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Store $store)
+    public function show(StorePromocode $offer)
     {
-        return response()->json([ 'status' => 1 ,  'success'=>'success' , 'data' => $store ]);
+        return response()->json([ 'status' => 1 ,  'success'=>'success' , 'data' => $offer ]);
     }
 
     /**
@@ -94,9 +91,9 @@ class OfferController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Store $store)
+    public function edit(StorePromocode $offer)
     {
-        return $store;
+        return $offer;
     }
 
     /**
@@ -106,17 +103,13 @@ class OfferController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(StoreRequest $request, Store $store)
+    public function update(Request $request,StorePromocode $offer)
     {
         $input = $request->all();
-        $file = $request->file('image') ?? '';
-        if(!empty($file)){
-          $imagename = ImageUpload($file,'stores');
-          $input['image'] = $imagename;
-        }
-        $store->fill($input);
-        $store->save();
-        return response()->json([ 'status' => 1 ,  'success'=>'success' , 'data' => $store ]);
+        $input['offer_valid'] = Carbon\Carbon::parse($request->offer_valid)->format('Y-m-d');
+        $offer->fill($input);
+        $offer->save();
+        return response()->json([ 'status' => 1 ,  'success'=>'success' , 'data' => $offer ]);
     }
 
     /**
@@ -125,9 +118,9 @@ class OfferController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Store $store)
+    public function destroy(StorePromocode $offer)
     {
-        $store->delete();
+        $offer->delete();
         return response()->json([ 'status' => 1 ,  'success'=>'success' ]);
     }
 

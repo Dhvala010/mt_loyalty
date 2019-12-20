@@ -1,6 +1,7 @@
 <?php
 use App\Store;
 use App\User;
+use App\StorePromocode;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -31,8 +32,8 @@ Route::group(['middleware' => 'auth','check-admin'], function () {
     Route::post('user/ChangePasswords', 'UsersController@ChangePasswords');
     Route::resource('user', 'UsersController');
     Route::post('offer/GetDataById', 'OfferController@GetDataById');
-    Route::bind('offer', function ($value) {
-        return Store::find($value) ?? abort(404);
+    Route::bind('StorePromocode', function ($value) {
+        return StorePromocode::find($value) ?? abort(404);
     });
     Route::resource('offer', 'OfferController');
     Route::post('store/GetDataById', 'StoreController@GetDataById');

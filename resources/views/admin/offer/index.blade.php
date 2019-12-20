@@ -54,9 +54,9 @@
 			<input type="hidden" class="edit_method" name="_method" value="put">
 			@csrf
 			<div class="Errors"></div>
-			<input type="hidden" class="form-control form-control-user" name="id" id="StoreId" />
+			<input type="hidden" class="form-control form-control-user" name="id" id="OfferId" />
 			<div class="form-group">
-				<select name="user_id" id="merchant" class="form-control form-control-user">
+				<select name="store_id" id="merchant" class="form-control form-control-user">
 					<option value="">-- Select Store --</option>
 				</select>
 			</div>
@@ -69,7 +69,7 @@
 				<span id="count_error" class="error"></span>
 			</div>
 			<div class="form-group">
-			  <input type="text" class="form-control form-control-user" name="offer_valid" id="offer_valid" placeholder="Enter Offer Valid..." />
+			  <input type="text" class="form-control form-control-user datepicker1" name="offer_valid" id="offer_valid"  placeholder="Enter Offer Valid..." />
 				<span id="offer_valid_error" class="error"></span>
 			</div>
 			
@@ -96,7 +96,10 @@
 @stop
 @section('js')
 	<script>
-         $(function() {
+		$('.datepicker1').datepicker({
+		    format: "dd/mm/yyyy",
+		});
+		 $(function() {
 			 $.ajaxSetup({
 			  headers: {
 				'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -132,41 +135,30 @@
 				$('.edit_method').val("post");
 				$('.Errors').html('');
 				$('#CreateOfferForm').trigger("reset");
-				$('#StoreId').val('');
-				$('.image-div').html('');
+				$('#OfferId').val('');
 				$('.EditInput').show();
 				$('#StoreModalLabel').html('Add User');
 				$('#CreateOfferButton').html('Add User');
 				$('#StoreModal').modal('show');
 				getmerchant();
 			});
-
-			$(document).on("click","#EditStore",function() {
+			 $(document).on("click","#EditStore",function() {
 				$('.edit_method').val("put");
 				$('.Errors').html('');
 				var Id = $(this).attr('data-id');
 				getmerchant();
 				$.ajax({
-					url: "{{ url('admin/store/') }}/" + Id,
+					url: "{{ url('admin/offer/') }}/" + Id,
 					method: 'get',
 					success: function(result){
 						$('.EditInput').hide();
-						var image = "";
-						if(result.data.image){
-							var image = " <img src='{{ url('/uploads/stores') }}/" + result.data.image + "'>";
-						}
-
 						$('#StoreModalLabel').html('Edit User');
 						$('#CreateOfferButton').html('Edit User');
-						$('.image-div').html(image);
-						$('#StoreId').val(result.data.id);
+						$('#OfferId').val(result.data.id);
 						$("#title").val(result.data.title);
-						$("#description").val(result.data.description);
-						$("#email").val(result.data.email);
-						$("#phone_number").val(result.data.phone_number);
-						$("#facebook_url").val(result.data.facebook_url);
-						$("#location_address").val(result.data.location_address);
-						$("#merchant").val(result.data.user_id);	
+						$("#stamp").val(result.data.count);
+						$("#offer_valid").val(result.data.offer_valid);
+						$("#merchant").val(result.data.store_id);	
 						$('#StoreModal').modal('show');
 					}
 
@@ -178,7 +170,7 @@
 				var Id = $(this).attr('data-id');
 				if (confirm("Are you sure?")) {
 					$.ajax({
-						url: "{{ url('admin/store') }}/"+Id,
+						url: "{{ url('admin/offer') }}/"+Id,
 						method: 'DELETE',
 						success: function(result){
 							$('#storedatatable').DataTable().ajax.reload();
@@ -193,10 +185,10 @@
 				event.preventDefault();
 				let data = $(this).serializeArray(); // new FormData(this);
 				let method = 'post';
-				let url = "{{ url('admin/store') }}";
-				if(	$('#StoreId').val()){
+				let url = "{{ url('admin/offer') }}";
+				if(	$('#OfferId').val()){
 					method = "post"; 
-					url =  "{{ url('admin/store')}}/" + $('#StoreId').val();
+					url =  "{{ url('admin/offer')}}/" + $('#OfferId').val();
 				}
 			$.ajax({
 					url: url,
