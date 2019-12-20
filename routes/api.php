@@ -47,11 +47,15 @@ Route::group(['namespace'=>'API\V1','prefix'=>'v1'], function () {
         Route::post('add_edit_merchant_store', 'MerchantStoreController@AddEditMerchantStore');
         Route::post('delete_merchant_store', 'MerchantStoreController@DeleteMerchantStore');
         Route::post('merchant_store_listing', 'MerchantStoreController@MerchantStoreList');
-        Route::post('add_edit_promocode', 'MerchantStoreController@AddEditpromocode');
-        Route::post('delete_promocode', 'MerchantStoreController@Deletepromocode');
-        Route::post('store_promocode_list', 'MerchantStoreController@promocodeList');
         Route::GET('get_store_details', 'MerchantStoreController@getStoreDetails');
         /*End Merchant Store Routes*/
+
+        /*Start Store Promocode Routes*/
+        Route::post('add_edit_promocode', 'StorePromocodeController@AddEditpromocode');
+        Route::post('delete_promocode', 'StorePromocodeController@Deletepromocode');
+        Route::post('store_promocode_list', 'StorePromocodeController@promocodeList');
+        /*End Store Promocode Routes*/
+
 
         /*Add store to wallet*/
         Route::post('user/{user}/list_store_wallet', 'CustomerController@listWallet');

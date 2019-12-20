@@ -3,21 +3,17 @@
 namespace App\Http\Controllers\API\V1;
 
 use App\Actions\CreateMerchantStore;
-use App\Actions\CreatePromoCode;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Constants\ResponseMessage;
 
 use Illuminate\Support\Facades\Auth;
-use App\Store,
-    App\StorePromocode;
+use App\Store;
 
 use App\Http\Requests\MerchantStoreRegiserRequest;
 use App\Http\Requests\DeleteMerchentStoreRequest;
-use App\Http\Requests\CreateStorePromocodeRequest;
-use App\Http\Requests\DeleteStorePromocodeRequest;
-use App\Http\Requests\StorePromocodeListRequest;
+
 
 use DB;
 use Validator;
@@ -78,34 +74,6 @@ class MerchantStoreController extends Controller
             return response()->paginate(ResponseMessage::COMMON_MESSAGE,$store_data,$total_record,$total_page );
 
     }
-    public function AddEditpromocode(CreateStorePromocodeRequest $request,CreatePromoCode $createPromoCode){
-        $user = Auth::user();
-        $input = $request->all();
-
-        $response = $createPromoCode->execute($input);
-        return response()->success(ResponseMessage::MERCHANT_STORE_REGISTER_SUCCESS,replace_null_with_empty_string($response));
-    }
-
-    public function Deletepromocode(DeleteStorePromocodeRequest $request){
-        $user = Auth::user();
-        $input = $request->all();
-
-        $response = StorePromocode::where('id',$request->promocode_id)->delete();
-        return response()->success(ResponseMessage::COMMON_MESSAGE);
-    }
-
-    public function promocodeList(StorePromocodeListRequest $request){
-        $user = Auth::user();
-        $input = $request->all();
-
-        $store = StorePromocode::where('store_id',$request->store_id)->paginate(50)->toArray();
-        $store_data = replace_null_with_empty_string($store['data']);
-        $total_record = $store['total'];
-        $total_page = $store['last_page'];
-
-        return response()->paginate(ResponseMessage::COMMON_MESSAGE,$store_data,$total_record,$total_page );
-    }
-
 
 
     public function getStoreDetails(Request $request){

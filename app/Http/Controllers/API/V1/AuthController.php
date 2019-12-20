@@ -18,15 +18,10 @@ use App\Http\Requests\StoreChangePasswordRequest,
     App\Http\Requests\CheckSocialLoginRequest,
     App\Http\Requests\UpdateUserRequest;
 
-use App\Mail\ForgotPassword;
 use Illuminate\Support\Facades\Auth;
-
-use Illuminate\Support\Facades\Mail;
 
 use App\User,
     App\Country;
-
-use League\Flysystem\Config;
 
 
 /*use App\Mail\VerifyMail;*/
