@@ -12,7 +12,8 @@ use Illuminate\Support\Facades\Auth;
 use App\Store;
 
 use App\Http\Requests\MerchantStoreRegiserRequest,
-    App\Http\Requests\DeleteMerchentStoreRequest;
+    App\Http\Requests\DeleteMerchentStoreRequestm,
+    App\Http\Requests\StoreDetailRequest;
 
 use DB;
 use Validator;
@@ -43,55 +44,35 @@ class MerchantStoreController extends Controller
 
         $input = $request->all();
         $offset = $request->offset ? $request->offset : 10;
+        $store = Store::query();
 
-            if(empty($input["country"]) && empty($input["latitude"]) && empty($input["longitude"])){
-                $store = DB::table('stores')->orderBy('title','asc');
-            }
+        if(!empty($input["longitude"]) && !empty($input["longitude"]))
+        {
+            $max_distance = 5;
+            $lat = $input["latitude"];
+            $lng = $input["longitude"];
 
-            if(!empty($input["longitude"]) && !empty($input["longitude"]))
-            {
-                $max_distance = 5;
-                $lat = $input["latitude"];
-                $lng = $input["longitude"];
+            $distance = "( ( ( ACOS( SIN((" . $lat . " * PI() / 180)) * SIN((latitude * PI() / 180)) + COS((" . $lat . " * PI() / 180)) * COS((latitude * PI() / 180)) * COS( ( (" . $lng . " - longitude) * PI() / 180) ) )) * 180 / PI()) * 60 * 1.1515 * 1.609344)";
+            $store = $store->whereRaw("{$distance} < ?", $max_distance)->orderBy(DB::raw($distance));
+        }
 
-                $distance = "( ( ( ACOS( SIN((" . $lat . " * PI() / 180)) * SIN((latitude * PI() / 180)) + COS((" . $lat . " * PI() / 180)) * COS((latitude * PI() / 180)) * COS( ( (" . $lng . " - longitude) * PI() / 180) ) )) * 180 / PI()) * 60 * 1.1515 * 1.609344)";
+        if (!empty($input["country"])) {
+            $store = $store->where("country_code", $input["country"]);
+        }
 
-                $store = DB::table('stores')->select(['id','title','description','phone_number','country_code','email', 'latitude', 'longitude', DB::raw($distance . ' AS distance')])
-                    ->whereRaw("{$distance} < ?", $max_distance)
-                    ->orderBy(DB::raw($distance));
+        $store = $store->paginate($offset)->toArray();
+        $store_data = replace_null_with_empty_string($store['data']);
+        $total_record = $store['total'];
+        $total_page = $store['last_page'];
 
-            }
-            if (!empty($input["country"])) {
-                 $store = DB::table('stores')->where("country_code", $input["country"]);
-            }
-
-            $store = $store->paginate($offset)->toArray();
-            $store_data = replace_null_with_empty_string($store['data']);
-            $total_record = $store['total'];
-            $total_page = $store['last_page'];
-
-            return response()->paginate(ResponseMessage::COMMON_MESSAGE,$store_data,$total_record,$total_page );
-
+        return response()->paginate(ResponseMessage::COMMON_MESSAGE,$store_data,$total_record,$total_page );
     }
 
 
-    public function getStoreDetails(Request $request){
+    public function getStoreDetails(StoreDetailRequest $request){
         $input = $request->all();
-        $rules = array(
-            'storeId' => "required|numeric",
-        );
-        $validator = Validator::make($input, $rules);
-        if ($validator->fails()) {
-            $arr = array("status" => 400, "msg" => $validator->errors()->first(), "data" => (object) []);
-            return response($arr);
-        } else {
-            $storeId = $input["storeId"];
-            $store = DB::table('stores')
-                    ->where('id',$storeId)
-                    ->first();
-           // dd($store);
-            return response()->success(ResponseMessage::COMMON_MESSAGE,replace_null_with_empty_string($store));
-
-        }
+        $storeId = $input["storeId"];
+        $store = Store::find($storeId);
+        return response()->success(ResponseMessage::COMMON_MESSAGE,replace_null_with_empty_string($store));
     }
 }
