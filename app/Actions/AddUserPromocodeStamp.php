@@ -26,13 +26,14 @@ class AddUserPromocodeStamp
         $unique_token = $data['unique_token'];
         $user = Auth::user();
 
-        $data = GeneratePromocodeToken::where('unique_token',$unique_token)->with("promocode_detail")->first();
+        $GeneratePromocodeToken = GeneratePromocodeToken::where('unique_token',$unique_token)->with("promocode_detail")->first();
+
         $UserStampCollectData = [
-            "promocode_id" => $data->promocode_id,
-            "store_id" =>  $data->promocode_detail->store_id,
+            "promocode_id" => $GeneratePromocodeToken->promocode_id,
+            "store_id" =>  $GeneratePromocodeToken->promocode_detail->store_id,
             "user_id" => $user->id,
         ];
-
+        $GeneratePromocodeToken->delete();
         $UserStampCollect = $this->UserStampCollect->create($UserStampCollectData);
 
         return $UserStampCollect;
