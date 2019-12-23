@@ -11,9 +11,8 @@ use App\Constants\ResponseMessage;
 use Illuminate\Support\Facades\Auth;
 use App\Store;
 
-use App\Http\Requests\MerchantStoreRegiserRequest;
-use App\Http\Requests\DeleteMerchentStoreRequest;
-
+use App\Http\Requests\MerchantStoreRegiserRequest,
+    App\Http\Requests\DeleteMerchentStoreRequest;
 
 use DB;
 use Validator;
