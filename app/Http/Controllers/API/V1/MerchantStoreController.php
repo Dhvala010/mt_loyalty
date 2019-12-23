@@ -70,9 +70,7 @@ class MerchantStoreController extends Controller
 
 
     public function getStoreDetails(StoreDetailRequest $request){
-        $input = $request->all();
-        $storeId = $input["storeId"];
-        $store = Store::find($storeId);
+        $store = Store::find($request->storeId);
         return response()->success(ResponseMessage::COMMON_MESSAGE,replace_null_with_empty_string($store));
     }
 }
