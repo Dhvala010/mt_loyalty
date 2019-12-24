@@ -12,11 +12,10 @@ use Illuminate\Support\Facades\Auth;
 use App\Store;
 
 use App\Http\Requests\MerchantStoreRegiserRequest,
-    App\Http\Requests\DeleteMerchentStoreRequestm,
+    App\Http\Requests\DeleteMerchentStoreRequest,
     App\Http\Requests\StoreDetailRequest;
 
-use DB;
-use Validator;
+use Illuminate\Support\Facades\DB;
 
 class MerchantStoreController extends Controller
 {
@@ -51,6 +50,7 @@ class MerchantStoreController extends Controller
             $max_distance = 5;
             $lat = $input["latitude"];
             $lng = $input["longitude"];
+            $offset = 100000;
 
             $distance = "( ( ( ACOS( SIN((" . $lat . " * PI() / 180)) * SIN((latitude * PI() / 180)) + COS((" . $lat . " * PI() / 180)) * COS((latitude * PI() / 180)) * COS( ( (" . $lng . " - longitude) * PI() / 180) ) )) * 180 / PI()) * 60 * 1.1515 * 1.609344)";
             $store = $store->whereRaw("{$distance} < ?", $max_distance)->orderBy(DB::raw($distance));

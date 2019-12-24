@@ -23,7 +23,6 @@ class StorePromocodeController extends Controller
 {
     public function AddEditpromocode(CreateStorePromocodeRequest $request,CreatePromoCode $createPromoCode){
         $input = $request->all();
-
         $response = $createPromoCode->execute($input);
         return response()->success(ResponseMessage::MERCHANT_STORE_REGISTER_SUCCESS,replace_null_with_empty_string($response));
     }

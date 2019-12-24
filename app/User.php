@@ -65,7 +65,7 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function getCountryCodeNameAttribute()
     {
-        if(!empty($this->country_code)){
+        if(!empty($this->getCounrtyData)){
             return $this->getCounrtyData->phonecode;
         }else{
             return "";
