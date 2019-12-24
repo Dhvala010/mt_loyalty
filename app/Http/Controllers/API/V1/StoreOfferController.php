@@ -27,7 +27,7 @@ class StoreOfferController extends Controller
     }
 
     public function StoreOfferDetail(CheckStoreOfferId $request){
-        $StoreOffer = StoreOffer::find($request->storeId);
+        $StoreOffer = StoreOffer::find($request->store_offer_id);
         return response()->success(ResponseMessage::COMMON_MESSAGE,replace_null_with_empty_string($StoreOffer));
     }
 

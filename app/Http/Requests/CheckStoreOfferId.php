@@ -24,7 +24,7 @@ class CheckStoreOfferId extends FormRequest
     public function rules()
     {
         return [
-            'store_offer_id' => [ 'required','exists:store_promocodes,id']
+            'store_offer_id' => [ 'required','exists:store_offers,id']
         ];
     }
 }

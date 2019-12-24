@@ -24,7 +24,7 @@ class AddEditStoreOfferRequest extends FormRequest
     public function rules()
     {
         return [
-            'store_offer_id' => [ 'nullable','exists:store_promocodes,id'],
+            'store_offer_id' => [ 'nullable','exists:store_offers,id'],
             'store_id' => [ 'required','exists:stores,id'],
             'title' => [ 'required' ],
             'count' => [ 'required' ],

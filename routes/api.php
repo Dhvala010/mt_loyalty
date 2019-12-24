@@ -50,6 +50,13 @@ Route::group(['namespace'=>'API\V1','prefix'=>'v1'], function () {
         Route::POST('get_store_details', 'MerchantStoreController@getStoreDetails');
         /*End Merchant Store Routes*/
 
+        /*Start Merchant Store offer Routes*/
+        Route::post('add_edit_store_offer', 'StoreOfferController@AddEditOffer');
+        Route::post('delete_store_offer', 'StoreOfferController@DeleteStoreOffer');
+        Route::post('store_offer_detail', 'StoreOfferController@StoreOfferDetail');
+        Route::post('store_offer_listing', 'StoreOfferController@StoreOfferList');
+        /*End Merchant Store offer Routes*/
+
         /*Start Store Promocode Routes*/
         Route::post('add_edit_promocode', 'StorePromocodeController@AddEditpromocode');
         Route::post('delete_promocode', 'StorePromocodeController@Deletepromocode');
@@ -64,5 +71,6 @@ Route::group(['namespace'=>'API\V1','prefix'=>'v1'], function () {
         Route::post('user/{user}/add_store_wallet', 'CustomerController@addWallet');
         Route::post('user/{user}/remove_store_wallet', 'CustomerController@removeWallet');
         Route::post('store/{store}/detail', 'CustomerController@storeDetail');
+        /*End Store to wallet*/
     });
 });
