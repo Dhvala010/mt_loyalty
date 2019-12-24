@@ -70,7 +70,10 @@ class MerchantStoreController extends Controller
 
 
     public function getStoreDetails(StoreDetailRequest $request){
-        $store = Store::find($request->storeId);
+        $store = Store::where('id',$request->storeId)
+                ->withCount(['user_stemp_count as stamp_count'])
+                ->with(['store_offer'])
+                ->first();
         return response()->success(ResponseMessage::COMMON_MESSAGE,replace_null_with_empty_string($store));
     }
 }

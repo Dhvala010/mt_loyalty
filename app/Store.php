@@ -30,6 +30,10 @@ class Store extends Model
     }
 
     public function user_stemp_count(){
-        return $this->hasOne(UserStampCollect::class,'id','store_id');
+        return $this->hasMany(UserStampCollect::class);
+    }
+
+    public function store_offer(){
+        return $this->hasMany(StoreOffer::class);
     }
 }
