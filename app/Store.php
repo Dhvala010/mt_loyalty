@@ -23,8 +23,13 @@ class Store extends Model
         'latitude',
         'longitude'
     ];
+    protected $dates = ['deleted_at'];
 
     public function merchant(){
         return $this->belongsTo(User::class,'user_id', 'id');
+    }
+
+    public function user_stemp_count(){
+        return $this->hasOne(UserStampCollect::class,'id','store_id');
     }
 }

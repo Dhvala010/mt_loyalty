@@ -7,7 +7,8 @@ use Illuminate\Http\Request;
 use App\Constants\ResponseMessage;
 
 use App\Http\Requests\AddEditStoreOfferRequest,
-    App\Http\Requests\CheckStoreOfferId;
+    App\Http\Requests\CheckStoreOfferId,
+    App\Http\Requests\CheckStoreIdRequest;
 
 use App\Actions\AddEditStoreOffer;
 
@@ -31,9 +32,9 @@ class StoreOfferController extends Controller
         return response()->success(ResponseMessage::COMMON_MESSAGE,replace_null_with_empty_string($StoreOffer));
     }
 
-    public function StoreOfferList(Request $request){
+    public function StoreOfferList(CheckStoreIdRequest $request){
         $offset = $request->offset ? $request->offset : 10;
-        $StoreOffer = StoreOffer::query();
+        $StoreOffer = StoreOffer::where('store_id',$request->store_id);
 
         $StoreOffer = $StoreOffer->paginate($offset)->toArray();
         $store_offer_data = replace_null_with_empty_string($StoreOffer['data']);
