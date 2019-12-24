@@ -11,6 +11,7 @@ class StoreOffer extends Model
     protected $fillable = [
         'store_id',
         'title',
+        'description',
         'count',
         'offer_valid'
     ];
