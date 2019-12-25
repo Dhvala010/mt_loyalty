@@ -29,6 +29,11 @@ class Store extends Model
         return $this->belongsTo(User::class,'user_id', 'id');
     }
 
+    public function getImageAttribute($value)
+    {
+        return $value ? asset('public/storage')."/".$value : "";
+    }
+
     public function user_stemp_count(){
         return $this->hasMany(UserStampCollect::class);
     }
