@@ -4,9 +4,9 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Hash;
 use App\User;
 use App\Store;
+use Illuminate\Support\Facades\DB;
 
-     function replace_null_with_empty_string($array)
-    {
+     function replace_null_with_empty_string($array) {
         $array = collect($array)->toArray();
         foreach ($array as $key => $value) {
             if (is_array($value))
@@ -19,31 +19,26 @@ use App\Store;
         return $array;
     }
 
-     function RandomPassword($length)
-    {
+    function RandomPassword($length) {
         $chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%&*_";
         $password = substr(str_shuffle($chars), 0, $length);
         return $password;
     }
 
-     function HashPassword($password)
-    {
+    function HashPassword($password) {
         return Hash::make($password);
     }
 
-     function begin()
-    {
-        \DB::beginTransaction();
+    function begin() {
+        DB::beginTransaction();
     }
 
-     function commit()
-    {
-        \DB::commit();
+    function commit() {
+        DB::commit();
     }
 
-    function rollback()
-    {
-        \DB::rollBack();
+    function rollback(){
+        DB::rollBack();
     }
 
      function ImageUpload($profile_img, $folder) {
@@ -60,6 +55,7 @@ use App\Store;
         );*/
         return $profile_img;
     }
+
      function totaluser(){
         $user = User::get()->count();
         return $user;

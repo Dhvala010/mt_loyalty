@@ -29,9 +29,8 @@ class Store extends Model
         return $this->belongsTo(User::class,'user_id', 'id');
     }
 
-    public function getImageAttribute($value)
-    {
-        return $value ? asset('public/storage')."/".$value : "";
+    public function getImageAttribute($value) {
+        return $value ? asset('/uploads/store_image') . "/" .  $value : "";
     }
 
     public function user_stemp_count(){
