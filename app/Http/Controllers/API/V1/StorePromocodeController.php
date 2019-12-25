@@ -17,7 +17,8 @@ use App\Http\Requests\CreateStorePromocodeRequest,
     App\Http\Requests\DeleteStorePromocodeRequest,
     App\Http\Requests\StorePromocodeListRequest,
     App\Http\Requests\PromocodeValidateRequest,
-    App\Http\Requests\PromocodeTokenValidateRequest;
+    App\Http\Requests\PromocodeTokenValidateRequest,
+    App\Http\Requests\ValidateRedeemRequest;
 
 class StorePromocodeController extends Controller
 {
@@ -59,5 +60,9 @@ class StorePromocodeController extends Controller
 
         $response = $AddUserPromocodeStamp->execute($input);
         return response()->success(ResponseMessage::COMMON_MESSAGE,replace_null_with_empty_string($response));
+    }
+
+    public function getredeem(ValidateRedeemRequest $request){
+
     }
 }

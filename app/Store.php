@@ -25,6 +25,10 @@ class Store extends Model
     ];
     protected $dates = ['deleted_at'];
 
+    protected $appends = ['stamp_count'];
+
+    protected $hidden = ['user_stemp_count' , 'updated_at' , 'deleted_at'];
+
     public function merchant(){
         return $this->belongsTo(User::class,'user_id', 'id');
     }
@@ -35,6 +39,10 @@ class Store extends Model
 
     public function user_stemp_count(){
         return $this->hasMany(UserStampCollect::class);
+    }
+
+    public function getStampCountAttribute(){
+        return $this->user_stemp_count->sum('count');
     }
 
     public function store_offer(){

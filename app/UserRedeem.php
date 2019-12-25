@@ -4,12 +4,12 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class UserStampCollect extends Model
+class UserRedeem extends Model
 {
     protected $fillable = [
-        'promocode_id',
-        'store_id',
         'user_id',
-        'count'
+        'store_id',
+        'offer_id',
+        'type'
     ];
 }

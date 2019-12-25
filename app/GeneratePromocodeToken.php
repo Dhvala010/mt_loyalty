@@ -8,6 +8,8 @@ class GeneratePromocodeToken extends Model
 {
     protected $fillable = [
         'promocode_id',
+        "type",
+        "count",
         'unique_token'
     ];
 
