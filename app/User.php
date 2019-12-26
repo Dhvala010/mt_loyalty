@@ -54,8 +54,7 @@ class User extends Authenticatable implements MustVerifyEmail
 
     protected $appends = ['country_code_name'];
 
-    public function devices()
-    {
+    public function devices(){
         return $this->hasMany(UserDevice::class, 'user_id', 'id');
     }
 
@@ -63,9 +62,7 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasOne(Country::class, 'id', 'country_code');
     }
 
-
-    public function getCountryCodeNameAttribute()
-    {
+    public function getCountryCodeNameAttribute(){
         if(!empty($this->getCounrtyData)){
             return $this->getCounrtyData->phonecode;
         }else{

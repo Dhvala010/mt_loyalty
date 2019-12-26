@@ -4,6 +4,7 @@
 namespace App\Actions;
 
 use App\Store;
+use App\Actions\CreatePromoCode;
 /**
  * Response represents an HTTP response.
  *
@@ -13,9 +14,12 @@ class CreateMerchantStore
 {
 
     protected $store;
-    public function __construct(Store $store)
+    protected $CreatePromoCode;
+
+    public function __construct(Store $store,CreatePromoCode $CreatePromoCode)
     {
         $this->store = $store;
+        $this->CreatePromoCode = $CreatePromoCode;
     }
 
     public function execute(array $data){
@@ -25,6 +29,10 @@ class CreateMerchantStore
             $store->save();
         }else{
             $store = $this->store->create($data);
+            $PromocodeData = [
+                'store_id' => $store->id
+            ];
+            $this->CreatePromoCode->execute($PromocodeData);
         }
         return $store;
     }

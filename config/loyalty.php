@@ -12,4 +12,9 @@ return [
         'tid' => 3,
         'gid' => 4
     ],
+    'promocode_type' => [
+        'stamp' => 1,
+        'point' => 2,
+        'coupon' => 3
+    ],
 ];

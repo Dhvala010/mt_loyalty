@@ -32,10 +32,12 @@ class AddUserPromocodeStamp
             "promocode_id" => $GeneratePromocodeToken->promocode_id,
             "store_id" =>  $GeneratePromocodeToken->promocode_detail->store_id,
             "user_id" => $user->id,
+            "count" => $GeneratePromocodeToken->count,
         ];
         $GeneratePromocodeToken->delete();
         $UserStampCollect = $this->UserStampCollect->create($UserStampCollectData);
 
         return $UserStampCollect;
     }
+
 }

@@ -6,6 +6,8 @@ namespace App\Actions;
 use App\Notifications\PasswordResetRequest;
 use App\User,
     App\PasswordReset;
+
+use Illuminate\Support\Facades\Hash;
 /**
  * Response represents an HTTP response.
  *
@@ -26,12 +28,9 @@ class UpdateAndSendForgotPassword
                 ['email' => $user->email],
                 [
                     'email' => $user->email,
-                    'token' => \Hash::make($token)
+                    'token' => Hash::make($token)
                 ]
             );
-
-        // $user->update(['password' => HashPassword($password)]);
-
             $user->notify(new PasswordResetRequest($token));
         } catch (\Exception $exception) {
             dd($exception);

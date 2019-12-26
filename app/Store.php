@@ -23,8 +23,33 @@ class Store extends Model
         'latitude',
         'longitude'
     ];
+    protected $dates = ['deleted_at'];
+
+    protected $appends = ['stamp_count'];
+
+    protected $hidden = ['user_stemp_count' , 'updated_at' , 'deleted_at'];
 
     public function merchant(){
         return $this->belongsTo(User::class,'user_id', 'id');
+    }
+
+    public function getImageAttribute($value) {
+        return $value ? asset('/uploads/store_image') . "/" .  $value : "";
+    }
+
+    public function user_stemp_count(){
+        return $this->hasMany(UserStampCollect::class);
+    }
+
+    public function getStampCountAttribute(){
+        return $this->user_stemp_count->sum('count');
+    }
+
+    public function store_offer(){
+        return $this->hasMany(StoreOffer::class);
+    }
+
+    public function store_promocode(){
+        return $this->hasOne(StorePromocode::class);
     }
 }
