@@ -48,4 +48,8 @@ class Store extends Model
     public function store_offer(){
         return $this->hasMany(StoreOffer::class);
     }
+
+    public function store_promocode(){
+        return $this->hasOne(StorePromocode::class);
+    }
 }
