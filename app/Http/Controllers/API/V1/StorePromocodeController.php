@@ -11,7 +11,8 @@ use App\Actions\CreatePromoCode,
 
 use App\StorePromocode;
 
-use Carbon\Carbon;
+use Carbon\Carbon,
+    Auth;
 
 use App\Http\Requests\CreateStorePromocodeRequest,
     App\Http\Requests\DeleteStorePromocodeRequest,
@@ -63,6 +64,7 @@ class StorePromocodeController extends Controller
     }
 
     public function getredeem(ValidateRedeemRequest $request){
-
+        $user_id = Auth::user()->id;
+        dd($user_id);
     }
 }
