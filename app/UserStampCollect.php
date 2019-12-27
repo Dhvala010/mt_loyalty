@@ -10,6 +10,7 @@ class UserStampCollect extends Model
         'promocode_id',
         'store_id',
         'user_id',
-        'count'
+        'count',
+        'is_redeem'
     ];
 }

@@ -25,4 +25,5 @@ class ResponseMessage
     const USER_EMAIL_EXIST = "The email has already been taken.";
     const MERCHANT_STORE_REGISTER_SUCCESS = "Merchant store registed successfully";
     const MERCHANT_STORE_DELETE = "Merchant store delete successfully";
+    const NOT_AUTHORIZE_REDEEM_OFFER = "You Are not authorize to redeem this offer";
 }
