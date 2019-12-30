@@ -19,6 +19,7 @@ use App\Http\Requests\StoreChangePasswordRequest,
     App\Http\Requests\UpdateUserRequest;
 
 use Illuminate\Support\Facades\Auth;
+use Str;
 
 use App\User,
     App\Country;
@@ -49,8 +50,8 @@ class AuthController extends Controller
 		Login Api
     */
     public function login(StoreLoginRequest $request){
-        $role = config("loyalty.user_role.".$request->role);
-        if (Auth::attempt(['email' => $request->email, 'password' => $request->password , 'role' => $role])){
+        // $role = config("loyalty.user_role.".$request->role);
+        if (Auth::attempt(['email' => $request->email, 'password' => $request->password ])){
             $user = Auth::user();
             $user->token = $user->createToken('loyalty')->accessToken;
             $user->devices()->create($request->all());

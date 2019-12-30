@@ -64,6 +64,8 @@ Route::group(['namespace'=>'API\V1','prefix'=>'v1'], function () {
         Route::post('generate_promocode_token', 'StorePromocodeController@GeneratePromocodeToken');
         Route::post('validate_promocode_token', 'StorePromocodeController@ValidatePromocodeToken');
         Route::post('get_redeem', 'StorePromocodeController@getredeem');
+        Route::post('generate_redeem', 'MerchantStoreController@generateRedeemtoken');
+        Route::post('valid_get_redeem', 'MerchantStoreController@valid_get_redeem');
         /*End Store Promocode Routes*/
 
 

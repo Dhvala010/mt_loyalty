@@ -15,5 +15,7 @@ class StoreOffer extends Model
         'count',
         'offer_valid'
     ];
+   
+
 
 }
