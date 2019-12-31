@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Laravel\Passport\HasApiTokens;
+use Illuminate\Support\Facades\Auth;
 
 class Store extends Model
 {
@@ -38,7 +39,8 @@ class Store extends Model
     }
 
     public function user_stemp_count(){
-        return $this->hasMany(UserStampCollect::class);
+        $id = Auth::id();
+        return $this->hasMany(UserStampCollect::class)->where('user_id',$id);
     }
 
     public function getStampCountAttribute(){

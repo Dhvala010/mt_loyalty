@@ -107,7 +107,7 @@ class MerchantStoreController extends Controller
         $data['offer_id']=$user_redeem['offer_id'];
         $data['promocode_id']=$promocode_id;
         $data['type']='stamp';
-        $data['count']=$store_count;
+        $data['count']= $store_count;
        if($store_detail->stamp_count < $store_count){
         throw new ModelNotFoundException(ResponseMessage::NOT_AUTHORIZE_REDEEM_OFFER);
     }
