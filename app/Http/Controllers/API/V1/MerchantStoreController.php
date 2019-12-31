@@ -98,7 +98,7 @@ class MerchantStoreController extends Controller
         $user = Auth::user();
         $unique_token = $input['unique_token'];
         $user_redeem = GenerateRedeemtoken::where('unique_token', $unique_token)->first();
-        $store_count = StoreOffer::where('store_id',$user_redeem->store_id)->value('count');
+        $store_count = StoreOffer::where('id',$user_redeem->offer_id)->value('count');
         $store_detail = Store::with("store_promocode")->where('id',$user_redeem->store_id)->first();
         $promocode_id = $store_detail->store_promocode->id;
 
@@ -108,7 +108,6 @@ class MerchantStoreController extends Controller
         $data['promocode_id']=$promocode_id;
         $data['type']='stamp';
         $data['count']=$store_count;
-        dd($user_redeem , $store_count);
        if($store_detail->stamp_count < $store_count){
         throw new ModelNotFoundException(ResponseMessage::NOT_AUTHORIZE_REDEEM_OFFER);
     }
