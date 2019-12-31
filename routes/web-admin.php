@@ -42,4 +42,6 @@ Route::group(['middleware' => 'auth','check-admin'], function () {
     });
     Route::resource('store', 'StoreController');
 
+    Route::resource('reward', 'StoreRewardController');
+
 });

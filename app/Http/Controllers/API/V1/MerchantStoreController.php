@@ -13,7 +13,8 @@ use App\Store,
     App\StoreOffer,
     App\GenerateRedeemtoken,
     App\UserRedeem,
-    App\UserStampCollect;
+    App\UserStampCollect,
+    App\UserPointCollect;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 use App\Http\Requests\MerchantStoreRegiserRequest,
@@ -86,8 +87,9 @@ class MerchantStoreController extends Controller
     public function generateRedeemtoken(GenerateRedeemtokenRequest $request){
          $input = $request->all();
          $user = Auth::user();
-         $input['unique_token'] =   Str::random(12);
+         $input['unique_token']=Str::random(12);
          $input['user_id'] = $user->id;
+        
          $redeemtoken = GenerateRedeemtoken::create($input);
          return response()->success(ResponseMessage::COMMON_MESSAGE,replace_null_with_empty_string($redeemtoken));
   
@@ -95,13 +97,14 @@ class MerchantStoreController extends Controller
     }
     public function valid_get_redeem(Request $request){
         $input = $request->all();
+        
         $user = Auth::user();
         $unique_token = $input['unique_token'];
         $user_redeem = GenerateRedeemtoken::where('unique_token', $unique_token)->first();  
         $store_count = StoreOffer::where('store_id',$user_redeem->store_id)->value('count');
+        $type = StoreOffer::where('store_id',$user_redeem->store_id)->value('count');
         $store_detail = Store::with("store_promocode")->where('id',$user_redeem->store_id)->first();
         $promocode_id = $store_detail->store_promocode->id;
-       
         $data['user_id'] = $user->id;
         $data['store_id'] = $user_redeem['store_id'];
         $data['offer_id']=$user_redeem['offer_id'];
@@ -115,14 +118,9 @@ class MerchantStoreController extends Controller
 
        $result =  UserRedeem ::create($data);
        $data['count']='-'.$store_count;
-       $result =  UserStampCollect ::create($data);
+       $result =  UserStampCollect::create($data);
        return response()->success(ResponseMessage::COMMON_MESSAGE,replace_null_with_empty_string($result));
-       
-
-
-        
-        
-        
-        
+         
    }
+   
 }
