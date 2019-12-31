@@ -90,25 +90,25 @@ class MerchantStoreController extends Controller
          $input['user_id'] = $user->id;
          $redeemtoken = GenerateRedeemtoken::create($input);
          return response()->success(ResponseMessage::COMMON_MESSAGE,replace_null_with_empty_string($redeemtoken));
-  
+
 
     }
     public function valid_get_redeem(Request $request){
         $input = $request->all();
         $user = Auth::user();
         $unique_token = $input['unique_token'];
-        $user_redeem = GenerateRedeemtoken::where('unique_token', $unique_token)->first();  
+        $user_redeem = GenerateRedeemtoken::where('unique_token', $unique_token)->first();
         $store_count = StoreOffer::where('store_id',$user_redeem->store_id)->value('count');
         $store_detail = Store::with("store_promocode")->where('id',$user_redeem->store_id)->first();
         $promocode_id = $store_detail->store_promocode->id;
-       
+
         $data['user_id'] = $user->id;
         $data['store_id'] = $user_redeem['store_id'];
         $data['offer_id']=$user_redeem['offer_id'];
         $data['promocode_id']=$promocode_id;
         $data['type']='stamp';
         $data['count']=$store_count;
-        
+        dd($store_count);
        if($store_detail->stamp_count < $store_count){
         throw new ModelNotFoundException(ResponseMessage::NOT_AUTHORIZE_REDEEM_OFFER);
     }
@@ -117,12 +117,6 @@ class MerchantStoreController extends Controller
        $data['count']='-'.$store_count;
        $result =  UserStampCollect ::create($data);
        return response()->success(ResponseMessage::COMMON_MESSAGE,replace_null_with_empty_string($result));
-       
 
-
-        
-        
-        
-        
    }
 }
