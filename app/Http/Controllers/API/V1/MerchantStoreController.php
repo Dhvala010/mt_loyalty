@@ -114,6 +114,7 @@ class MerchantStoreController extends Controller
 
        $result =  UserRedeem ::create($data);
        $data['count']='-'.$store_count;
+       $data['user_id'] = $user_redeem->user_id;
        $result =  UserStampCollect ::create($data);
        return response()->success(ResponseMessage::COMMON_MESSAGE,replace_null_with_empty_string($result));
 
