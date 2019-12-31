@@ -11,9 +11,7 @@ use App\Constants\ResponseMessage;
 use Illuminate\Support\Facades\Auth;
 use App\Store,
     App\StoreOffer,
-    App\GenerateRedeemtoken,
-    App\UserRedeem,
-    App\UserStampCollect;
+    App\GenerateRedeemtoken;
 
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
@@ -89,7 +87,7 @@ class MerchantStoreController extends Controller
     public function generateRedeemtoken(GenerateRedeemtokenRequest $request){
          $input = $request->all();
          $user = Auth::user();
-         $input['unique_token'] =   Str::random(12);
+         $input['unique_token'] = Str::random(12);
          $input['user_id'] = $user->id;
          $redeemtoken = GenerateRedeemtoken::create($input);
          return response()->success(ResponseMessage::COMMON_MESSAGE,replace_null_with_empty_string($redeemtoken));
@@ -107,7 +105,6 @@ class MerchantStoreController extends Controller
         if($store_detail->stamp_count <= $offer_detail->count){
             throw new ModelNotFoundException(ResponseMessage::NOT_AUTHORIZE_REDEEM_OFFER);
         }
-
         $data =$user_redeem->toArray();
         $response = $RedeemStoreOffer->execute($data,$store_detail,$offer_detail);
        return response()->success(ResponseMessage::COMMON_MESSAGE,replace_null_with_empty_string($response));
