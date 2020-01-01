@@ -111,7 +111,7 @@ return [
     'logout_url' => 'logout',
     'logout_route' => 'admin.logout',
 
-    'login_url' => 'login',
+    'login_url' => 'admin/login',
     'login_route' => 'admin.login',
 
     'register_url' => 'register',
