@@ -26,9 +26,9 @@ class Store extends Model
     ];
     protected $dates = ['deleted_at'];
 
-    protected $appends = ['stamp_count'];
+    protected $appends = ['stamp_count' , 'point_count'];
 
-    protected $hidden = ['user_stemp_count' , 'updated_at' , 'deleted_at'];
+    protected $hidden = ['user_stemp_count' , 'user_point_count' , 'updated_at' , 'deleted_at'];
 
     public function merchant(){
         return $this->belongsTo(User::class,'user_id', 'id');
@@ -43,7 +43,16 @@ class Store extends Model
         return $this->hasMany(UserStampCollect::class)->where('user_id',$id);
     }
 
+    public function user_point_count(){
+        $id = Auth::id();
+        return $this->hasMany(UserPointCollect::class)->where('user_id',$id);
+    }
+
     public function getStampCountAttribute(){
+        return $this->user_stemp_count->sum('count');
+    }
+
+    public function getPointCountAttribute(){
         return $this->user_stemp_count->sum('count');
     }
 

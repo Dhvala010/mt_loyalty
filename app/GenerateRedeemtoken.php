@@ -11,9 +11,10 @@ class GenerateRedeemtoken extends Model
         'store_id',
         'offer_id',
         'unique_token',
+        'type',
     ];
-    
 
-   
+
+
 
 }
