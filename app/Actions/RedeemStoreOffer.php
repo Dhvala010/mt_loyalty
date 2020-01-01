@@ -28,7 +28,7 @@ class RedeemStoreOffer
         $data['user_id'] = $user->id;
         $data['store_id'] =  $store_detail->id;
         $data['offer_id']= $offer_detail->id;
-        $data['type']= 'stamp';
+        $data['type']= $data['type'];
         $data['count'] = (int)$offer_detail->count;
         $StoreOffer = $this->UserRedeem->create($data);
         $StampManage = [
