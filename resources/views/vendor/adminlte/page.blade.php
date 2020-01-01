@@ -112,8 +112,8 @@
                     </li>
                     @endif
                     @if(Auth::user()->role == 1 || Auth::user()->role == 3)
-                    <li {{ (Request::segment(1) === 'admin' && Request::segment(2) === 'offer' &&  empty(Request::segment(3))) ? 'class=active' : null }}>
-                        <a href="{{URL::to('reward')}}"><i class="fa fa-gift" aria-hidden="true"></i>
+                    <li {{ (Request::segment(1) === 'admin' && Request::segment(2) === 'reward' &&  empty(Request::segment(3))) ? 'class=active' : null }}>
+                        <a href="{{URL::to('admin/reward')}}"><i class="fa fa-gift" aria-hidden="true"></i>
                     <span>Store Reward</span></a>
                     </li>
                     @endif
