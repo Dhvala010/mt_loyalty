@@ -4,6 +4,7 @@
 namespace App\Actions;
 
 use App\UserStampCollect;
+use App\UserPointCollect;
 use App\GeneratePromocodeToken;
 use Illuminate\Support\Facades\Auth;
 
@@ -27,16 +28,27 @@ class AddUserPromocodeStamp
         $user = Auth::user();
 
         $GeneratePromocodeToken = GeneratePromocodeToken::where('unique_token',$unique_token)->with("promocode_detail")->first();
-
-        $UserStampCollectData = [
-            "promocode_id" => $GeneratePromocodeToken->promocode_id,
-            "store_id" =>  $GeneratePromocodeToken->promocode_detail->store_id,
-            "user_id" => $user->id,
-            "count" => $GeneratePromocodeToken->count,
-        ];
+        
+        if($GeneratePromocodeToken->type == "point"){
+            $UserPointCollectData = [
+                "promocode_id" => $GeneratePromocodeToken->promocode_id,
+                "store_id" =>  $GeneratePromocodeToken->promocode_detail->store_id,
+                "user_id" => $user->id,
+                "count" => $GeneratePromocodeToken->count,
+                "is_redeem" => 0
+            ];           
+            $UserStampCollect = UserPointCollect::create($UserPointCollectData);
+        }else{
+            $UserStampCollectData = [
+                "promocode_id" => $GeneratePromocodeToken->promocode_id,
+                "store_id" =>  $GeneratePromocodeToken->promocode_detail->store_id,
+                "user_id" => $user->id,
+                "count" => $GeneratePromocodeToken->count,
+            ];
+            $UserStampCollect = $this->UserStampCollect->create($UserStampCollectData);
+        }
+        
         $GeneratePromocodeToken->delete();
-        $UserStampCollect = $this->UserStampCollect->create($UserStampCollectData);
-
         return $UserStampCollect;
     }
 

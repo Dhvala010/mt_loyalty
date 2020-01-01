@@ -16,8 +16,8 @@ class StoreRewardController extends Controller
     public function index(Request $request)
     { 
         if ($request->ajax()) {
-        $data = StoreReward::latest();
-        return Datatables::of($data)
+        $data = StoreReward::query();
+        return DataTables::of($data)
                 ->addIndexColumn()
                 ->addColumn('action', function($row){
                     $btn = '<a href="javascript:void(0)" id="EditReward" data-id="'. $row->id .'" class="btn btn-xs btn-primary"><i class="glyphicon glyphicon-edit"></i> Edit</a>';

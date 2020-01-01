@@ -22,16 +22,19 @@ class RedeemStoreOffer
         $this->UserRedeem = $UserRedeem;
     }
 
-    public function execute(array $data,$store_detail,$offer_detail){
+    public function execute($data,$store_detail,$offer_detail){
         $user = Auth::user();
-        $data['type'] = "stamp";
+
         $data['user_id'] = $user->id;
+        $data['store_id'] =  $store_detail->id;
+        $data['offer_id']= $offer_detail->id;
+        $data['type']= 'stamp';
         $data['count'] = (int)$offer_detail->count;
         $StoreOffer = $this->UserRedeem->create($data);
         $StampManage = [
             "promocode_id" => $store_detail->store_promocode->id,
             "store_id" => $store_detail->id,
-            "user_id" => $user->id,
+            "user_id" => $data['user_id'],
             "count" => - (int)$offer_detail->count,
             "is_redeem" => 1
         ];

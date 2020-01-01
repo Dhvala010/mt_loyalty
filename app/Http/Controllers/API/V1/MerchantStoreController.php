@@ -11,10 +11,11 @@ use App\Constants\ResponseMessage;
 use Illuminate\Support\Facades\Auth;
 use App\Store,
     App\StoreOffer,
-    App\GenerateRedeemtoken,
-    App\UserRedeem,
-    App\UserStampCollect;
+    App\GenerateRedeemtoken;
+
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+
+use App\Actions\RedeemStoreOffer;
 
 use App\Http\Requests\MerchantStoreRegiserRequest,
     App\Http\Requests\DeleteMerchentStoreRequest,
@@ -86,43 +87,27 @@ class MerchantStoreController extends Controller
     public function generateRedeemtoken(GenerateRedeemtokenRequest $request){
          $input = $request->all();
          $user = Auth::user();
-         $input['unique_token'] =   Str::random(12);
+         $input['unique_token'] = Str::random(12);
          $input['user_id'] = $user->id;
          $redeemtoken = GenerateRedeemtoken::create($input);
          return response()->success(ResponseMessage::COMMON_MESSAGE,replace_null_with_empty_string($redeemtoken));
-  
+
 
     }
-    public function valid_get_redeem(Request $request){
+    public function valid_get_redeem(Request $request,RedeemStoreOffer $RedeemStoreOffer){
         $input = $request->all();
-        $user = Auth::user();
+
         $unique_token = $input['unique_token'];
-        $user_redeem = GenerateRedeemtoken::where('unique_token', $unique_token)->first();  
-        $store_count = StoreOffer::where('store_id',$user_redeem->store_id)->value('count');
-        $store_detail = Store::with("store_promocode")->where('id',$user_redeem->store_id)->first();
-        $promocode_id = $store_detail->store_promocode->id;
-       
-        $data['user_id'] = $user->id;
-        $data['store_id'] = $user_redeem['store_id'];
-        $data['offer_id']=$user_redeem['offer_id'];
-        $data['promocode_id']=$promocode_id;
-        $data['type']='stamp';
-        $data['count']=$store_count;
-        
-       if($store_detail->stamp_count < $store_count){
-        throw new ModelNotFoundException(ResponseMessage::NOT_AUTHORIZE_REDEEM_OFFER);
-    }
+        $user_redeem = GenerateRedeemtoken::where('unique_token', $unique_token)->first();
+        $store_detail = Store::find($user_redeem->store_id);
+        $offer_detail = StoreOffer::find($user_redeem->offer_id);
 
-       $result =  UserRedeem ::create($data);
-       $data['count']='-'.$store_count;
-       $result =  UserStampCollect ::create($data);
-       return response()->success(ResponseMessage::COMMON_MESSAGE,replace_null_with_empty_string($result));
-       
+        if($store_detail->stamp_count <= $offer_detail->count){
+            throw new ModelNotFoundException(ResponseMessage::NOT_AUTHORIZE_REDEEM_OFFER);
+        }
+        $data =$user_redeem->toArray();
+        $response = $RedeemStoreOffer->execute($data,$store_detail,$offer_detail);
+       return response()->success(ResponseMessage::COMMON_MESSAGE,replace_null_with_empty_string($response));
 
-
-        
-        
-        
-        
    }
 }
