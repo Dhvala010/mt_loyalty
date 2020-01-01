@@ -4,7 +4,8 @@
 namespace App\Actions;
 
 use App\UserRedeem,
-    App\UserStampCollect;
+    App\UserStampCollect,
+    App\UserPointCollect;
 
 use Illuminate\Support\Facades\Auth;
 /**
@@ -31,14 +32,22 @@ class RedeemStoreOffer
         $data['type']= $data['type'];
         $data['count'] = (int)$offer_detail->count;
         $StoreOffer = $this->UserRedeem->create($data);
-        $StampManage = [
+
+        $ManageCount = [
             "promocode_id" => $store_detail->store_promocode->id,
             "store_id" => $store_detail->id,
             "user_id" => $data['user_id'],
             "count" => - (int)$offer_detail->count,
             "is_redeem" => 1
         ];
-        $StampManage = UserStampCollect::create($StampManage);
+
+        if($data['type'] == "stamp"){
+            UserStampCollect::create($ManageCount);
+        }
+        if($data['type'] == "point"){
+            UserPointCollect::create($ManageCount);
+        }
+
         return $StoreOffer;
     }
 }
