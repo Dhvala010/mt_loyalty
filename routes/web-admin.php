@@ -41,5 +41,7 @@ Route::group(['middleware' => 'auth','check-admin'], function () {
         return Store::find($value) ?? abort(404);
     });
     Route::resource('store', 'StoreController');
+    Route::resource('store_reward', 'StoreRewardController');
+    
 
 });
