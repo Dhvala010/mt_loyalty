@@ -21,7 +21,7 @@ class StoreRewardController extends Controller
                 ->addIndexColumn()
                 ->addColumn('action', function($row){
                     $btn = '<a href="javascript:void(0)" id="EditReward" data-id="'. $row->id .'" class="btn btn-xs btn-primary"><i class="glyphicon glyphicon-edit"></i> Edit</a>';
-                    $btn .= ' <a href="javascript:void(0)" id="DeleteStore" data-id="'. $row->id .'" class="btn btn-xs btn-danger"><i class="glyphicon glyphicon-trash"></i> Delete</a>';
+                    $btn .= ' <a href="javascript:void(0)" id="DeleteReward" data-id="'. $row->id .'" class="btn btn-xs btn-danger"><i class="glyphicon glyphicon-trash"></i> Delete</a>';
                     return $btn;
                 })
                 ->rawColumns(['action'])
@@ -49,7 +49,17 @@ class StoreRewardController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $input = $request->all();
+        unset($input['_token']);
+        $id='';
+     
+        if(isset($input['id'])){$id = $input['id'];}
+        
+       
+          $reward =  StoreReward::updateOrInsert(['id' => $id],$input);
+         
+        
+          return response()->json([ 'status' => 1 ,  'success'=>'Record added successfully' , 'data' =>$reward ]);
     }
 
     /**
@@ -60,7 +70,10 @@ class StoreRewardController extends Controller
      */
     public function show(StoreReward $storeReward)
     {
-        dd('show');
+        $Id = $storeReward->id;
+    
+        $category = StoreReward::where('id',$Id)->first();
+        return response()->json([ 'status' => 1 ,  'success'=>'success' , 'data' => $category ]);
     }
 
     /**
@@ -71,7 +84,7 @@ class StoreRewardController extends Controller
      */
     public function edit(StoreReward $storeReward)
     {
-        dd('edit');
+        return $storeReward;
     }
 
     /**
@@ -83,7 +96,8 @@ class StoreRewardController extends Controller
      */
     public function update(Request $request, StoreReward $storeReward)
     {
-        //
+        $input = $request->all();
+        dd($input);
     }
 
     /**
@@ -94,6 +108,12 @@ class StoreRewardController extends Controller
      */
     public function destroy(StoreReward $storeReward)
     {
-        //
+        $storeReward->delete();
+        return response()->json([ 'status' => 1 ,  'success'=>'success' ]);
     }
+    public function GetDataById(Request $request){
+        $Id = $request->id;
+        $category = StoreReward::where('id',$Id)->first();
+        return response()->json([ 'status' => 1 ,  'success'=>'success' , 'data' => $category ]);
+      }
 }

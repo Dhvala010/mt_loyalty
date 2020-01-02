@@ -154,8 +154,8 @@
 				$('#StoreId').val('');
 				$('.image-div').html('');
 				$('.EditInput').show();
-				$('#StoreModalLabel').html('Add User');
-				$('#CreateStoreButton').html('Add User');
+				$('#StoreModalLabel').html('Add Store');
+				$('#CreateStoreButton').html('Add Store');
 				$('#StoreModal').modal('show');
 				getmerchant();
 			});
@@ -175,8 +175,8 @@
 							var image = " <img src='{{ url('/uploads/stores') }}/" + result.data.image + "'>";
 						}
 
-						$('#StoreModalLabel').html('Edit User');
-						$('#CreateStoreButton').html('Edit User');
+						$('#StoreModalLabel').html('Edit Store');
+						$('#CreateStoreButton').html('Edit Store');
 						$('.image-div').html(image);
 						$('#StoreId').val(result.data.id);
 						$("#title").val(result.data.title);
