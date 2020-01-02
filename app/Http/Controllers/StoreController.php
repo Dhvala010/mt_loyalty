@@ -21,7 +21,7 @@ class StoreController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $data = Store::latest();
+            $data = Store::query();
             return Datatables::of($data)
                     ->addIndexColumn()
                     ->addColumn('action', function($row){
@@ -128,7 +128,9 @@ class StoreController extends Controller
 
 
     public function GetDataById(Request $request){
+       
         $Id = $request->id;
+        dd($Id);
         $category = Store::where('id',$Id)->first();
         return response()->json([ 'status' => 1 ,  'success'=>'success' , 'data' => $category ]);
       }

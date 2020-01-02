@@ -137,8 +137,8 @@
 				$('#CreateOfferForm').trigger("reset");
 				$('#OfferId').val('');
 				$('.EditInput').show();
-				$('#StoreModalLabel').html('Add User');
-				$('#CreateOfferButton').html('Add User');
+				$('#StoreModalLabel').html('Add Offer');
+				$('#CreateOfferButton').html('Add Offer');
 				$('#StoreModal').modal('show');
 				getmerchant();
 			});
@@ -152,8 +152,8 @@
 					method: 'get',
 					success: function(result){
 						$('.EditInput').hide();
-						$('#StoreModalLabel').html('Edit User');
-						$('#CreateOfferButton').html('Edit User');
+						$('#StoreModalLabel').html('Edit Offer');
+						$('#CreateOfferButton').html('Edit Offer');
 						$('#OfferId').val(result.data.id);
 						$("#title").val(result.data.title);
 						$("#stamp").val(result.data.count);
