@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddTypeGenerateRedeemtokens extends Migration
+class AddTokenRewardIdRedeemTable extends Migration
 {
     /**
      * Run the migrations.
@@ -14,7 +14,8 @@ class AddTypeGenerateRedeemtokens extends Migration
     public function up()
     {
         Schema::table('generate_redeem_tokens', function (Blueprint $table) {
-            $table->enum('type',["stamp","point","coupon"])->after("unique_token")->default("stamp");
+            $table->bigInteger("reward_id")->unsigned()->nullable()->after("offer_id");
+
         });
     }
 
@@ -26,7 +27,7 @@ class AddTypeGenerateRedeemtokens extends Migration
     public function down()
     {
         Schema::table('generate_redeem_tokens', function (Blueprint $table) {
-            $table->dropColumn("type");
+            $table->dropColumn("reward_id");
         });
     }
 }

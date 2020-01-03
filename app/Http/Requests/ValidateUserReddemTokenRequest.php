@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class GenerateRedeemtokenRequest extends FormRequest
+class ValidateUserReddemTokenRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,9 +24,7 @@ class GenerateRedeemtokenRequest extends FormRequest
     public function rules()
     {
         return [
-            'store_id' => [ "required","numeric","exists:stores,id,deleted_at,NULL"],
-            'offer_id' => [ "nullable","numeric","exists:store_offers,id,deleted_at,NULL"],
-            'reward_id' => [ "nullable","numeric","exists:store_rewards,id"],
+            "unique_token" => [ "required" , "exists:generate_redeem_tokens,unique_token" ]
         ];
     }
 }

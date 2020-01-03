@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddTypeGenerateRedeemtokens extends Migration
+class UserTableUniqueToken extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,8 @@ class AddTypeGenerateRedeemtokens extends Migration
      */
     public function up()
     {
-        Schema::table('generate_redeem_tokens', function (Blueprint $table) {
-            $table->enum('type',["stamp","point","coupon"])->after("unique_token")->default("stamp");
+        Schema::table('users', function (Blueprint $table) {
+            $table->string("unique_token")->nullable()->unique()->after("remember_token");
         });
     }
 
@@ -25,8 +25,8 @@ class AddTypeGenerateRedeemtokens extends Migration
      */
     public function down()
     {
-        Schema::table('generate_redeem_tokens', function (Blueprint $table) {
-            $table->dropColumn("type");
+        Schema::table('users', function (Blueprint $table) {
+            $table->dropColumn("unique_token");
         });
     }
 }

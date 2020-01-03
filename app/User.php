@@ -28,6 +28,7 @@ class User extends Authenticatable implements MustVerifyEmail
         'is_aggree_terms',
         'phone_number',
         'country_code',
+        'unique_token',
         'fbid',
         'gid',
         'tid',
@@ -72,9 +73,9 @@ class User extends Authenticatable implements MustVerifyEmail
     public function store(){
         return $this->hasOne(Store::class);
     }
+
     public function wallets(){
         return $this->belongsToMany(Store::class)->withTimestamps();
     }
-
 
 }

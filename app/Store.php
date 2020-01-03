@@ -53,11 +53,15 @@ class Store extends Model
     }
 
     public function getPointCountAttribute(){
-        return $this->user_stemp_count->sum('count');
+        return $this->user_point_count->sum('count');
     }
 
     public function store_offer(){
         return $this->hasMany(StoreOffer::class);
+    }
+
+    public function store_reward(){
+        return $this->hasMany(StoreReward::class,'store_id','id');
     }
 
     public function store_promocode(){

@@ -11,7 +11,8 @@ use App\Constants\ResponseMessage;
 use Illuminate\Support\Facades\Auth;
 use App\Store,
     App\StoreOffer,
-    App\GenerateRedeemtoken;
+    App\GenerateRedeemtoken,
+    App\StoreReward;
 
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
@@ -20,7 +21,8 @@ use App\Actions\RedeemStoreOffer;
 use App\Http\Requests\MerchantStoreRegiserRequest,
     App\Http\Requests\DeleteMerchentStoreRequest,
     App\Http\Requests\StoreDetailRequest,
-    App\Http\Requests\GenerateRedeemtokenRequest;
+    App\Http\Requests\GenerateRedeemtokenRequest,
+    App\Http\Requests\ValidateUserReddemTokenRequest;
 
 use Illuminate\Support\Facades\DB;
 use Str;
@@ -77,10 +79,29 @@ class MerchantStoreController extends Controller
         return response()->paginate(ResponseMessage::COMMON_MESSAGE,$store_data,$total_record,$total_page );
     }
 
+    public function RewardStoreListing(Request $request){
+        $input = $request->all();
+        $offset = $request->offset ? $request->offset : 10;
+
+        $store = Store::whereIn('id', function($query) {
+                    $query->select('store_id')
+                    ->from('user_point_collects')
+                    ->whereColumn('store_id', 'stores.id');
+                })->with(["store_reward"]);
+
+        $store = $store->paginate($offset)->toArray();
+        $store_data = replace_null_with_empty_string($store['data']);
+        $total_record = $store['total'];
+        $total_page = $store['last_page'];
+
+        return response()->paginate(ResponseMessage::COMMON_MESSAGE,$store_data,$total_record,$total_page );
+
+    }
+
 
     public function getStoreDetails(StoreDetailRequest $request){
         $store = Store::where('id',$request->storeId)
-                ->with(['store_offer','store_promocode'])
+                ->with(['store_offer','store_promocode','store_reward'])
                 ->first();
         return response()->success(ResponseMessage::COMMON_MESSAGE,replace_null_with_empty_string($store));
     }
@@ -94,24 +115,24 @@ class MerchantStoreController extends Controller
 
 
     }
-    public function valid_get_redeem(Request $request,RedeemStoreOffer $RedeemStoreOffer){
+    public function valid_get_redeem(ValidateUserReddemTokenRequest $request,RedeemStoreOffer $RedeemStoreOffer){
         $input = $request->all();
 
         $unique_token = $input['unique_token'];
         $user_redeem = GenerateRedeemtoken::where('unique_token', $unique_token)->first();
         $store_detail = Store::find($user_redeem->store_id);
         $offer_detail = StoreOffer::find($user_redeem->offer_id);
+        $store_reward = StoreReward::find($user_redeem->reward_id);
 
-        if($store_detail->stamp_count <= $offer_detail->count && $user_redeem->type == "stamp"){
+        if($offer_detail && $store_detail->stamp_count < $offer_detail->count && $user_redeem->type == "stamp"){
             throw new ModelNotFoundException(ResponseMessage::NOT_AUTHORIZE_REDEEM_OFFER);
         }
-        if($store_detail->point_count <= $offer_detail->count && $user_redeem->type == "point"){
+        if($store_reward && $store_detail->point_count < $store_reward->count && $user_redeem->type == "point"){
             throw new ModelNotFoundException(ResponseMessage::NOT_AUTHORIZE_REDEEM_OFFER);
         }
 
         $data = $user_redeem->toArray();
-        $response = $RedeemStoreOffer->execute($data,$store_detail,$offer_detail);
-       return response()->success(ResponseMessage::COMMON_MESSAGE,replace_null_with_empty_string($response));
-
+        $response = $RedeemStoreOffer->execute($data,$store_detail,$offer_detail,$store_reward);
+        return response()->success(ResponseMessage::COMMON_MESSAGE,replace_null_with_empty_string($response));
    }
 }

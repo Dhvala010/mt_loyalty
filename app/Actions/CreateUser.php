@@ -6,6 +6,7 @@ namespace App\Actions;
 use App\Constants\ResponseMessage;
 use App\User;
 use Exception;
+use Str;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 /**
  * Response represents an HTTP response.
@@ -53,6 +54,7 @@ class CreateUser
                 $data['password'] = RandomPassword(8);
             //dd($data['password']);
             $data['password'] = HashPassword($data['password']);
+            $data['unique_token'] = Str::random(12);
             $user = $this->user->create($data);
         } catch (\Exception $e) {
             rollback();

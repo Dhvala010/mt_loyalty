@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateStoreRewardsTable extends Migration
+class CreateFamilyMembersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,15 +13,14 @@ class CreateStoreRewardsTable extends Migration
      */
     public function up()
     {
-        Schema::create('store_rewards', function (Blueprint $table) {
+        Schema::create('family_members', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->bigInteger('store_id');
-            $table->string('title');
-            $table->string('description');
-            $table->string('count');
-            $table->date('offer_valid');
+            $table->bigInteger('user_id')->unsigned();
+            $table->bigInteger("to_user_id")->unsigned();
             $table->timestamps();
 
+            $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('to_user_id')->references('id')->on('users');
         });
     }
 
@@ -32,6 +31,6 @@ class CreateStoreRewardsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('store_rewards');
+        Schema::dropIfExists('family_members');
     }
 }

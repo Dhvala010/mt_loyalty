@@ -4,7 +4,8 @@ namespace App\Http\Controllers\API\V1;
 
 use App\Actions\CreateUser,
     App\Actions\UpdateAndSendForgotPassword,
-    App\Actions\UpdateUser;
+    App\Actions\UpdateUser,
+    App\Actions\Addfamilymember;
 
 use Symfony\Component\HttpFoundation\Response;
 use App\Constants\ResponseMessage;
@@ -16,13 +17,16 @@ use App\Http\Requests\StoreChangePasswordRequest,
     App\Http\Requests\StoreLoginRequest,
     App\Http\Requests\StoreRegiserRequest,
     App\Http\Requests\CheckSocialLoginRequest,
-    App\Http\Requests\UpdateUserRequest;
+    App\Http\Requests\UpdateUserRequest,
+    App\Http\Requests\ValidateUserToken,
+    App\Http\Requests\validatefamilyid;
 
 use Illuminate\Support\Facades\Auth;
 use Str;
 
 use App\User,
-    App\Country;
+    App\Country,
+    App\FamilyMember;
 
 
 /*use App\Mail\VerifyMail;*/
@@ -139,5 +143,18 @@ class AuthController extends Controller
         $input = $request->all();
         $response = $updateUser->execute($input);
         return response()->success(ResponseMessage::COMMON_MESSAGE,replace_null_with_empty_string($response));
+    }
+
+    public function Addfamilymember(ValidateUserToken $request,Addfamilymember $Addfamilymember){
+        $input = $request->all();
+        $response = $Addfamilymember->execute($input);
+
+        return response()->success(ResponseMessage::COMMON_MESSAGE,replace_null_with_empty_string($response));
+    }
+
+    public function deletefamilymember(validatefamilyid $request){
+        $input = $request->all();
+        FamilyMember::find($input["family_id"])->delete();
+        return response()->success(ResponseMessage::COMMON_MESSAGE);
     }
 }

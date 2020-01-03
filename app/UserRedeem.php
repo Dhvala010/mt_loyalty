@@ -10,6 +10,7 @@ class UserRedeem extends Model
         'user_id',
         'store_id',
         'offer_id',
+        'reward_id',
         'type',
         'count'
     ];

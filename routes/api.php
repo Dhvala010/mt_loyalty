@@ -35,12 +35,13 @@ Route::group(['namespace'=>'API\V1','prefix'=>'v1'], function () {
     /*End User Management Routes*/
 
     Route::group(['middleware' => ['auth:api']], function () {
-
         /*Start User Management Routes*/
         Route::post('user_detail', 'AuthController@UserDetail');
         Route::post('logout', 'AuthController@logout');
         Route::post('change_password', 'AuthController@changePassword');
         Route::post('update_profile', 'AuthController@UpdateProfile');
+        Route::post('add_family_member', 'AuthController@Addfamilymember');
+        Route::post('delete_family_member', 'AuthController@deletefamilymember');
         /*End User Management Routes*/
 
         /*Start Merchant Store Routes*/
@@ -48,6 +49,7 @@ Route::group(['namespace'=>'API\V1','prefix'=>'v1'], function () {
         Route::post('delete_merchant_store', 'MerchantStoreController@DeleteMerchantStore');
         Route::post('merchant_store_listing', 'MerchantStoreController@MerchantStoreList');
         Route::POST('get_store_details', 'MerchantStoreController@getStoreDetails');
+        Route::POST('reward_store_listing', 'MerchantStoreController@RewardStoreListing');
         /*End Merchant Store Routes*/
 
         /*Start Merchant Store offer Routes*/
