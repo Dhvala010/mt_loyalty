@@ -141,6 +141,11 @@ class AuthController extends Controller
 
     public function UpdateProfile(UpdateUserRequest $request,UpdateUser $updateUser){
         $input = $request->all();
+        $image = $request->file('profile_picture') ?? '';
+       	if(!empty($image)){
+          $imagename = ImageUpload($image,'user');
+          $input['profile_picture'] = $imagename;
+        }
         $response = $updateUser->execute($input);
         return response()->success(ResponseMessage::COMMON_MESSAGE,replace_null_with_empty_string($response));
     }

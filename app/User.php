@@ -33,6 +33,8 @@ class User extends Authenticatable implements MustVerifyEmail
         'gid',
         'tid',
         'is_active',
+        'birthdate',
+        'gender'
     ];
 
     /**
@@ -76,6 +78,10 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function wallets(){
         return $this->belongsToMany(Store::class)->withTimestamps();
+    }
+
+    public function getProfilePictureAttribute($value) {
+        return $value ? asset('/uploads/user') . "/" .  $value : "";
     }
 
 }

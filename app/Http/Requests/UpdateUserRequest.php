@@ -24,7 +24,8 @@ class UpdateUserRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'birthdate' => [ "nullable","date" ],
+            'gender' => [ "nullable","in:male,female" ],
         ];
     }
 }
