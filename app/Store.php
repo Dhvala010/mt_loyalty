@@ -24,6 +24,7 @@ class Store extends Model
         'latitude',
         'longitude'
     ];
+
     protected $dates = ['deleted_at'];
 
     protected $appends = ['stamp_count' , 'point_count'];

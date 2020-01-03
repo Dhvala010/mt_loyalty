@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class AddEditStoreOfferRequest extends FormRequest
+class CheckStoreRewardId extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,11 +24,7 @@ class AddEditStoreOfferRequest extends FormRequest
     public function rules()
     {
         return [
-            'store_offer_id' => [ 'nullable','exists:store_offers,id'],
-            'store_id' => [ 'required','exists:stores,id,deleted_at,NULL'],
-            'title' => [ 'required' ],
-            'count' => [ 'required' ],
-            'offer_valid' => [ 'required' ],
+            'store_reward_id' => [ 'required','exists:store_rewards,id,deleted_at,NULL'],
         ];
     }
 }

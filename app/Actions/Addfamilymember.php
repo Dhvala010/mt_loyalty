@@ -28,9 +28,12 @@ class Addfamilymember
         $user = Auth::user();
 
         $FamilyMemberManage = [
-            "user_id" => $user->id,
-            "to_user_id" => $user_detail->id
+            "from_user" => $user->id,
+            "to_user" => $user_detail->id,
+            "created_by" => $user_detail->id,
+            "status" => "pending"
         ];
+
         $FamilyMember = FamilyMember::create($FamilyMemberManage);
 
         return $FamilyMember;

@@ -4,8 +4,7 @@ namespace App\Http\Controllers\API\V1;
 
 use App\Actions\CreateUser,
     App\Actions\UpdateAndSendForgotPassword,
-    App\Actions\UpdateUser,
-    App\Actions\Addfamilymember;
+    App\Actions\UpdateUser;
 
 use Symfony\Component\HttpFoundation\Response;
 use App\Constants\ResponseMessage;
@@ -18,7 +17,6 @@ use App\Http\Requests\StoreChangePasswordRequest,
     App\Http\Requests\StoreRegiserRequest,
     App\Http\Requests\CheckSocialLoginRequest,
     App\Http\Requests\UpdateUserRequest,
-    App\Http\Requests\ValidateUserToken,
     App\Http\Requests\validatefamilyid;
 
 use Illuminate\Support\Facades\Auth;
@@ -147,13 +145,6 @@ class AuthController extends Controller
           $input['profile_picture'] = $imagename;
         }
         $response = $updateUser->execute($input);
-        return response()->success(ResponseMessage::COMMON_MESSAGE,replace_null_with_empty_string($response));
-    }
-
-    public function Addfamilymember(ValidateUserToken $request,Addfamilymember $Addfamilymember){
-        $input = $request->all();
-        $response = $Addfamilymember->execute($input);
-
         return response()->success(ResponseMessage::COMMON_MESSAGE,replace_null_with_empty_string($response));
     }
 

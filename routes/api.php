@@ -78,5 +78,17 @@ Route::group(['namespace'=>'API\V1','prefix'=>'v1'], function () {
         Route::post('user/{user}/remove_store_wallet', 'CustomerController@removeWallet');
         Route::post('store/{store}/detail', 'CustomerController@storeDetail');
         /*End Store to wallet*/
+
+         /*Add store to wallet*/
+         Route::post('family_member/request_send', 'FamilyMemberController@sendRequest');
+         /*End Store to wallet*/
+
+         /*Start Merchant Store reward Routes*/
+        Route::post('add_edit_store_reward', 'StoreRewardController@AddEditStoreReward');
+        Route::post('delete_store_reward', 'StoreRewardController@DeleteStoreReward');
+        Route::post('store_reward_detail', 'StoreRewardController@StoreRewardDetail');
+        Route::post('store_reward_listing', 'StoreRewardController@StoreRewardList');
+        /*End Merchant Store reward Routes*/
+
     });
 });

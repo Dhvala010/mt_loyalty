@@ -15,12 +15,16 @@ class CreateFamilyMembersTable extends Migration
     {
         Schema::create('family_members', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->bigInteger('user_id')->unsigned();
-            $table->bigInteger("to_user_id")->unsigned();
+            $table->bigInteger("from_user")->unsigned()->nullable();
+            $table->bigInteger("to_user")->unsigned()->nullable();
+            $table->bigInteger("created_by")->unsigned()->nullable();
+            $table->enum("status",["pending" , "confirmed" , "reject"]);
+            $table->softDeletes();
             $table->timestamps();
 
-            $table->foreign('user_id')->references('id')->on('users');
-            $table->foreign('to_user_id')->references('id')->on('users');
+            $table->foreign('from_user')->references('id')->on('users');
+            $table->foreign('to_user')->references('id')->on('users');
+            $table->foreign('created_by')->references('id')->on('users');
         });
     }
 

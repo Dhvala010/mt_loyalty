@@ -26,4 +26,5 @@ class ResponseMessage
     const MERCHANT_STORE_REGISTER_SUCCESS = "Merchant store registed successfully";
     const MERCHANT_STORE_DELETE = "Merchant store delete successfully";
     const NOT_AUTHORIZE_REDEEM_OFFER = "You Are not authorize to redeem this offer";
+    const REQUEST_SEND_SUCCESSFULLY = "You have send request successfully";
 }

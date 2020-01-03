@@ -51,7 +51,7 @@
 	  </div>
 	  <div class="modal-body">
 		<form id="reward_form" enctype="multipart/form-data">
-			
+
 			@csrf
 			<div class="Errors"></div>
 			<input type="hidden" class="form-control form-control-user" name="id" id="StoreId" />
@@ -76,7 +76,7 @@
 				<input type="date" class="form-control form-control-user" name="offer_valid" id="offer_valid" placeholder="offer valide" />
 				<span id="description_error" class="error"></span>
 			</div>
-			
+
 			<div class="modal-footer">
 				<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
 				<button type="submit" class="btn btn-primary" id="CreateStoreButton" name="CreateStore">Add Reward</button>
@@ -133,11 +133,11 @@
 				});
 			}
 			$(document).on("click",".Addreward",function() {
-				
+
 				$('.Errors').html('');
 				$('#reward_form').trigger("reset");
 				$('#StoreId').val('');
-				
+
 				$('.EditInput').show();
 				$('#StoreModalLabel').html('Add Reward');
 				$('#CreateStoreButton').html('Add Reward');
@@ -145,7 +145,7 @@
 				getmerchant();
 			});
 
-		
+
 
 			$(document).on("click","#DeleteReward",function() {
 				var Id = $(this).attr('data-id');
@@ -172,7 +172,6 @@
 						$('.EditInput').hide();
 						$('#StoreModalLabel').html('Edit Reward');
 						$('#CreateStoreButton').html('Edit Reward');
-						console.log(result);
 						$('#StoreId').val(result.data.id);
 						$("#title").val(result.data.title);
 						$("#description").val(result.data.description);
@@ -186,12 +185,12 @@
 
 			});
 
-		
+
          });
 		 </script>
 		  <script>
 			$(document).ready(function(){
-			
+
 			$('#reward_form').on('submit', function(event){
 			 event.preventDefault();
 			 url =  "{{ url('admin/store_reward')}}/"
@@ -212,7 +211,7 @@
 			  }
 			 })
 			});
-			
+
 			});
 			</script>
 @stop
