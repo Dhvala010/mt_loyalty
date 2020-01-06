@@ -24,7 +24,7 @@ class validatefamilyid extends FormRequest
     public function rules()
     {
         return [
-            "family_id" => [ "required","exist:family_members,id"]
+            "family_member_id" => [ "required","exists:family_members,id,deleted_at,NULL"]
         ];
     }
 }

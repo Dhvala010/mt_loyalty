@@ -26,5 +26,10 @@ class ResponseMessage
     const MERCHANT_STORE_REGISTER_SUCCESS = "Merchant store registed successfully";
     const MERCHANT_STORE_DELETE = "Merchant store delete successfully";
     const NOT_AUTHORIZE_REDEEM_OFFER = "You Are not authorize to redeem this offer";
-    const REQUEST_SEND_SUCCESSFULLY = "You have send request successfully";
+    const REQUEST_SEND_FAMILY_MEMBER_SUCCESSFULLY = "You have send request successfully";
+    const REQUEST_UPDATE_REQUEST_FAMILY_MEMBER_SUCCESSFULLY = "You have request updated successfully";
+    const REQUEST_ALLREADY_SEND_FAMILY_MEMBER_SUCCESSFULLY = "You have already send request.";
+    const REQUEST_ALLREADY_FRD_FAMILY_MEMBER_SUCCESSFULLY = "You have already added as a family member.";
+    const INVALIDE_ACTION = "Invalide Action";
+    const NOT_AUTHORIZE = "Not Authorize";
 }

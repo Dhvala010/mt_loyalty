@@ -81,6 +81,8 @@ Route::group(['namespace'=>'API\V1','prefix'=>'v1'], function () {
 
          /*Add store to wallet*/
          Route::post('family_member/request_send', 'FamilyMemberController@sendRequest');
+         Route::post('family_member/update_request', 'FamilyMemberController@updateRequest');
+         Route::post('family_member/listing', 'FamilyMemberController@MemberListing');
          /*End Store to wallet*/
 
          /*Start Merchant Store reward Routes*/
