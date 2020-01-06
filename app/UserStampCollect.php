@@ -11,6 +11,8 @@ class UserStampCollect extends Model
         'store_id',
         'user_id',
         'count',
-        'is_redeem'
+        'is_redeem',
+        "is_shered",
+        "shared_user",
     ];
 }

@@ -83,6 +83,7 @@ Route::group(['namespace'=>'API\V1','prefix'=>'v1'], function () {
          Route::post('family_member/request_send', 'FamilyMemberController@sendRequest');
          Route::post('family_member/update_request', 'FamilyMemberController@updateRequest');
          Route::post('family_member/listing', 'FamilyMemberController@MemberListing');
+         Route::post('family_member/share_stamp', 'FamilyMemberController@shareStamp');
          /*End Store to wallet*/
 
          /*Start Merchant Store reward Routes*/

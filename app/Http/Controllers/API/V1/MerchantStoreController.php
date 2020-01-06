@@ -25,6 +25,7 @@ use App\Http\Requests\MerchantStoreRegiserRequest,
     App\Http\Requests\ValidateUserReddemTokenRequest;
 
 use Illuminate\Support\Facades\DB;
+
 use Str;
 
 
@@ -81,20 +82,7 @@ class MerchantStoreController extends Controller
 
     public function RewardStoreListing(Request $request){
         $input = $request->all();
-        $offset = $request->offset ? $request->offset : 10;
 
-        $store = Store::whereIn('id', function($query) {
-                    $query->select('store_id')
-                    ->from('user_point_collects')
-                    ->whereColumn('store_id', 'stores.id');
-                })->with(["store_reward"]);
-
-        $store = $store->paginate($offset)->toArray();
-        $store_data = replace_null_with_empty_string($store['data']);
-        $total_record = $store['total'];
-        $total_page = $store['last_page'];
-
-        return response()->paginate(ResponseMessage::COMMON_MESSAGE,$store_data,$total_record,$total_page );
 
     }
 

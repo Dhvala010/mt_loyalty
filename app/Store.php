@@ -39,6 +39,7 @@ class Store extends Model
         return $value ? asset('/uploads/store_image') . "/" .  $value : "";
     }
 
+
     public function user_stemp_count(){
         $id = Auth::id();
         return $this->hasMany(UserStampCollect::class)->where('user_id',$id);

@@ -32,4 +32,5 @@ class ResponseMessage
     const REQUEST_ALLREADY_FRD_FAMILY_MEMBER_SUCCESSFULLY = "You have already added as a family member.";
     const INVALIDE_ACTION = "Invalide Action";
     const NOT_AUTHORIZE = "Not Authorize";
+    const SHARE_STAMP_ERROR = "You have not enough stamp to share";
 }

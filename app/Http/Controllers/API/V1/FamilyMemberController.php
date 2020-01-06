@@ -6,10 +6,12 @@ use App\Http\Controllers\Controller;
 use App\Constants\ResponseMessage;
 
 use App\Actions\Addfamilymember,
-    App\Actions\UpdatefamilymemberRequest;
+    App\Actions\UpdatefamilymemberRequest,
+    App\Actions\SharedStamp;
 
 use App\Http\Requests\ValidateUserToken,
-    App\Http\Requests\ValidateFamilyId;
+    App\Http\Requests\ValidateFamilyId,
+    App\Http\Requests\ShareStampValidate;
 
 use Illuminate\Http\Request;
 
@@ -34,7 +36,6 @@ class FamilyMemberController extends Controller
     }
 
     public function MemberListing(Request $request){
-        $input = $request->all();
         $user = Auth::user();
         $user_id = $user->id;
         $offset = $request->offset ? $request->offset : 10;
@@ -49,5 +50,11 @@ class FamilyMemberController extends Controller
         $total_page = $FamilyMember['last_page'];
 
         return response()->paginate(ResponseMessage::COMMON_MESSAGE,$family_member_data,$total_record,$total_page );
+    }
+
+    public function shareStamp(ShareStampValidate $request,SharedStamp $SharedStamp){
+        $input = $request->all();
+        $SharedStamp->execute($input);
+        return response()->success(ResponseMessage::COMMON_MESSAGE);
     }
 }

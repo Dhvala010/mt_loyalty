@@ -7,17 +7,11 @@ use App\Constants\ResponseMessage;
 
 use App\Actions\CreatePromoCode,
     App\Actions\GenrerateScanePromocodeToken,
-    App\Actions\AddUserPromocodeStamp,
-    App\Actions\RedeemStoreOffer;
+    App\Actions\AddUserPromocodeStamp;
 
-use Illuminate\Database\Eloquent\ModelNotFoundException;
+use App\StorePromocode;
 
-use App\StorePromocode,
-    App\Store,
-    App\StoreOffer;
-
-use Carbon\Carbon,
-    Auth;
+use Carbon\Carbon;
 
 use App\Http\Requests\CreateStorePromocodeRequest,
     App\Http\Requests\DeleteStorePromocodeRequest,
@@ -67,16 +61,6 @@ class StorePromocodeController extends Controller
         $response = $AddUserPromocodeStamp->execute($input);
         return response()->success(ResponseMessage::COMMON_MESSAGE,replace_null_with_empty_string($response));
     }
-    public function getredeem(ValidateRedeemRequest $request,RedeemStoreOffer $RedeemStoreOffer){
-        $input = $request->all();
-        $store_detail = Store::find($input['store_id']);
-        $offer_detail = StoreOffer::find($input['offer_id']);
 
-        if($store_detail->stamp_count <= $offer_detail->count){
-            throw new ModelNotFoundException(ResponseMessage::NOT_AUTHORIZE_REDEEM_OFFER);
-        }
-        $response = $RedeemStoreOffer->execute($input,$store_detail,$offer_detail);
-        return response()->success(ResponseMessage::COMMON_MESSAGE,replace_null_with_empty_string($response));
-    } 
-    
+
 }
