@@ -15,7 +15,7 @@ class FamilyMember extends Model
         "status"
     ];
 
-    protected $appends = ["user_detail"];
+    protected $appends = ["user_detail" , "status"];
 
     // protected $hidden = ["to_user_detail" , "from_user_detail"];
 
@@ -31,5 +31,12 @@ class FamilyMember extends Model
         $user_id = Auth::id();
         $users = $this->from_user == $user_id ? $this->to_user_detail()->first() : $this->from_user_detail()->first();
         return  $users;
+    }
+
+    public function getStatusAttribute($value){
+        $user_id = Auth::id();
+        if($this->from_user == $user_id && $this->status == "pending"  ){
+
+        }
     }
 }

@@ -49,7 +49,6 @@ Route::group(['namespace'=>'API\V1','prefix'=>'v1'], function () {
         Route::post('delete_merchant_store', 'MerchantStoreController@DeleteMerchantStore');
         Route::post('merchant_store_listing', 'MerchantStoreController@MerchantStoreList');
         Route::POST('get_store_details', 'MerchantStoreController@getStoreDetails');
-        Route::POST('reward_store_listing', 'MerchantStoreController@RewardStoreListing');
         /*End Merchant Store Routes*/
 
         /*Start Merchant Store offer Routes*/
@@ -92,6 +91,5 @@ Route::group(['namespace'=>'API\V1','prefix'=>'v1'], function () {
         Route::post('store_reward_detail', 'StoreRewardController@StoreRewardDetail');
         Route::post('store_reward_listing', 'StoreRewardController@StoreRewardList');
         /*End Merchant Store reward Routes*/
-
     });
 });
