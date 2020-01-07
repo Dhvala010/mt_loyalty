@@ -42,7 +42,7 @@ class FamilyMemberController extends Controller
         $FamilyMember = FamilyMember::where(function($query) use ($user_id) {
                                         $query->orWhere("from_user",$user_id);
                                         $query->orWhere("to_user",$user_id);
-                                    })->where("status","confirmed");
+                                    })->whereIn("status", [ "confirmed" , "pending" ] );
 
         $FamilyMember = $FamilyMember->paginate($offset)->toArray();
         $family_member_data = replace_null_with_empty_string($FamilyMember['data']);
