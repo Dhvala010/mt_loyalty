@@ -17,7 +17,7 @@ Route::bind('user', function ($value) {
     return User::find($value) ?? abort(404);
 });
 
-Auth::routes();
+Auth::routes(['verify' => true]);
 Route::group(['middleware' => 'auth','check-admin'], function () {
 
     Route::get('/', function() {
@@ -42,7 +42,7 @@ Route::group(['middleware' => 'auth','check-admin'], function () {
     });
     Route::resource('store', 'StoreController');
     Route::resource('store_reward', 'StoreRewardController');
-    
-   
+
+
 
 });

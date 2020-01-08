@@ -28,7 +28,6 @@ class AddEditStoreRewardRequest extends FormRequest
             'store_id' => [ 'required','exists:stores,id,deleted_at,NULL'],
             'title' => [ 'required' ],
             'description' => [ 'required' ],
-            'count' => [ 'required' ],
             'offer_valid' => [ 'required' ],
         ];
     }

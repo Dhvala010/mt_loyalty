@@ -20,7 +20,6 @@ use App\Http\Requests\StoreChangePasswordRequest,
     App\Http\Requests\validatefamilyid;
 
 use Illuminate\Support\Facades\Auth;
-use Str;
 
 use App\User,
     App\Country,
@@ -56,7 +55,9 @@ class AuthController extends Controller
         if (Auth::attempt(['email' => $request->email, 'password' => $request->password ])){
             $user = Auth::user();
             $user->token = $user->createToken('loyalty')->accessToken;
-            $user->devices()->create($request->all());
+            if($request->fcm_token){
+                $user->devices()->create($request->all());
+            }
             return response()->success(ResponseMessage::LOGIN_SUCCESS,replace_null_with_empty_string($user));
         } else {
             return response()->error(ResponseMessage::LOGIN_UNAUTHORIZED,Response::HTTP_UNAUTHORIZED);
@@ -83,8 +84,9 @@ class AuthController extends Controller
     /*
 		User Logout Api
 	*/
-    public function logout(){
+    public function logout(Request $request){
         $user = Auth::user();
+        $user->devices()->where("fcm_token",$request->fcm_token)->delete();
         $user->token()->revoke();
         return response()->success(ResponseMessage::LOGOUT_SUCCESS);
     }

@@ -13,7 +13,7 @@ use App\Store,
 
 class CustomerController extends Controller
 {
-    public function listWallet(User $user, Request $request){
+    public function listWallet(User $user){
        return response()->success(ResponseMessage::COMMON_MESSAGE,replace_null_with_empty_string($user->wallets));
     }
 
@@ -29,7 +29,7 @@ class CustomerController extends Controller
         return response()->success(ResponseMessage::COMMON_MESSAGE,replace_null_with_empty_string($user));
     }
 
-     public function storeDetail(Store $store,Request $request){
+     public function storeDetail(Store $store){
         return response()->success(ResponseMessage::COMMON_MESSAGE,replace_null_with_empty_string(StoreResource::make($store)));
      }
 }

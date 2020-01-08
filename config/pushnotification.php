@@ -12,7 +12,7 @@ return [
     'fcm' => [
         'priority' => 'normal',
         'dry_run' => false,
-        'apiKey' => 'My_ApiKey',
+        'apiKey' => 'eIgRyFkJ8-A:APA91bHYpKVWFVIdRJc24Qle4H1nSW2QZDZ2RmG5Hy5Xcz3pPAaHFJLZtootr64NT0vzraajrA_mANjoIV6K3T6Te6XpDDHgyQLfUrhYaYy_JalADujWZvKLhzg9sObd5ELvXPP4Cpjc',
     ],
     'apn' => [
         'certificate' => __DIR__ . '/iosCertificates/apns-dev-cert.pem',
