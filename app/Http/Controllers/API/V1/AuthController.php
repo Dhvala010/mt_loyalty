@@ -41,11 +41,6 @@ class AuthController extends Controller
         if($request->fcm_token){
             $user->devices()->create($request->all());
         }
-        /*$role = $data['role'];
-        if($role=='merchant'){
-            Mail::to($user->email)->send(new VerifyMail($user->toArray()));
-        }*/
-
         return response()->success(ResponseMessage::REGISTER_SUCCESS,replace_null_with_empty_string($user));
     }
 
@@ -53,7 +48,6 @@ class AuthController extends Controller
 		Login Api
     */
     public function login(StoreLoginRequest $request){
-        // $role = config("loyalty.user_role.".$request->role);
         if (Auth::attempt(['email' => $request->email, 'password' => $request->password ])){
             $user = Auth::user();
             $user->token = $user->createToken('loyalty')->accessToken;
