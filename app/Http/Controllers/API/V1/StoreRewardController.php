@@ -10,6 +10,7 @@ use App\Http\Requests\CheckStoreRewardId,
     App\Http\Requests\AddEditStoreRewardRequest;
 
 use App\Actions\AddEditStoreReward;
+use Illuminate\Support\Facades\Auth;
 
 use App\Store,
     App\StoreReward;
@@ -34,11 +35,11 @@ class StoreRewardController extends Controller
     }
 
     public function StoreRewardList(Request $request){
+        $id = Auth::id();
         $offset = $request->offset ? $request->offset : 10;
 
-        $store = Store::whereIn('id', function($query) {
-                    $query->select('store_id')
-                    ->from('user_point_collects');
+        $store = Store::whereIn('id', function($query) use($id) {
+                    $query->select('store_id')->from('user_point_collects')->where("user_id",$id);
                 })->with(["store_reward"]);
 
         $store = $store->paginate($offset)->toArray();
