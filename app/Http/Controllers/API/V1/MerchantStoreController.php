@@ -111,11 +111,13 @@ class MerchantStoreController extends Controller
         $store_detail = Store::find($user_redeem->store_id);
         $offer_detail = StoreOffer::find($user_redeem->offer_id);
         $store_reward = StoreReward::find($user_redeem->reward_id);
+        $stamp_count = $store_detail->user_stemp_count($user_redeem->user_id)->sum('count');
+        $point_count = $store_detail->user_point_count($user_redeem->user_id)->sum('count');
 
-        if($offer_detail && $store_detail->stamp_count < $offer_detail->count && $user_redeem->type == "stamp"){
+        if($offer_detail && $stamp_count < $offer_detail->count && $user_redeem->type == "stamp"){
             throw new ModelNotFoundException(ResponseMessage::NOT_AUTHORIZE_REDEEM_OFFER);
         }
-        if($store_reward && $store_detail->point_count < $store_reward->count && $user_redeem->type == "point"){
+        if($store_reward && $point_count < $store_reward->count && $user_redeem->type == "point"){
             throw new ModelNotFoundException(ResponseMessage::NOT_AUTHORIZE_REDEEM_OFFER);
         }
 

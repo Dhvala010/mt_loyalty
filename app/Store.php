@@ -40,14 +40,22 @@ class Store extends Model
     }
 
 
-    public function user_stemp_count(){
-        $id = Auth::id();
-        return $this->hasMany(UserStampCollect::class)->where('user_id',$id);
+    public function user_stemp_count($user_id = null){
+        if($user_id){
+            return $this->hasMany(UserStampCollect::class)->where('user_id',$user_id);
+        }else{
+            $id = Auth::id();
+            return $this->hasMany(UserStampCollect::class)->where('user_id',$id);
+        }
     }
 
-    public function user_point_count(){
-        $id = Auth::id();
-        return $this->hasMany(UserPointCollect::class)->where('user_id',$id);
+    public function user_point_count($user_id = null){
+        if($user_id){
+            return $this->hasMany(UserPointCollect::class)->where('user_id',$user_id);
+        }else{
+            $id = Auth::id();
+            return $this->hasMany(UserPointCollect::class)->where('user_id',$id);
+        }
     }
 
     public function getStampCountAttribute(){
