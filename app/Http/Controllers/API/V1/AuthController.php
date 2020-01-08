@@ -38,7 +38,9 @@ class AuthController extends Controller
         $response = $createUser->execute($data);
         $user = User::find($response->id);
         $user->token = $user->createToken('loyalty')->accessToken;
-
+        if($request->fcm_token){
+            $user->devices()->create($request->all());
+        }
         /*$role = $data['role'];
         if($role=='merchant'){
             Mail::to($user->email)->send(new VerifyMail($user->toArray()));
