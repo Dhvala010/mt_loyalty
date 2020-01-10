@@ -81,10 +81,10 @@ class MerchantStoreController extends Controller
             $store = $store->where("country_code", $input["country"]);
         }
 
-        $store = $store->paginate($offset)->toArray();
-        $store_data = replace_null_with_empty_string($store['data']);
-        $total_record = $store['total'];
-        $total_page = $store['last_page'];
+        $store = $store->paginate($offset);
+        $store_data = replace_null_with_empty_string($store->items());
+        $total_record = $store->lastItem();
+        $total_page = $store->lastPage();
 
         return response()->paginate(ResponseMessage::COMMON_MESSAGE,$store_data,$total_record,$total_page );
     }
