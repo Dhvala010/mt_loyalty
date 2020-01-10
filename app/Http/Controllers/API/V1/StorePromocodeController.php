@@ -17,8 +17,7 @@ use App\Http\Requests\CreateStorePromocodeRequest,
     App\Http\Requests\DeleteStorePromocodeRequest,
     App\Http\Requests\StorePromocodeListRequest,
     App\Http\Requests\PromocodeValidateRequest,
-    App\Http\Requests\PromocodeTokenValidateRequest,
-    App\Http\Requests\ValidateRedeemRequest;
+    App\Http\Requests\PromocodeTokenValidateRequest;
 
 class StorePromocodeController extends Controller
 {

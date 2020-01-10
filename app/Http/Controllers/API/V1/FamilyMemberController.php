@@ -21,6 +21,9 @@ use Illuminate\Support\Facades\Auth;
 
 class FamilyMemberController extends Controller
 {
+    /*
+		Send Request For Add Family member
+    */
     public function sendRequest(ValidateUserToken $request,Addfamilymember $Addfamilymember){
         $input = $request->all();
 
@@ -28,6 +31,9 @@ class FamilyMemberController extends Controller
         return response()->success(ResponseMessage::REQUEST_SEND_FAMILY_MEMBER_SUCCESSFULLY);
     }
 
+    /*
+		Request Cancel , Reject And Accept For Family Member
+    */
     public function updateRequest(ValidateFamilyId $request,UpdatefamilymemberRequest $UpdatefamilymemberRequest){
         $input = $request->all();
 
@@ -35,6 +41,9 @@ class FamilyMemberController extends Controller
         return response()->success(ResponseMessage::REQUEST_UPDATE_REQUEST_FAMILY_MEMBER_SUCCESSFULLY);
     }
 
+    /*
+		Accept And Pending Request Member Listing
+    */
     public function MemberListing(Request $request){
         $user = Auth::user();
         $user_id = $user->id;
@@ -52,9 +61,22 @@ class FamilyMemberController extends Controller
         return response()->paginate(ResponseMessage::COMMON_MESSAGE,$family_member_data,$total_record,$total_page );
     }
 
+    /*
+		Accept And Pending Request Member Listing
+    */
+    public function deletefamilymember(validatefamilyid $request){
+        $input = $request->all();
+        FamilyMember::find($input["family_id"])->delete();
+        return response()->success(ResponseMessage::COMMON_MESSAGE);
+    }
+
+    /*
+		Share Stamp to another family member
+    */
     public function shareStamp(ShareStampValidate $request,SharedStamp $SharedStamp){
         $input = $request->all();
         $SharedStamp->execute($input);
         return response()->success(ResponseMessage::COMMON_MESSAGE);
     }
+
 }

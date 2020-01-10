@@ -26,7 +26,7 @@ use App\Http\Requests\MerchantStoreRegiserRequest,
 
 use Illuminate\Support\Facades\DB;
 
-use Str;
+use Illuminate\Support\Str;
 
 
 class MerchantStoreController extends Controller
@@ -80,19 +80,13 @@ class MerchantStoreController extends Controller
         return response()->paginate(ResponseMessage::COMMON_MESSAGE,$store_data,$total_record,$total_page );
     }
 
-    public function RewardStoreListing(Request $request){
-        $input = $request->all();
-
-
-    }
-
-
     public function getStoreDetails(StoreDetailRequest $request){
         $store = Store::where('id',$request->storeId)
                 ->with(['store_offer','store_promocode','store_reward'])
                 ->first();
         return response()->success(ResponseMessage::COMMON_MESSAGE,replace_null_with_empty_string($store));
     }
+
     public function generateRedeemtoken(GenerateRedeemtokenRequest $request){
          $input = $request->all();
          $user = Auth::user();
@@ -103,6 +97,7 @@ class MerchantStoreController extends Controller
 
 
     }
+
     public function valid_get_redeem(ValidateUserReddemTokenRequest $request,RedeemStoreOffer $RedeemStoreOffer){
         $input = $request->all();
 

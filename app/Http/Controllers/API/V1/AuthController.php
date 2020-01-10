@@ -22,8 +22,7 @@ use App\Http\Requests\StoreChangePasswordRequest,
 use Illuminate\Support\Facades\Auth;
 
 use App\User,
-    App\Country,
-    App\FamilyMember;
+    App\Country;
 
 use Illuminate\Support\Facades\Hash;
 /*use App\Mail\VerifyMail;*/
@@ -31,7 +30,7 @@ use Illuminate\Support\Facades\Hash;
 class AuthController extends Controller
 {
     /*
-		Register Api
+		Customer and merchant Register Api
     */
     public function register(StoreRegiserRequest $request,CreateUser $createUser){
         $data = $request->all();
@@ -45,7 +44,7 @@ class AuthController extends Controller
     }
 
     /*
-		Login Api
+		Customer and merchant Login Api
     */
     public function login(StoreLoginRequest $request){
         if (Auth::attempt(['email' => $request->email, 'password' => $request->password ])){
@@ -131,6 +130,9 @@ class AuthController extends Controller
         return response()->success(ResponseMessage::COMMON_MESSAGE,replace_null_with_empty_string($user));
     }
 
+    /*
+		Update User Profile APi
+    */
     public function UpdateProfile(UpdateUserRequest $request,UpdateUser $updateUser){
         $input = $request->all();
         $image = $request->file('profile_picture') ?? '';
@@ -140,11 +142,5 @@ class AuthController extends Controller
         }
         $response = $updateUser->execute($input);
         return response()->success(ResponseMessage::COMMON_MESSAGE,replace_null_with_empty_string($response));
-    }
-
-    public function deletefamilymember(validatefamilyid $request){
-        $input = $request->all();
-        FamilyMember::find($input["family_id"])->delete();
-        return response()->success(ResponseMessage::COMMON_MESSAGE);
     }
 }

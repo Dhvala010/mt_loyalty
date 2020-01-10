@@ -41,7 +41,6 @@ Route::group(['namespace'=>'API\V1','prefix'=>'v1'], function () {
         Route::post('change_password', 'AuthController@changePassword');
         Route::post('update_profile', 'AuthController@UpdateProfile');
         Route::post('add_family_member', 'AuthController@Addfamilymember');
-        Route::post('delete_family_member', 'AuthController@deletefamilymember');
         /*End User Management Routes*/
 
         /*Start Merchant Store Routes*/
@@ -83,6 +82,7 @@ Route::group(['namespace'=>'API\V1','prefix'=>'v1'], function () {
          Route::post('family_member/update_request', 'FamilyMemberController@updateRequest');
          Route::post('family_member/listing', 'FamilyMemberController@MemberListing');
          Route::post('family_member/share_stamp', 'FamilyMemberController@shareStamp');
+         Route::post('delete_family_member', 'FamilyMemberController@deletefamilymember');
          /*End Store to wallet*/
 
          /*Start Merchant Store reward Routes*/
