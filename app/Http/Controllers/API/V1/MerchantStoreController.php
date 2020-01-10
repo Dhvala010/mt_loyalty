@@ -9,10 +9,9 @@ use Illuminate\Http\Request;
 use App\Constants\ResponseMessage;
 
 use Illuminate\Support\Facades\Auth;
+
 use App\Store,
-    App\StoreOffer,
-    App\GenerateRedeemtoken,
-    App\StoreReward;
+    App\GenerateRedeemtoken;
 
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
@@ -80,7 +79,6 @@ class MerchantStoreController extends Controller
         if (!empty($input["country"])) {
             $store = $store->where("country_code", $input["country"]);
         }
-
         $store = $store->paginate($offset);
         $store_data = replace_null_with_empty_string($store->items());
         $total_record = $store->lastItem();
@@ -109,8 +107,6 @@ class MerchantStoreController extends Controller
          $input['user_id'] = $user->id;
          $redeemtoken = GenerateRedeemtoken::create($input);
          return response()->success(ResponseMessage::COMMON_MESSAGE,replace_null_with_empty_string($redeemtoken));
-
-
     }
 
     /*
@@ -122,8 +118,9 @@ class MerchantStoreController extends Controller
         $unique_token = $input['unique_token'];
         $user_redeem = GenerateRedeemtoken::where('unique_token', $unique_token)->first();
         $store_detail = Store::find($user_redeem->store_id);
-        $offer_detail = StoreOffer::find($user_redeem->offer_id);
-        $store_reward = StoreReward::find($user_redeem->reward_id);
+
+        $offer_detail = $store_detail->store_offer()->find($user_redeem->offer_id);
+        $store_reward = $store_detail->store_reward()->find($user_redeem->reward_id);
         $stamp_count = $store_detail->user_stemp_count($user_redeem->user_id)->sum('count');
         $point_count = $store_detail->user_point_count($user_redeem->user_id)->sum('count');
 
