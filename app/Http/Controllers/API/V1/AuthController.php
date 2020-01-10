@@ -25,7 +25,7 @@ use App\User,
     App\Country,
     App\FamilyMember;
 
-
+use Illuminate\Support\Facades\Hash;
 /*use App\Mail\VerifyMail;*/
 
 class AuthController extends Controller
@@ -64,16 +64,12 @@ class AuthController extends Controller
 		Forgot password Api
 	*/
     public function forgotPassword(StoreForgotPasswordRequest $request,UpdateAndSendForgotPassword $updateAndSendForgotPassword){
-
         $email = $request->email;
-
         $user = User::where(['email' => $email])->first();
-
         if(!$user){
             return response()->error(ResponseMessage::USER_NOT_FOUND,Response::HTTP_NOT_FOUND);
         }
         $updateAndSendForgotPassword->execute($user);
-
         return response()->success(ResponseMessage::FORGOT_PASSWORD_SUCCESS);
     }
 
@@ -94,7 +90,7 @@ class AuthController extends Controller
         $old_password = $request->old_password;
         $new_password = $request->new_password;
         $user = Auth::user();
-        if (\Hash::check($old_password, $user->password)) {
+        if (Hash::check($old_password, $user->password)) {
             $user->update(['password' => HashPassword($new_password)]);
             return response()->success(ResponseMessage::CHANGE_PASSWORD_SUCCESS,NULL);
         } else {
