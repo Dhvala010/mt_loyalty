@@ -31,6 +31,9 @@ use Illuminate\Support\Str;
 
 class MerchantStoreController extends Controller
 {
+    /*
+		Add Edit Store For Murchent
+    */
     public function AddEditMerchantStore(MerchantStoreRegiserRequest $request,CreateMerchantStore $createMerchantStore){
         $user = Auth::user();
         $input = $request->all();
@@ -45,12 +48,18 @@ class MerchantStoreController extends Controller
         return response()->success(ResponseMessage::MERCHANT_STORE_REGISTER_SUCCESS,replace_null_with_empty_string($store));
     }
 
+    /*
+		Delete Store
+    */
     public function DeleteMerchantStore(DeleteMerchentStoreRequest $request){
         $store = Store::find($request->store_id);
         $store->delete();
         return response()->success(ResponseMessage::MERCHANT_STORE_DELETE);
     }
 
+    /*
+		Store Listing Api With Store Offer And Store Reward
+    */
     public function MerchantStoreList(Request $request){
 
         $input = $request->all();
@@ -80,6 +89,9 @@ class MerchantStoreController extends Controller
         return response()->paginate(ResponseMessage::COMMON_MESSAGE,$store_data,$total_record,$total_page );
     }
 
+    /*
+		Store Detail Api With Store Offer And Store Reward
+    */
     public function getStoreDetails(StoreDetailRequest $request){
         $store = Store::where('id',$request->storeId)
                 ->with(['store_offer','store_promocode','store_reward'])
@@ -87,6 +99,9 @@ class MerchantStoreController extends Controller
         return response()->success(ResponseMessage::COMMON_MESSAGE,replace_null_with_empty_string($store));
     }
 
+    /*
+		Generate Unique Token For Stamp And Point Redeem
+    */
     public function generateRedeemtoken(GenerateRedeemtokenRequest $request){
          $input = $request->all();
          $user = Auth::user();
@@ -98,6 +113,9 @@ class MerchantStoreController extends Controller
 
     }
 
+    /*
+		Validate Unique Token And Collact Offer Redeem And Point Reward
+    */
     public function valid_get_redeem(ValidateUserReddemTokenRequest $request,RedeemStoreOffer $RedeemStoreOffer){
         $input = $request->all();
 

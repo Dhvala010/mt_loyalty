@@ -21,18 +21,27 @@ use App\Http\Requests\CreateStorePromocodeRequest,
 
 class StorePromocodeController extends Controller
 {
+    /*
+		Add Edit Promocode For Store
+    */
     public function AddEditpromocode(CreateStorePromocodeRequest $request,CreatePromoCode $createPromoCode){
         $input = $request->all();
         $response = $createPromoCode->execute($input);
         return response()->success(ResponseMessage::MERCHANT_STORE_REGISTER_SUCCESS,replace_null_with_empty_string($response));
     }
 
+    /*
+		Delete Promocode For Store
+    */
     public function Deletepromocode(DeleteStorePromocodeRequest $request){
 
         StorePromocode::where('id',$request->promocode_id)->delete();
         return response()->success(ResponseMessage::COMMON_MESSAGE);
     }
 
+    /*
+		Promocode Listing Api
+    */
     public function promocodeList(StorePromocodeListRequest $request){
         $Date = Carbon::now();
         $DateTime = $Date->toDateTimeString();
@@ -47,6 +56,9 @@ class StorePromocodeController extends Controller
         return response()->paginate(ResponseMessage::COMMON_MESSAGE,$store_data,$total_record,$total_page );
     }
 
+    /*
+		Generate Unique Token For Collact Stamp And Redeem
+    */
     public function GeneratePromocodeToken(PromocodeValidateRequest $request,GenrerateScanePromocodeToken $promoCodeToken){
         $input = $request->all();
 
@@ -54,6 +66,9 @@ class StorePromocodeController extends Controller
         return response()->success(ResponseMessage::COMMON_MESSAGE,replace_null_with_empty_string($response));
     }
 
+    /*
+		Validate Unique token and collact stamp and points
+    */
     public function ValidatePromocodeToken(PromocodeTokenValidateRequest $request,AddUserPromocodeStamp $AddUserPromocodeStamp){
         $input = $request->all();
 

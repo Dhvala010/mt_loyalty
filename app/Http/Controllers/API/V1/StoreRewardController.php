@@ -17,6 +17,9 @@ use App\Store,
 
 class StoreRewardController extends Controller
 {
+    /*
+		Add Edit Store Reward Api
+    */
     public function AddEditStoreReward(AddEditStoreRewardRequest $request,AddEditStoreReward $AddEditStoreOffer){
         $input = $request->all();
 
@@ -24,16 +27,25 @@ class StoreRewardController extends Controller
         return response()->success(ResponseMessage::COMMON_MESSAGE,replace_null_with_empty_string($result));
     }
 
+    /*
+		Delete Store Reward Api
+    */
     public function DeleteStoreReward(CheckStoreRewardId $request){
         StoreReward::where('id',$request->store_reward_id)->delete();
         return response()->success(ResponseMessage::COMMON_MESSAGE);
     }
 
+    /*
+		Store Reward Detail Api
+    */
     public function StoreRewardDetail(CheckStoreRewardId $request){
         $StoreOffer = StoreReward::find($request->store_reward_id);
         return response()->success(ResponseMessage::COMMON_MESSAGE,replace_null_with_empty_string($StoreOffer));
     }
 
+    /*
+		Store Listing Api Based on Reward
+    */
     public function StoreRewardList(Request $request){
         $id = Auth::id();
         $offset = $request->offset ? $request->offset : 10;
