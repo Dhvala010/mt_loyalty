@@ -1,7 +1,8 @@
 <?php
 
 use Illuminate\Database\Seeder;
-use App\Role;
+use Spatie\Permission\Models\Role;
+use Spatie\Permission\Models\Permission;
 
 class RoleTableSeeder extends Seeder
 {
@@ -12,17 +13,25 @@ class RoleTableSeeder extends Seeder
      */
     public function run()
     {
-        Role::create([
+        $admin = Role::create([
             'name' => "admin",
-            'guard_name' => "admin",
         ]);
-        Role::create([
-            'name' => "customer",
-            'guard_name' => "customer",
+        $customer = Role::create([
+            'name' => "customer"
         ]);
-        Role::create([
-            'name' => "merchant",
-            'guard_name' => "merchant",
+        $merchant = Role::create([
+            'name' => "merchant"
         ]);
+
+        $Adminpermission = Permission::create( ['name' => 'admin module'] );
+        $customerpermission = Permission::create( ['name' => 'customer module'] );
+        $merchantpermission = Permission::create( ['name' => 'merchant module'] );
+
+        $admin->givePermissionTo($Adminpermission);
+        $admin->givePermissionTo($customerpermission);
+        $admin->givePermissionTo($merchantpermission);
+
+        $merchant->givePermissionTo($merchantpermission);
+        $merchant->givePermissionTo($customerpermission);
     }
 }

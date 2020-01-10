@@ -65,15 +65,15 @@
     </head>
     <body>
         <div class="flex-center position-ref full-height">
-            
+
                 <div class="top-right links">
                     @auth
-                        <a href="{{ url('admin/home') }}">Home</a>
+                        <a href="{{ url('admin') }}">Home</a>
                     @else
                         <a href="{{ route('admin.login') }}">Login</a>
                     @endauth
                 </div>
-          
+
 
             <div class="content">
                 <div class="title m-b-md">
