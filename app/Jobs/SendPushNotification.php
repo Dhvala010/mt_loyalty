@@ -28,13 +28,15 @@ class SendPushNotification implements ShouldQueue
     protected $reference_type;
     protected $data;
     protected $is_notification;
+    protected $message;
 
-    public function __construct($sender,$receiver,$reference_id,$reference_type,$data = [],$is_notification = true)
+    public function __construct($sender,$receiver,$reference_id,$reference_type,$message,$data = [],$is_notification = true)
     {
         $this->sender  = $sender;
         $this->receiver  = $receiver;
         $this->reference_id = $reference_id;
         $this->reference_type = $reference_type;
+        $this->message = $message;
         $this->data = $data;
         $this->is_notification = $is_notification;
     }
@@ -52,6 +54,7 @@ class SendPushNotification implements ShouldQueue
         $reference_type = $this->reference_type;
         $data = $this->data;
         $is_notification = $this->is_notification;
+        $message = $this->message;
 
         $push = new PushNotification('fcm');
 
@@ -68,46 +71,39 @@ class SendPushNotification implements ShouldQueue
                 if(isset($tokendata["Android"]) && count($tokendata["Android"]) > 0){
                     $push->setMessage([
                         'priority' => 'normal',
-                        'notification' => [
-                            'title' => "Loyalty",
-                            'body' => $data["message"],
-                            'sound' => 'default'
-                        ],
                         'data' => [
                             'title' => "Loyalty",
-                            'body' => $data["message"],
-                            'sound' => 'default'
+                            'body' => $message,
+                            'sound' => 'default',
+                            'extra_data' => $data
                         ],
                     ])
                     ->setDevicesToken($tokendata["Android"])
                     ->send();
-                    $a = $push->getFeedback();
+                    $NotificationResponse = $push->getFeedback();
                 }
                 if(isset($tokendata["iOS"]) && count($tokendata["iOS"]) > 0) {
                     $push->setMessage([
                         'priority' => 'normal',
                         'notification' => [
                             'title' => "Loyalty",
-                            'body' => $data["message"],
-                            'sound' => 'default'
-                        ],
-                        'data' => [
-                            'title' => "Loyalty",
-                            'body' => $data["message"],
-                            'sound' => 'default'
-                        ],
+                            'body' => $message,
+                            'sound' => 'default',
+                            'extra_data' => $data
+                        ]
                     ])
                     ->setDevicesToken($tokendata["iOS"])
                     ->send();
-                    $a = $push->getFeedback();
+                    $NotificationResponse = $push->getFeedback();
                 }
             }
+
             $notification = new UserNotification();
             $notification->from_user_id = $sender;
             $notification->to_user_id = $receiver;
             $notification->refference_id = $reference_id;
             $notification->refference_type = $reference_type;
-            $notification->message = $data["message"];
+            $notification->message = $message;
             $notification->is_read = 0;
             $notification->save();
         }
