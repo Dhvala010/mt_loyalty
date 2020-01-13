@@ -91,5 +91,11 @@ Route::group(['namespace'=>'API\V1','prefix'=>'v1'], function () {
         Route::post('store_reward_detail', 'StoreRewardController@StoreRewardDetail');
         Route::post('store_reward_listing', 'StoreRewardController@StoreRewardList');
         /*End Merchant Store reward Routes*/
+
+         /*Start User Notification Routes*/
+         Route::post('notification_listing', 'NotificationController@NotificationListing');
+         Route::post('read_notification', 'NotificationController@ReadNotification');
+         Route::post('delete_notification', 'NotificationController@DeleteNotification');
+         /*End User Notification Routes*/
     });
 });

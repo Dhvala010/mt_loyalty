@@ -14,6 +14,9 @@ use App\Http\Requests\ValidateNotificationIdRequest;
 
 class NotificationController extends Controller
 {
+    /*
+        User Notification listing api
+    */
     public function NotificationListing(Request $request){
         $user = Auth::user();
         $user_id = $user->id;
@@ -28,6 +31,9 @@ class NotificationController extends Controller
         return response()->paginate(ResponseMessage::COMMON_MESSAGE,$notification_data,$total_record,$total_page );
     }
 
+    /*
+        Notification read api
+    */
     public function ReadNotification(ValidateNotificationIdRequest $request){
         $notification_id = $request->notification_id;
         $UserNotification = UserNotification::find($notification_id);
@@ -37,6 +43,9 @@ class NotificationController extends Controller
         return response()->success(ResponseMessage::COMMON_MESSAGE);
     }
 
+    /*
+        Notification delete api
+    */
     public function DeleteNotification(ValidateNotificationIdRequest $request){
         $notification_id = $request->notification_id;
         UserNotification::where("id",$notification_id)->delete();
