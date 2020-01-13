@@ -20,7 +20,7 @@ class CreateUserNotificationsTable extends Migration
             $table->bigInteger("refference_id")->index();
             $table->string("refference_type")->nullable();
             $table->string("message")->nullable();
-            $table->string("is_read")->nullable();
+            $table->boolean("is_read")->default(false);
             $table->timestamps();
 
             $table->foreign('from_user_id')->references('id')->on('users');
