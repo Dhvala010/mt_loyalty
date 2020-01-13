@@ -18,12 +18,12 @@ Route::bind('user', function ($value) {
 });
 
 Auth::routes(['verify' => true]);
+
 Route::group(['middleware' => 'auth','check-admin'], function () {
 
     Route::get('/', function() {
         return view('home');
     })->name('home');
-
 
     Route::post('user/GetDataById', 'UsersController@GetDataById');
     Route::get('get-merchant','StoreController@getmerchant');
@@ -35,14 +35,13 @@ Route::group(['middleware' => 'auth','check-admin'], function () {
     Route::bind('StorePromocode', function ($value) {
         return StorePromocode::find($value) ?? abort(404);
     });
+
     Route::resource('offer', 'OfferController');
     Route::post('store/GetDataById', 'StoreController@GetDataById');
     Route::bind('store', function ($value) {
         return Store::find($value) ?? abort(404);
     });
+
     Route::resource('store', 'StoreController');
     Route::resource('store_reward', 'StoreRewardController');
-
-
-
 });
