@@ -66,7 +66,7 @@ class FamilyMemberController extends Controller
     */
     public function deletefamilymember(validatefamilyid $request){
         $input = $request->all();
-        FamilyMember::find($input["family_id"])->delete();
+        FamilyMember::find($input["family_member_id"])->delete();
         return response()->success(ResponseMessage::COMMON_MESSAGE);
     }
 
