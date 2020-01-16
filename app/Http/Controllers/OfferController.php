@@ -5,7 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\StoreOffer,
-    App\Store;
+    App\Store,
+    App\StorePromocode;
 
 use DataTables, Auth ,Carbon;
 
