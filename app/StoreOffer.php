@@ -15,7 +15,9 @@ class StoreOffer extends Model
         'count',
         'offer_valid'
     ];
-   
 
 
+    public function store(){
+        return $this->belongsTo(Store::class,'store_id', 'id');
+    }
 }

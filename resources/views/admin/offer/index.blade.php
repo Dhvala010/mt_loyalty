@@ -20,7 +20,7 @@
 					<th>No</th>
 					<th>Title</th>
 					<th>Store</th>
-					<th>Stamp</th>
+					<th>Count</th>
 					<th>Valid Offer</th>
 					<th>Action</th>
 				</tr>
@@ -33,7 +33,7 @@
 					<th>No</th>
 					<th>Title</th>
 					<th>Store</th>
-					<th>Stamp</th>
+					<th>Count</th>
 					<th>Valid Offer</th>
 					<th>Action</th>
 				</tr>
@@ -72,7 +72,7 @@
 			  <input type="text" class="form-control form-control-user datepicker1" name="offer_valid" id="offer_valid"  placeholder="Enter Offer Valid..." />
 				<span id="offer_valid_error" class="error"></span>
 			</div>
-			
+
 			<div class="modal-footer">
 				<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
 				<button type="submit" class="btn btn-primary" id="CreateOfferButton" name="CreateOffer">Create Store</button>
@@ -112,8 +112,8 @@
                columns: [
 					{data: 'DT_RowIndex', name: 'DT_RowIndex' },
 					{data: 'title', name: 'title'},
-					{data: 'store.title', name: 'store'},
-					{data: 'count', name: 'stamp'},
+					{data: 'store.title', name: 'store.title'},
+					{data: 'count', name: 'count'},
 					{data: 'offer_valid', name: 'offer_valid'},
 					{data: 'action', name: 'action'},
 				],
@@ -158,7 +158,7 @@
 						$("#title").val(result.data.title);
 						$("#stamp").val(result.data.count);
 						$("#offer_valid").val(result.data.offer_valid);
-						$("#merchant").val(result.data.store_id);	
+						$("#merchant").val(result.data.store_id);
 						$('#StoreModal').modal('show');
 					}
 
@@ -187,7 +187,7 @@
 				let method = 'post';
 				let url = "{{ url('admin/offer') }}";
 				if(	$('#OfferId').val()){
-					method = "post"; 
+					method = "post";
 					url =  "{{ url('admin/offer')}}/" + $('#OfferId').val();
 				}
 			$.ajax({
@@ -197,11 +197,11 @@
 					contentType: false,
 					processData:false,
 					data: new FormData(this),
-					success: function(result){						
+					success: function(result){
 							$('#StoreModal').modal('hide');
-							$('#storedatatable').DataTable().ajax.reload();						
-					},error: function (reject) {						
-             if( reject.status === 422 ) {						
+							$('#storedatatable').DataTable().ajax.reload();
+					},error: function (reject) {
+             if( reject.status === 422 ) {
 										var errors = $.parseJSON(reject.responseText);
                     $.each(errors.errors, function (key, val) {
 												$("#" + key + "_error").show();

@@ -14,7 +14,7 @@ class StoreRewardController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request)
-    { 
+    {
         if ($request->ajax()) {
         $data = StoreReward::query();
         return DataTables::of($data)
@@ -27,7 +27,7 @@ class StoreRewardController extends Controller
                 ->rawColumns(['action'])
                 ->make(true);
     }
-        
+
         return view('admin.store_reward.store_reward');
     }
 
@@ -52,13 +52,12 @@ class StoreRewardController extends Controller
         $input = $request->all();
         unset($input['_token']);
         $id='';
-     
         if(isset($input['id'])){$id = $input['id'];}
-        
-       
+
+
           $reward =  StoreReward::updateOrInsert(['id' => $id],$input);
-         
-        
+
+
           return response()->json([ 'status' => 1 ,  'success'=>'Record added successfully' , 'data' =>$reward ]);
     }
 
@@ -71,7 +70,7 @@ class StoreRewardController extends Controller
     public function show(StoreReward $storeReward)
     {
         $Id = $storeReward->id;
-    
+
         $category = StoreReward::where('id',$Id)->first();
         return response()->json([ 'status' => 1 ,  'success'=>'success' , 'data' => $category ]);
     }

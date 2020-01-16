@@ -3,15 +3,11 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Http\Requests\StoreRequest;
-use App\StorePromocode;
-use App\Store;
-use App\User;
-use DataTables;
-use Validator;
-use Auth;
-use Hash;
-use Carbon;
+
+use App\StoreOffer,
+    App\Store;
+
+use DataTables, Auth ,Carbon;
 
 class OfferController extends Controller
 {
@@ -23,7 +19,7 @@ class OfferController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $data = StorePromocode::with('store')->get();
+            $data = StoreOffer::with('store')->get();
             return Datatables::of($data)
                     ->addIndexColumn()
                     ->addColumn('action', function($row){
@@ -57,7 +53,7 @@ class OfferController extends Controller
     {
         $input = $request->all();
         $input['offer_valid'] = Carbon\Carbon::parse($request->offer_valid)->format('Y-m-d');
-        $offer = new StorePromocode();
+        $offer = new StoreOffer();
         $offer->fill($input);
         $offer->save();
         return response()->json([ 'status' => 1 ,  'success'=>'Record added successfully' , 'data' =>$offer ]);
@@ -80,7 +76,7 @@ class OfferController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(StorePromocode $offer)
+    public function show(StoreOffer $offer)
     {
         return response()->json([ 'status' => 1 ,  'success'=>'success' , 'data' => $offer ]);
     }
@@ -91,7 +87,7 @@ class OfferController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(StorePromocode $offer)
+    public function edit(StoreOffer $offer)
     {
         return $offer;
     }
@@ -103,7 +99,7 @@ class OfferController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request,StorePromocode $offer)
+    public function update(Request $request,StoreOffer $offer)
     {
         $input = $request->all();
         $input['offer_valid'] = Carbon\Carbon::parse($request->offer_valid)->format('Y-m-d');
