@@ -10,7 +10,7 @@ use App\Actions\Addfamilymember,
     App\Actions\SharedStamp;
 
 use App\Http\Requests\ValidateUserToken,
-    App\Http\Requests\ValidateFamilyId,
+    App\Http\Requests\validatefamilyid,
     App\Http\Requests\ShareStampValidate;
 
 use Illuminate\Http\Request;
@@ -34,7 +34,7 @@ class FamilyMemberController extends Controller
     /*
 		Request Cancel , Reject And Accept For Family Member
     */
-    public function updateRequest(ValidateFamilyId $request,UpdatefamilymemberRequest $UpdatefamilymemberRequest){
+    public function updateRequest(validatefamilyid $request,UpdatefamilymemberRequest $UpdatefamilymemberRequest){
         $input = $request->all();
 
         $UpdatefamilymemberRequest->execute($input);
