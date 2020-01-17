@@ -59,18 +59,19 @@
 				<select name="store_id" id="merchant" class="form-control form-control-user">
 					<option value="">-- Select Store --</option>
 				</select>
+				<span id="store_id_error" class="help-block"></span>
 			</div>
 			<div class="form-group">
 				<input type="text" class="form-control form-control-user" name="title" id="title" placeholder="Enter Title..." />
-				<span id="title_error" class="error"></span>
+				<span id="title_error" class="help-block"></span>
 			</div>
 			<div class="form-group">
 				<input type="text" class="form-control form-control-user" name="count" id="stamp" placeholder="Enter Stamp..." />
-				<span id="count_error" class="error"></span>
+				<span id="count_error" class="help-block"></span>
 			</div>
 			<div class="form-group">
 			  <input type="text" class="form-control form-control-user datepicker1" name="offer_valid" id="offer_valid"  placeholder="Enter Offer Valid..." />
-				<span id="offer_valid_error" class="error"></span>
+				<span id="offer_valid_error" class="help-block"></span>
 			</div>
 
 			<div class="modal-footer">
@@ -135,6 +136,8 @@
 			$(document).on("click",".CreateOffer",function() {
 				$('.edit_method').val("post");
 				$('.Errors').html('');
+				$( "#CreateOfferForm div.form-group").removeClass("has-error");
+				$( "#CreateOfferForm div.form-group span").hide();
 				$('#CreateOfferForm').trigger("reset");
 				$('#OfferId').val('');
 				$('#StoreModalLabel').html('Add Offer');
@@ -144,6 +147,8 @@
 			 $(document).on("click","#EditStore",function() {
 				$('.edit_method').val("put");
 				$('.Errors').html('');
+				$( "#CreateOfferForm div.form-group").removeClass("has-error");
+				$( "#CreateOfferForm div.form-group span").hide();
 				var Id = $(this).attr('data-id');
 				$.ajax({
 					url: "{{ url('admin/offer/') }}/" + Id,
@@ -178,7 +183,8 @@
 			});
 
 			$( "#CreateOfferForm" ).on('submit',(function( event ) {
-				$('.error').hide();
+				$( "#CreateOfferForm div.form-group").removeClass("has-error");
+				$( "#CreateOfferForm div.form-group span").hide();
 				event.preventDefault();
 				let data = $(this).serializeArray(); // new FormData(this);
 				let method = 'post';
@@ -195,17 +201,18 @@
 					processData:false,
 					data: new FormData(this),
 					success: function(result){
-							$('#StoreModal').modal('hide');
-							$('#storedatatable').DataTable().ajax.reload();
+						$('#StoreModal').modal('hide');
+						$('#storedatatable').DataTable().ajax.reload();
 					},error: function (reject) {
-             if( reject.status === 422 ) {
-										var errors = $.parseJSON(reject.responseText);
-                    $.each(errors.errors, function (key, val) {
-												$("#" + key + "_error").show();
-                        $("#" + key + "_error").text(val[0]);
-                    });
-                }
-            }
+						if( reject.status === 422 ) {
+							var errors = $.parseJSON(reject.responseText);
+							$.each(errors.errors, function (key, val){
+								$( "#CreateOfferForm span#" + key + "_error").parent().addClass("has-error");
+								$("#" + key + "_error").show();
+								$("#" + key + "_error").text(val[0]);
+							});
+						}
+					}
 				});
 			}));
          });

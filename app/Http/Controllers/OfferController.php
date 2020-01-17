@@ -3,10 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Http\Requests\AddEditStoreOfferRequest;
 
 use App\StoreOffer,
-    App\Store,
-    App\StorePromocode;
+    App\Store;
 
 use DataTables, Auth ,Carbon;
 
@@ -57,7 +57,7 @@ class OfferController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(AddEditStoreOfferRequest $request)
     {
         $input = $request->all();
         $input['offer_valid'] = Carbon\Carbon::parse($request->offer_valid)->format('Y-m-d');
@@ -108,7 +108,7 @@ class OfferController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request,StoreOffer $offer)
+    public function update(AddEditStoreOfferRequest $request,StoreOffer $offer)
     {
         $input = $request->all();
         $input['offer_valid'] = Carbon\Carbon::parse($request->offer_valid)->format('Y-m-d');

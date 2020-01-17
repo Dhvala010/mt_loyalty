@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\StoreReward;
+
 use Illuminate\Http\Request;
+use App\Http\Requests\AddEditStoreRewardRequest;
+
 use DataTables;
 use Auth;
 class StoreRewardController extends Controller
@@ -53,13 +56,14 @@ class StoreRewardController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(AddEditStoreRewardRequest $request)
     {
         $input = $request->all();
         unset($input['_token']);
         $id='';
         if(isset($input['id']))
             $id = $input['id'];
+
         $reward =  StoreReward::updateOrInsert(['id' => $id],$input);
         return response()->json([ 'status' => 1 ,  'success'=>'Record added successfully' , 'data' =>$reward ]);
     }
@@ -95,7 +99,7 @@ class StoreRewardController extends Controller
      * @param  \App\StoreReward  $storeReward
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, StoreReward $storeReward)
+    public function update(AddEditStoreRewardRequest $request, StoreReward $storeReward)
     {
         $input = $request->all();
         dd($input);

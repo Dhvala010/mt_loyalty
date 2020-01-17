@@ -27,7 +27,8 @@ class AddEditStoreOfferRequest extends FormRequest
             'store_offer_id' => [ 'nullable','exists:store_offers,id'],
             'store_id' => [ 'required','exists:stores,id,deleted_at,NULL'],
             'title' => [ 'required' ],
-            'offer_valid' => [ 'required' ],
+            'count' => [ 'required' ,'numeric' ],
+            'offer_valid' => [ 'required','date' ],
         ];
     }
 }

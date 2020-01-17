@@ -231,17 +231,17 @@
 							$('#StoreModal').modal('hide');
 							$('#storedatatable').DataTable().ajax.reload();
 					},error: function (reject) {
-             		if( reject.status === 422 ) {
-						var errors = $.parseJSON(reject.responseText);
-						$( "#CreateStoreForm div.form-group").removeClass("has-error");
-						$( "#CreateStoreForm div.form-group span").hide();
-						$.each(errors.errors, function (key, val){
-							$( "#CreateStoreForm span#" + key + "_error").parent().addClass("has-error");
-							$("#" + key + "_error").show();
-							$("#" + key + "_error").text(val[0]);
-						});
-                	}
-            }
+						if( reject.status === 422 ) {
+							var errors = $.parseJSON(reject.responseText);
+							$( "#CreateStoreForm div.form-group").removeClass("has-error");
+							$( "#CreateStoreForm div.form-group span").hide();
+							$.each(errors.errors, function (key, val){
+								$( "#CreateStoreForm span#" + key + "_error").parent().addClass("has-error");
+								$("#" + key + "_error").show();
+								$("#" + key + "_error").text(val[0]);
+							});
+						}
+            		}
 				});
 			}));
          });

@@ -59,22 +59,23 @@
 				<select name="store_id" id="merchant" class="form-control form-control-user">
 					<option value="">--select store--</option>
 				</select>
+				<span id="store_id_error" class="help-block"></span>
 			</div>
 			<div class="form-group">
 				<input type="text" class="form-control form-control-user" name="title" id="title" placeholder="Enter Title..." />
-				<span id="title_error" class="error"></span>
+				<span id="title_error" class="help-block"></span>
 			</div>
 			<div class="form-group">
 				<input type="text" class="form-control form-control-user" name="description" id="description" placeholder="Enter Description..." />
-				<span id="description_error" class="error"></span>
+				<span id="description_error" class="help-block"></span>
             </div>
             <div class="form-group">
 				<input type="text" class="form-control form-control-user" name="count" id="count" placeholder="enter count" />
-				<span id="description_error" class="error"></span>
+				<span id="count_error" class="help-block"></span>
             </div>
             <div class="form-group">
 				<input type="date" class="form-control form-control-user" name="offer_valid" id="offer_valid" placeholder="offer valide" />
-				<span id="description_error" class="error"></span>
+				<span id="offer_valid_error" class="help-block"></span>
 			</div>
 
 			<div class="modal-footer">
@@ -135,6 +136,8 @@
 			}
 			$(document).on("click",".Addreward",function() {
 				$('.Errors').html('');
+				$( "#reward_form div.form-group").removeClass("has-error");
+				$( "#reward_form div.form-group span").hide();
 				$('#reward_form').trigger("reset");
 				$('#RewardId').val('');
 
@@ -161,7 +164,8 @@
 				$('.edit_method').val("post");
 				$('.Errors').html('');
 				var Id = $(this).attr('data-id');
-
+				$( "#reward_form div.form-group").removeClass("has-error");
+				$( "#reward_form div.form-group span").hide();
 				$.ajax({
 					url: "{{ url('admin/store_reward/') }}/" + Id,
 					method: 'get',
@@ -175,9 +179,7 @@
 						$("#count").val(result.data.count);
 						$("#offer_valid").val(result.data.offer_valid);
 						$("#merchant").val(result.data.store_id);
-
 					}
-
 				});
 
 			});
@@ -187,28 +189,37 @@
 		 </script>
 		  <script>
 			$(document).ready(function(){
-
-			$('#reward_form').on('submit', function(event){
-			 event.preventDefault();
-			 url =  "{{ url('admin/store_reward')}}/"
-			 $.ajax({
-			  url:url,
-			  method:"POST",
-			  data:new FormData(this),
-			//   dataType:'JSON',
-			  contentType: false,
-			  cache: false,
-			  processData: false,
-			  success:function(data)
-			  {
-			   $('#mul_ajax').css('display', 'block');
-			   $('#StoreModal').modal('hide');
-			   $('#storedatatable').DataTable().ajax.reload();
-			   $("#reward_form")[0].reset();
-			  }
-			 })
-			});
-
+				$('#reward_form').on('submit', function(event){
+					event.preventDefault();
+					$( "#reward_form div.form-group").removeClass("has-error");
+					$( "#reward_form div.form-group span").hide();
+					url =  "{{ url('admin/store_reward')}}/"
+					$.ajax({
+						url:url,
+						method:"POST",
+						data:new FormData(this),
+					//   dataType:'JSON',
+						contentType: false,
+						cache: false,
+						processData: false,
+						success:function(data){
+							$('#mul_ajax').css('display', 'block');
+							$('#StoreModal').modal('hide');
+							$('#storedatatable').DataTable().ajax.reload();
+							$("#reward_form")[0].reset();
+						},
+						error: function (reject) {
+							if( reject.status === 422 ) {
+								var errors = $.parseJSON(reject.responseText);
+								$.each(errors.errors, function (key, val){
+									$( "#reward_form span#" + key + "_error").parent().addClass("has-error");
+									$("#" + key + "_error").show();
+									$("#" + key + "_error").text(val[0]);
+								});
+							}
+						}
+					})
+				});
 			});
 			</script>
 @stop
