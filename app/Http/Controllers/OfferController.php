@@ -123,7 +123,7 @@ class OfferController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(StorePromocode $offer)
+    public function destroy(StoreOffer $offer)
     {
         $offer->delete();
         return response()->json([ 'status' => 1 ,  'success'=>'success' ]);
@@ -132,7 +132,7 @@ class OfferController extends Controller
 
     public function GetDataById(Request $request){
         $Id = $request->id;
-        $category = StorePromocode::with('store')->where('id',$Id)->first();
+        $category = StoreOffer::with('store')->where('id',$Id)->first();
         return response()->json([ 'status' => 1 ,  'success'=>'success' , 'data' => $category ]);
       }
 }
