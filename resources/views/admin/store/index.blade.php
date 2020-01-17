@@ -59,36 +59,37 @@
 				<select name="user_id" id="merchant" class="form-control form-control-user">
 					<option value="">-- Select Merchant --</option>
 				</select>
+				<span id="user_id_error" class="help-block"></span>
 			</div>
 			<div class="form-group">
 				<input type="text" class="form-control form-control-user" name="title" id="title" placeholder="Enter Title..." />
-				<span id="title_error" class="error"></span>
+				<span id="title_error" class="help-block"></span>
 			</div>
 			<div class="form-group">
 				<input type="text" class="form-control form-control-user" name="description" id="description" placeholder="Enter Description..." />
-				<span id="description_error" class="error"></span>
+				<span id="description_error" class="help-block"></span>
 			</div>
 			<div class="form-group">
 			  <input type="text" class="form-control form-control-user" name="phone_number" id="phone_number" placeholder="Enter Phone Number..." />
-				<span id="phone_number_error" class="error"></span>
+				<span id="phone_number_error" class="help-block"></span>
 			</div>
 			<div class="form-group">
 			  <input type="text" class="form-control form-control-user" name="facebook_url" id="facebook_url" placeholder="Enter Facebook Url..." />
-				<span id="facebook_url_error" class="error"></span>
+				<span id="facebook_url_error" class="help-block"></span>
 			</div>
 			<div class="form-group">
 			  <input type="text" class="form-control form-control-user" name="location_address" id="location_address" placeholder="Enter Location Address..." />
-				<span id="location_address_error" class="error"></span>
+				<span id="location_address_error" class="help-block"></span>
 			</div>
 
 			<div class="form-group">
 			  <input type="text" class="form-control form-control-user" name="email" id="email" placeholder="Enter Email Address..." />
-				<span id="email_error" class="error"></span>
+				<span id="email_error" class="help-block"></span>
 			</div>
 
 			<div class="form-group">
 			  <input type="file" id="image" name="image" class="form-control-file">
-				<div class="image-div mt-3" style="">
+				<div class="image-div mt-3" >
 				</div>
 			</div>
 
@@ -175,7 +176,7 @@
 						$('#StoreModalLabel').html('Edit Store');
 						$('#CreateStoreButton').html('Edit Store');
 						$('.image-div').html(image);
-						$('#StoreId').val(result.data.store_id);
+						$('#StoreId').val(result.data.id);
 						$("#title").val(result.data.title);
 						$("#description").val(result.data.description);
 						$("#email").val(result.data.email);
@@ -222,16 +223,21 @@
 					processData:false,
 					data: new FormData(this),
 					success: function(result){
+							$( "#CreateStoreForm div.form-group").removeClass("has-error");
+							$( "#CreateStoreForm div.form-group span").hide();
 							$('#StoreModal').modal('hide');
 							$('#storedatatable').DataTable().ajax.reload();
 					},error: function (reject) {
-             if( reject.status === 422 ) {
-										var errors = $.parseJSON(reject.responseText);
-                    $.each(errors.errors, function (key, val) {
-												$("#" + key + "_error").show();
-                        $("#" + key + "_error").text(val[0]);
-                    });
-                }
+             		if( reject.status === 422 ) {
+						var errors = $.parseJSON(reject.responseText);
+						$( "#CreateStoreForm div.form-group").removeClass("has-error");
+						$( "#CreateStoreForm div.form-group span").hide();
+						$.each(errors.errors, function (key, val){
+							$( "#CreateStoreForm span#" + key + "_error").parent().addClass("has-error");
+							$("#" + key + "_error").show();
+							$("#" + key + "_error").text(val[0]);
+						});
+                	}
             }
 				});
 			}));

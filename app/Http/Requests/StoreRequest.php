@@ -24,10 +24,11 @@ class StoreRequest extends FormRequest
     public function rules()
     {
         return [
+            'user_id' => 'required',
             'description' => 'required',
-            'phone_number' => 'required',
-            'email' => 'required',
-            'facebook_url' => 'required',
+            'phone_number' => 'required|numeric|digits:10',
+            'email' => 'required|email',
+            'facebook_url' => 'required|url',
             'location_address' => 'required',
             'title' => 'required|unique:stores,title,'.$this->id,
             //'image' =>'sometime|mimes:jpeg,jpg,png,gif',
