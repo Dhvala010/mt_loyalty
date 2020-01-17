@@ -25,10 +25,11 @@ Route::group(['middleware' => 'auth','check-admin'], function () {
         return view('home');
     })->name('home');
 
+    Route::get('user/ChangePassword', 'UsersController@ChangePassword');
+    Route::post('user/ChangePasswords', 'UsersController@ChangePasswords');
+
     Route::group(['middleware' => ['permission:admin module']], function () {
         Route::post('user/GetDataById', 'UsersController@GetDataById');
-        Route::get('user/ChangePassword', 'UsersController@ChangePassword');
-        Route::post('user/ChangePasswords', 'UsersController@ChangePasswords');
         Route::resource('user', 'UsersController');
     });
 
