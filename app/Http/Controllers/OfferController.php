@@ -20,7 +20,14 @@ class OfferController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $data = StoreOffer::with('store')->get();
+            $user = Auth::user();
+            $user_id = $user->id;
+            $data = StoreOffer::with('store');
+            if($user->hasRole('merchant'))
+                $data = $data->whereIn('store_id', function($query) use($user_id) {
+                    $query->select('id')->from('stores')->where("user_id",$user_id);
+                });
+
             return Datatables::of($data)
                     ->addIndexColumn()
                     ->addColumn('action', function($row){
@@ -31,7 +38,7 @@ class OfferController extends Controller
                     ->rawColumns(['action'])
                     ->make(true);
         }
-		    return view('admin.offer.index');
+		return view('admin.offer.index');
     }
 
     /**

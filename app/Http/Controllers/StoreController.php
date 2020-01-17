@@ -21,7 +21,11 @@ class StoreController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $data = Store::query();
+            $user = Auth::user();
+            if($user->hasRole('admin'))
+                $data = Store::query();
+            else
+                $data = Store::where('user_id',$user->id);
             return Datatables::of($data)
                     ->addIndexColumn()
                     ->addColumn('action', function($row){
@@ -65,10 +69,16 @@ class StoreController extends Controller
           return response()->json([ 'status' => 1 ,  'success'=>'Record added successfully' , 'data' =>$Store ]);
     }
     public function getmerchant(){
+        $user = Auth::user();
         $merchants = User::where('role',3)->get();
-        $html = '<option value="">-- Select Merchant --</option>';
-        foreach($merchants as $merchant){
-            $html .= '<option value="'.$merchant->id.'">'.$merchant->first_name.'</option>';
+        if($user->hasRole('admin')){
+            $html = '<option value="">-- Select Merchant --</option>';
+            foreach($merchants as $merchant){
+                $html .= '<option value="'.$merchant->id.'">'.$merchant->first_name.'</option>';
+            }
+        }
+        else{
+            $html =  '<option value="'.$user->id.'">'.$user->first_name.'</option>';
         }
         return response()->json([ 'status' => 1 ,  'success'=>'Record added successfully' , 'data' =>$html ]);
     }
@@ -128,9 +138,7 @@ class StoreController extends Controller
 
 
     public function GetDataById(Request $request){
-       
         $Id = $request->id;
-        dd($Id);
         $category = Store::where('id',$Id)->first();
         return response()->json([ 'status' => 1 ,  'success'=>'success' , 'data' => $category ]);
       }

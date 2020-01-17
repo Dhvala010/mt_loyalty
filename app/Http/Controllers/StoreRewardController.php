@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\StoreReward;
 use Illuminate\Http\Request;
 use DataTables;
-
+use Auth;
 class StoreRewardController extends Controller
 {
     /**
@@ -16,18 +16,24 @@ class StoreRewardController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-        $data = StoreReward::query();
-        return DataTables::of($data)
-                ->addIndexColumn()
-                ->addColumn('action', function($row){
-                    $btn = '<a href="javascript:void(0)" id="EditReward" data-id="'. $row->id .'" class="btn btn-xs btn-primary"><i class="glyphicon glyphicon-edit"></i> Edit</a>';
-                    $btn .= ' <a href="javascript:void(0)" id="DeleteReward" data-id="'. $row->id .'" class="btn btn-xs btn-danger"><i class="glyphicon glyphicon-trash"></i> Delete</a>';
-                    return $btn;
-                })
-                ->rawColumns(['action'])
-                ->make(true);
-    }
+            $user = Auth::user();
+            $user_id = $user->id;
+            $data = StoreReward::query();
+            if($user->hasRole('merchant'))
+                $data = $data->whereIn('store_id', function($query) use($user_id) {
+                    $query->select('id')->from('stores')->where("user_id",$user_id);
+                });
 
+            return DataTables::of($data)
+                    ->addIndexColumn()
+                    ->addColumn('action', function($row){
+                        $btn = '<a href="javascript:void(0)" id="EditReward" data-id="'. $row->id .'" class="btn btn-xs btn-primary"><i class="glyphicon glyphicon-edit"></i> Edit</a>';
+                        $btn .= ' <a href="javascript:void(0)" id="DeleteReward" data-id="'. $row->id .'" class="btn btn-xs btn-danger"><i class="glyphicon glyphicon-trash"></i> Delete</a>';
+                        return $btn;
+                    })
+                    ->rawColumns(['action'])
+                    ->make(true);
+        }
         return view('admin.store_reward.store_reward');
     }
 
@@ -52,13 +58,10 @@ class StoreRewardController extends Controller
         $input = $request->all();
         unset($input['_token']);
         $id='';
-        if(isset($input['id'])){$id = $input['id'];}
-
-
-          $reward =  StoreReward::updateOrInsert(['id' => $id],$input);
-
-
-          return response()->json([ 'status' => 1 ,  'success'=>'Record added successfully' , 'data' =>$reward ]);
+        if(isset($input['id']))
+            $id = $input['id'];
+        $reward =  StoreReward::updateOrInsert(['id' => $id],$input);
+        return response()->json([ 'status' => 1 ,  'success'=>'Record added successfully' , 'data' =>$reward ]);
     }
 
     /**
@@ -70,7 +73,6 @@ class StoreRewardController extends Controller
     public function show(StoreReward $storeReward)
     {
         $Id = $storeReward->id;
-
         $category = StoreReward::where('id',$Id)->first();
         return response()->json([ 'status' => 1 ,  'success'=>'success' , 'data' => $category ]);
     }

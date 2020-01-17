@@ -19,6 +19,6 @@ class UsersTableSeeder extends Seeder
             'password' => bcrypt('Admin@123'),
             'role' =>'1',
         ]);
-        // $user->assignRole("admin");
+        $user->assignRole("admin");
     }
 }

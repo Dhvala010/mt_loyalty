@@ -27,10 +27,6 @@ class CreateUser
         $data['role'] = config("loyalty.user_role.".$data['role']);
         $user = User::where(['email' => $data['email'] ])->first();
 
-        if($role=='merchant'){
-            $data['is_active'] = 0;
-        }
-
         if(!empty($data['fbid']) || !empty($data['tid']) || !empty($data['gid'])){
             if(!empty($user)){
                 if(!empty($data['fbid']))
@@ -56,12 +52,14 @@ class CreateUser
             $data['password'] = HashPassword($data['password']);
             $data['unique_token'] = Str::random(12);
             $user = $this->user->create($data);
+            $user->assignRole($role);
         } catch (\Exception $e) {
             rollback();
             throw new Exception(ResponseMessage::ERROR_CREATING_USER);
         }
         try {
-            $user->devices()->create($data);
+            if(!empty($data['fcm_token']))
+                $user->devices()->create($data);
         } catch (\Exception $e) {
             rollback();
             throw new Exception(ResponseMessage::ERROR_CREATING_DEVICE);

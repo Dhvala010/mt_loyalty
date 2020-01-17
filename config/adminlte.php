@@ -127,14 +127,14 @@ return [
     | layout. The 'can' is a filter on Laravel's built in Gate functionality.
     */
 
-    /*'menu' => [
+    'menu' => [
 
         ['header' => 'main_navigation'],
-        [
-            'text' => 'blog',
-            'url'  => 'admin/blog',
-            'can'  => 'manage-blog',
-        ],
+        // [
+        //     'text' => 'blog',
+        //     'url'  => 'admin/blog',
+        //     'can'  => 'manage-blog',
+        // ],
         [
             'text'        => 'Dashboard',
             'url'         => 'admin/',
@@ -143,20 +143,35 @@ return [
         [
             'text'        => 'User Management',
             'url'         => 'admin/user',
-            'icon'        => 'fas fa-fw fa-user'
+            'icon'        => 'fas fa-fw fa-user',
+            'can'  => 'admin module',
         ],
         [
             'text'        => 'Store Management',
             'url'         => 'admin/store',
-            'icon'        => 'fas fa-fw fa-file'
+            'icon'        => 'fa fa-fw fa-store',
+            'can'  => 'merchant module',
+        ],
+        [
+            'text'        => 'Offers',
+            'url'         => 'admin/offer',
+            'icon'        => 'fa fa-gift',
+            'can'  => 'merchant module',
+        ],
+        [
+            'text'        => 'Store Reward',
+            'url'         => 'admin/store_reward',
+            'icon'        => 'fa fa-gift',
+            'can'  => 'merchant module',
         ],
         [
             'text' => 'change_password',
             'url'  => 'admin/user/ChangePassword',
             'icon' => 'fas fa-fw fa-lock',
+            'can'  => 'merchant module',
         ],
 
-    ],*/
+    ],
 
     /*
     |--------------------------------------------------------------------------

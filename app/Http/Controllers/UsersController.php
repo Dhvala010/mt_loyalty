@@ -76,13 +76,16 @@ class UsersController extends Controller
           $imagename = ImageUpload($file,'users');
           $input['profile_picture'] = $imagename;
         }
-
+        $role = $input['role'];
+        $user_roles = config('loyalty.user_role');
+        $rolenames = array_keys($user_roles,$role);
+        $rolename = reset($rolenames);
         if(!empty($request->id)){
           unset($input['password']);
           $User = User::find($input['id']);
-
           $User->fill($input);
           $User->save();
+          $User->syncRoles([$rolename]);
           return response()->json([ 'status' => 1 ,  'success'=>'Record Edited successfully']);
         }
         else{
@@ -90,6 +93,7 @@ class UsersController extends Controller
           $User = new User();
           $User->fill($input);
           $User->save();
+          $User->assignRole($rolename);
           return response()->json([ 'status' => 1 ,  'success'=>'Record added successfully' , 'data' =>$User ]);
         }
     }
