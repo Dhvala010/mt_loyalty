@@ -58,7 +58,9 @@
 
                     <ul class="nav navbar-nav">
                         <li>
-                            <span class="hidden-xs">Welcome, {{Auth::user()->first_name}}</span>
+                            <a href="#" class="" data-toggle="dropdown" aria-expanded="false">
+                                <span class="hidden-xs">Welcome, {{Auth::user()->first_name}}</span>
+                            </a>
                         </li>
                         <li>
                             <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
