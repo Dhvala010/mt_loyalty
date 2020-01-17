@@ -34,9 +34,6 @@ class ResetPasswordController extends Controller
      */
     protected $redirectTo = '/login';
 
-
-
-
     protected function sendResetResponse($response)
     {
         return redirect()->back()->with('status', "Password changes successfully");
