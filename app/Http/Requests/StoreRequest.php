@@ -31,7 +31,7 @@ class StoreRequest extends FormRequest
             'facebook_url' => 'required|url',
             'location_address' => 'required',
             'title' => 'required|unique:stores,title,'.$this->id,
-            //'image' =>'sometime|mimes:jpeg,jpg,png,gif',
+            // 'image' =>'sometime|mimes:jpeg,jpg,png,gif',
         ];
     }
 }

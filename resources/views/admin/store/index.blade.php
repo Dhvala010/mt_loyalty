@@ -151,6 +151,8 @@
 			}
 			$(document).on("click",".CreateStore",function() {
 				$('.edit_method').val("post");
+				$( "#CreateStoreForm div.form-group").removeClass("has-error");
+				$( "#CreateStoreForm div.form-group span").hide();
 				$('.Errors').html('');
 				$('#CreateStoreForm').trigger("reset");
 				$('#StoreId').val('');
@@ -163,6 +165,8 @@
 			$(document).on("click","#EditStore",function() {
 				$('.edit_method').val("put");
 				$('.Errors').html('');
+				$( "#CreateStoreForm div.form-group").removeClass("has-error");
+				$( "#CreateStoreForm div.form-group span").hide();
 				var Id = $(this).attr('data-id');
 				$.ajax({
 					url: "{{ url('admin/store/') }}/" + Id,
@@ -172,7 +176,6 @@
 						if(result.data.image){
 							var image = " <img src='"+ result.data.image + "'>";
 						}
-
 						$('#StoreModalLabel').html('Edit Store');
 						$('#CreateStoreButton').html('Edit Store');
 						$('.image-div').html(image);
