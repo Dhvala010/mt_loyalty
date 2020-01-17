@@ -56,12 +56,18 @@ use Illuminate\Support\Facades\DB;
         return $profile_img;
     }
 
-     function totaluser(){
+    function totaluser(){
         $user = User::get()->count();
         return $user;
     }
-     function totalstore(){
-        $store = Store::get()->count();
+
+    function totalstore(){
+        $user = Auth::user();
+        $store = Store::get();
+        if($user->hasRole('merchant'))
+            $store = $store->where("user_id",$user->id);
+
+        $store = $store->count();
         return $store;
     }
 

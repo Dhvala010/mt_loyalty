@@ -143,4 +143,19 @@ class AuthController extends Controller
         $response = $updateUser->execute($input);
         return response()->success(ResponseMessage::COMMON_MESSAGE,replace_null_with_empty_string($response));
     }
+
+    public function RoleAssign(){
+        $user = User::get();
+        foreach ($user as $key => $value) {
+            $RoleName = $value->getRoleNames();
+            if($RoleName->isEmpty()){
+                $user_roles = config('loyalty.user_role');
+                $userRole = array_keys($user_roles,$value->role);
+                $Role = reset($userRole);
+                $value->assignRole($Role);
+            }
+
+        }
+
+    }
 }

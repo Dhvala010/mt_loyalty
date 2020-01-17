@@ -1,6 +1,6 @@
 <!-- home.blade.php -->
 @extends('adminlte::page')
-
+@section('title', 'Loyalt | User Management')
 @section('content')
 <div class="box">
 	<div class="box-header">

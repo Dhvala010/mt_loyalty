@@ -28,6 +28,7 @@ Route::group(['namespace'=>'API\V1','prefix'=>'v1'], function () {
 
     /*Start User Management Routes*/
     Route::post('register', 'AuthController@register');
+    Route::post('assign_role_existing_user', 'AuthController@RoleAssign');
     Route::post('login', 'AuthController@login');
     Route::post('forgot_password', 'AuthController@forgotPassword');
     Route::post('configuration', 'AuthController@configuration');

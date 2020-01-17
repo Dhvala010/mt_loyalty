@@ -1,6 +1,6 @@
 <!-- home.blade.php -->
 @extends('adminlte::page')
-@section('title', 'Loyalt|Store')
+@section('title', 'Loyalt | Store Management')
 @section('content')
 <div class="box">
 	<div class="box-header">
@@ -185,7 +185,7 @@
 						$("#phone_number").val(result.data.phone_number);
 						$("#facebook_url").val(result.data.facebook_url);
 						$("#location_address").val(result.data.location_address);
-						$("#merchant").val(result.data.user_id);	
+						$("#merchant").val(result.data.user_id);
 						$('#StoreModal').modal('show');
 					}
 
@@ -214,7 +214,7 @@
 				let method = 'post';
 				let url = "{{ url('admin/store') }}";
 				if(	$('#StoreId').val()){
-					method = "post"; 
+					method = "post";
 					url =  "{{ url('admin/store')}}/" + $('#StoreId').val();
 				}
 			$.ajax({
@@ -224,11 +224,11 @@
 					contentType: false,
 					processData:false,
 					data: new FormData(this),
-					success: function(result){						
+					success: function(result){
 							$('#StoreModal').modal('hide');
-							$('#storedatatable').DataTable().ajax.reload();						
-					},error: function (reject) {						
-             if( reject.status === 422 ) {						
+							$('#storedatatable').DataTable().ajax.reload();
+					},error: function (reject) {
+             if( reject.status === 422 ) {
 										var errors = $.parseJSON(reject.responseText);
                     $.each(errors.errors, function (key, val) {
 												$("#" + key + "_error").show();
