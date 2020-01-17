@@ -169,7 +169,7 @@
 					success: function(result){
 						var image = "";
 						if(result.data.image){
-							var image = " <img src='{{ url('/uploads/stores') }}/" + result.data.image + "'>";
+							var image = " <img src='"+ result.data.image + "'>";
 						}
 
 						$('#StoreModalLabel').html('Edit Store');
