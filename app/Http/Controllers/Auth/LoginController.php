@@ -40,6 +40,6 @@ class LoginController extends Controller
     }
 
     protected function credentials(Request $request) {
-        return array_merge($request->only($this->username(), 'password'), [ 'role' => '1' ,'role' => '3' ]);
+        return array_merge($request->only($this->username(), 'password'), [ 'role' => [ 1 , 3 ] ]);
     }
 }

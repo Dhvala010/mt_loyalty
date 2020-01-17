@@ -54,7 +54,7 @@
 
 			@csrf
 			<div class="Errors"></div>
-			<input type="hidden" class="form-control form-control-user" name="id" id="StoreId" />
+			<input type="hidden" class="form-control form-control-user" name="id" id="RewardId" />
 			<div class="form-group">
 				<select name="store_id" id="merchant" class="form-control form-control-user">
 					<option value="">--select store--</option>
@@ -101,6 +101,7 @@
 @section('js')
 	<script>
          $(function() {
+			getmerchant();
 			 $.ajaxSetup({
 			  headers: {
 				'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -133,18 +134,14 @@
 				});
 			}
 			$(document).on("click",".Addreward",function() {
-
 				$('.Errors').html('');
 				$('#reward_form').trigger("reset");
-				$('#StoreId').val('');
+				$('#RewardId').val('');
 
-				$('.EditInput').show();
 				$('#StoreModalLabel').html('Add Reward');
 				$('#CreateStoreButton').html('Add Reward');
 				$('#StoreModal').modal('show');
-				getmerchant();
 			});
-
 
 
 			$(document).on("click","#DeleteReward",function() {
@@ -164,21 +161,21 @@
 				$('.edit_method').val("post");
 				$('.Errors').html('');
 				var Id = $(this).attr('data-id');
-				getmerchant();
+
 				$.ajax({
 					url: "{{ url('admin/store_reward/') }}/" + Id,
 					method: 'get',
 					success: function(result){
-						$('.EditInput').hide();
+						$('#StoreModal').modal('show');
 						$('#StoreModalLabel').html('Edit Reward');
 						$('#CreateStoreButton').html('Edit Reward');
-						$('#StoreId').val(result.data.id);
+						$('#RewardId').val(result.data.id);
 						$("#title").val(result.data.title);
 						$("#description").val(result.data.description);
 						$("#count").val(result.data.count);
 						$("#offer_valid").val(result.data.offer_valid);
 						$("#merchant").val(result.data.store_id);
-						$('#StoreModal').modal('show');
+
 					}
 
 				});

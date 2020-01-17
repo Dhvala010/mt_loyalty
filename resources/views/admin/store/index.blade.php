@@ -116,6 +116,7 @@
 @section('js')
 	<script>
          $(function() {
+			getmerchant();
 			 $.ajaxSetup({
 			  headers: {
 				'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -153,23 +154,19 @@
 				$('#CreateStoreForm').trigger("reset");
 				$('#StoreId').val('');
 				$('.image-div').html('');
-				$('.EditInput').show();
 				$('#StoreModalLabel').html('Add Store');
 				$('#CreateStoreButton').html('Add Store');
 				$('#StoreModal').modal('show');
-				getmerchant();
 			});
 
 			$(document).on("click","#EditStore",function() {
 				$('.edit_method').val("put");
 				$('.Errors').html('');
 				var Id = $(this).attr('data-id');
-				getmerchant();
 				$.ajax({
 					url: "{{ url('admin/store/') }}/" + Id,
 					method: 'get',
 					success: function(result){
-						$('.EditInput').hide();
 						var image = "";
 						if(result.data.image){
 							var image = " <img src='{{ url('/uploads/stores') }}/" + result.data.image + "'>";
@@ -178,7 +175,7 @@
 						$('#StoreModalLabel').html('Edit Store');
 						$('#CreateStoreButton').html('Edit Store');
 						$('.image-div').html(image);
-						$('#StoreId').val(result.data.id);
+						$('#StoreId').val(result.data.store_id);
 						$("#title").val(result.data.title);
 						$("#description").val(result.data.description);
 						$("#email").val(result.data.email);

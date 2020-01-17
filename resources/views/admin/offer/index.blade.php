@@ -100,6 +100,7 @@
 		    format: "dd/mm/yyyy",
 		});
 		 $(function() {
+			getmerchant();
 			 $.ajaxSetup({
 			  headers: {
 				'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -136,22 +137,18 @@
 				$('.Errors').html('');
 				$('#CreateOfferForm').trigger("reset");
 				$('#OfferId').val('');
-				$('.EditInput').show();
 				$('#StoreModalLabel').html('Add Offer');
 				$('#CreateOfferButton').html('Add Offer');
 				$('#StoreModal').modal('show');
-				getmerchant();
 			});
 			 $(document).on("click","#EditStore",function() {
 				$('.edit_method').val("put");
 				$('.Errors').html('');
 				var Id = $(this).attr('data-id');
-				getmerchant();
 				$.ajax({
 					url: "{{ url('admin/offer/') }}/" + Id,
 					method: 'get',
 					success: function(result){
-						$('.EditInput').hide();
 						$('#StoreModalLabel').html('Edit Offer');
 						$('#CreateOfferButton').html('Edit Offer');
 						$('#OfferId').val(result.data.id);
