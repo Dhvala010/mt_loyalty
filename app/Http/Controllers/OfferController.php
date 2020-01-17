@@ -67,11 +67,12 @@ class OfferController extends Controller
         return response()->json([ 'status' => 1 ,  'success'=>'Record added successfully' , 'data' =>$offer ]);
     }
     public function getstore(){
-        if(Auth::user()->role == 3){
+        if(Auth::user()->hasRole('merchant')){
             $store = Store::where('user_id',Auth::user()->id)->get();
         }else{
             $store = Store::get();
         }
+
         $html = '<option value="">-- Select Store --</option>';
         foreach($store as $store){
             $html .= '<option value="'.$store->id.'">'.$store->title.'</option>';
