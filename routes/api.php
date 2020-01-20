@@ -36,6 +36,9 @@ Route::group(['namespace'=>'API\V1','prefix'=>'v1'], function () {
     /*End User Management Routes*/
 
     Route::group(['middleware' => ['auth:api']], function () {
+
+        Route::post('add_feedback', 'AuthController@AddFeedBack');
+
         /*Start User Management Routes*/
         Route::post('user_detail', 'AuthController@UserDetail');
         Route::post('logout', 'AuthController@logout');

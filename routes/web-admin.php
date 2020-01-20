@@ -33,11 +33,10 @@ Route::group(['middleware' => 'auth','check-admin'], function () {
         Route::resource('user', 'UsersController');
     });
 
-    Route::group(['middleware' => ['permission:merchant module']], function () {
+    Route::group(['middleware' => ['permission:merchant module']], function (){
         Route::get('get-store','OfferController@getstore');
         Route::resource('offer', 'OfferController');
         Route::post('offer/GetDataById', 'OfferController@GetDataById');
-
 
         Route::get('get-merchant','StoreController@getmerchant');
         Route::post('store/GetDataById', 'StoreController@GetDataById');
@@ -48,5 +47,4 @@ Route::group(['middleware' => 'auth','check-admin'], function () {
 
         Route::resource('store_reward', 'StoreRewardController');
     });
-
 });

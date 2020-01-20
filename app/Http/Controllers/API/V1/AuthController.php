@@ -17,12 +17,13 @@ use App\Http\Requests\StoreChangePasswordRequest,
     App\Http\Requests\StoreRegiserRequest,
     App\Http\Requests\CheckSocialLoginRequest,
     App\Http\Requests\UpdateUserRequest,
-    App\Http\Requests\validatefamilyid;
+    App\Http\Requests\ValidateFeedBack;
 
 use Illuminate\Support\Facades\Auth;
 
 use App\User,
-    App\Country;
+    App\Country,
+    App\UserFeedback;
 
 use Illuminate\Support\Facades\Hash;
 /*use App\Mail\VerifyMail;*/
@@ -154,8 +155,17 @@ class AuthController extends Controller
                 $Role = reset($userRole);
                 $value->assignRole($Role);
             }
-
         }
+    }
 
+    public function AddFeedBack(ValidateFeedBack $request)
+    {
+        $user = Auth::user();
+        $user_id = $user->id;
+        $input = $request->all();
+        $input['user_id'] = $user_id;
+        $user = UserFeedback::create($input);
+
+        return response()->success(ResponseMessage::COMMON_MESSAGE);
     }
 }
