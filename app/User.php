@@ -34,7 +34,8 @@ class User extends Authenticatable implements MustVerifyEmail
         'tid',
         'is_active',
         'birthdate',
-        'gender'
+        'gender',
+        'is_notification'
     ];
 
     /**
