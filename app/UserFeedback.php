@@ -11,4 +11,8 @@ class UserFeedback extends Model
 		'title',
 		'description'
 	];
+
+	public function user_detail(){
+        return $this->belongsTo(User::class,'user_id', 'id');
+    }
 }

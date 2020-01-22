@@ -170,6 +170,12 @@ return [
             'icon' => 'fas fa-fw fa-lock',
             'can'  => 'merchant module',
         ],
+        [
+            'text' => 'User FeedBack',
+            'url'  => 'admin/user_feedback',
+            'icon' => 'fa fa-bug',
+            'can'  => 'admin module',
+        ],
 
     ],
 

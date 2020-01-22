@@ -19,7 +19,7 @@ Route::bind('user', function ($value) {
 
 Auth::routes(['verify' => true]);
 
-Route::group(['middleware' => 'auth','check-admin'], function () {
+Route::group(['middleware' => 'auth'], function () {
 
     Route::get('/', function() {
         return view('home');
@@ -27,10 +27,12 @@ Route::group(['middleware' => 'auth','check-admin'], function () {
 
     Route::get('user/ChangePassword', 'UsersController@ChangePassword');
     Route::post('user/ChangePasswords', 'UsersController@ChangePasswords');
+    Route::any('user_feedback','UserFeedBackController@index');
 
     Route::group(['middleware' => ['permission:admin module']], function () {
         Route::post('user/GetDataById', 'UsersController@GetDataById');
         Route::resource('user', 'UsersController');
+
     });
 
     Route::group(['middleware' => ['permission:merchant module']], function (){
