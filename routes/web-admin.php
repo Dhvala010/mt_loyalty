@@ -36,6 +36,10 @@ Route::group(['middleware' => 'auth'], function () {
     });
 
     Route::group(['middleware' => ['permission:merchant module']], function (){
+
+        Route::resource('coupon', 'CouponController');
+        Route::post('coupon/GetDataById', 'CouponController@GetDataById');
+
         Route::get('get-store','OfferController@getstore');
         Route::resource('offer', 'OfferController');
         Route::post('offer/GetDataById', 'OfferController@GetDataById');

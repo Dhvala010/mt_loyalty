@@ -165,6 +165,12 @@ return [
             'can'  => 'merchant module',
         ],
         [
+            'text' => 'Store coupon',
+            'url'  => 'admin/coupon',
+            'icon' => 'fas fa-box-open',
+            'can'  => 'merchant module',
+        ],
+        [
             'text' => 'change_password',
             'url'  => 'admin/user/ChangePassword',
             'icon' => 'fas fa-fw fa-lock',

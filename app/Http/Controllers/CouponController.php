@@ -3,14 +3,13 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Http\Requests\AddEditStoreOfferRequest;
+use App\Http\Requests\AddEditStoreCouponRequest;
 
-use App\StoreOffer,
-    App\Store;
+use App\StoreCoupon;
 
 use DataTables, Auth ,Carbon;
 
-class OfferController extends Controller
+class CouponController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -22,7 +21,7 @@ class OfferController extends Controller
         if ($request->ajax()) {
             $user = Auth::user();
             $user_id = $user->id;
-            $data = StoreOffer::with('store');
+            $data = StoreCoupon::with('store');
             if($user->hasRole('merchant'))
                 $data = $data->whereIn('store_id', function($query) use($user_id) {
                     $query->select('id')->from('stores')->where("user_id",$user_id);
@@ -31,14 +30,14 @@ class OfferController extends Controller
             return Datatables::of($data)
                     ->addIndexColumn()
                     ->addColumn('action', function($row){
-						$btn = '<a href="javascript:void(0)" id="EditStore" data-id="'. $row->id .'" class="btn btn-xs btn-primary"><i class="glyphicon glyphicon-edit"></i> Edit</a>';
-                        $btn .= ' <a href="javascript:void(0)" id="DeleteStore" data-id="'. $row->id .'" class="btn btn-xs btn-danger"><i class="glyphicon glyphicon-trash"></i> Delete</a>';
+						$btn = '<a href="javascript:void(0)" id="EditCoupon" data-id="'. $row->id .'" class="btn btn-xs btn-primary"><i class="glyphicon glyphicon-edit"></i> Edit</a>';
+                        $btn .= ' <a href="javascript:void(0)" id="DeleteCoupon" data-id="'. $row->id .'" class="btn btn-xs btn-danger"><i class="glyphicon glyphicon-trash"></i> Delete</a>';
 						return $btn;
                     })
                     ->rawColumns(['action'])
                     ->make(true);
         }
-		return view('admin.offer.index');
+		return view('admin.coupon.index');
     }
 
     /**
@@ -57,38 +56,27 @@ class OfferController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(AddEditStoreOfferRequest $request)
+
+    public function store(AddEditStoreCouponRequest $request)
     {
         $input = $request->all();
         $input['offer_valid'] = Carbon\Carbon::parse($request->offer_valid)->format('Y-m-d');
-        $offer = new StoreOffer();
+        $offer = new StoreCoupon();
         $offer->fill($input);
         $offer->save();
         return response()->json([ 'status' => 1 ,  'success'=>'Record added successfully' , 'data' =>$offer ]);
     }
 
-    public function getstore(){
-        if(Auth::user()->hasRole('merchant')){
-            $store = Store::where('user_id',Auth::user()->id)->get();
-        }else{
-            $store = Store::get();
-        }
-
-        $html = '<option value="">-- Select Store --</option>';
-        foreach($store as $store){
-            $html .= '<option value="'.$store->id.'">'.$store->title.'</option>';
-        }
-        return response()->json([ 'status' => 1 ,  'success'=>'Record added successfully' , 'data' =>$html ]);
-    }
     /**
      * Display the specified resource.
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(StoreOffer $offer)
+    public function show(StoreCoupon $StoreCoupon,$id)
     {
-        return response()->json([ 'status' => 1 ,  'success'=>'success' , 'data' => $offer ]);
+        $coupon = $StoreCoupon->find($id);
+        return response()->json([ 'status' => 1 ,  'success'=>'success' , 'data' => $coupon ]);
     }
 
     /**
@@ -97,7 +85,7 @@ class OfferController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(StoreOffer $offer)
+    public function edit(StoreCoupon $offer)
     {
         return $offer;
     }
@@ -109,13 +97,14 @@ class OfferController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(AddEditStoreOfferRequest $request,StoreOffer $offer)
+    public function update(AddEditStoreCouponRequest $request,StoreCoupon $StoreCoupon)
     {
         $input = $request->all();
         $input['offer_valid'] = Carbon\Carbon::parse($request->offer_valid)->format('Y-m-d');
-        $offer->fill($input);
-        $offer->save();
-        return response()->json([ 'status' => 1 ,  'success'=>'success' , 'data' => $offer ]);
+        $StoreCoupon = $StoreCoupon->find($request->id);
+        $StoreCoupon->fill($input);
+        $StoreCoupon->save();
+        return response()->json([ 'status' => 1 ,  'success'=>'success' , 'data' => $StoreCoupon ]);
     }
 
     /**
@@ -124,16 +113,16 @@ class OfferController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(StoreOffer $offer)
+    public function destroy(StoreCoupon $StoreCoupon,$id)
     {
-        $offer->delete();
+        $StoreCoupon->where("id",$id)->delete();
         return response()->json([ 'status' => 1 ,  'success'=>'success' ]);
     }
 
 
     public function GetDataById(Request $request){
         $Id = $request->id;
-        $category = StoreOffer::with('store')->where('id',$Id)->first();
+        $category = StoreCoupon::with('store')->where('id',$Id)->first();
         return response()->json([ 'status' => 1 ,  'success'=>'success' , 'data' => $category ]);
     }
 }
