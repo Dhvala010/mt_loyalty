@@ -6,7 +6,7 @@ namespace App\Actions;
 use App\Constants\ResponseMessage;
 use App\User;
 use Exception;
-use Str;
+use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 /**
  * Response represents an HTTP response.
