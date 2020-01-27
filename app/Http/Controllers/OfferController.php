@@ -8,7 +8,9 @@ use App\Http\Requests\AddEditStoreOfferRequest;
 use App\StoreOffer,
     App\Store;
 
-use DataTables, Auth ,Carbon;
+use Yajra\DataTables\Facades\DataTables;
+use Illuminate\Support\Facades\Auth;
+use Carbon;
 
 class OfferController extends Controller
 {

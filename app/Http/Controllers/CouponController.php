@@ -7,7 +7,9 @@ use App\Http\Requests\AddEditStoreCouponRequest;
 
 use App\StoreCoupon;
 
-use DataTables, Auth ,Carbon;
+use Yajra\DataTables\Facades\DataTables;
+use Illuminate\Support\Facades\Auth;
+use  Carbon;
 
 class CouponController extends Controller
 {
@@ -27,7 +29,7 @@ class CouponController extends Controller
                     $query->select('id')->from('stores')->where("user_id",$user_id);
                 });
 
-            return Datatables::of($data)
+            return DataTables::of($data)
                     ->addIndexColumn()
                     ->addColumn('action', function($row){
 						$btn = '<a href="javascript:void(0)" id="EditCoupon" data-id="'. $row->id .'" class="btn btn-xs btn-primary"><i class="glyphicon glyphicon-edit"></i> Edit</a>';
