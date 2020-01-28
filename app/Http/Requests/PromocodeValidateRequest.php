@@ -24,7 +24,9 @@ class PromocodeValidateRequest extends FormRequest
     public function rules()
     {
         return [
-            'promocode_id' => [ 'required','exists:store_promocodes,id'],
+            'promocode_id' => [ 'nullable','exists:store_promocodes,id'],
+            'coupon_id' => [ 'nullable','exists:store_coupons,id,deleted_at,NULL'],
+            'store_id' => [ 'nullable','exists:stores,id,deleted_at,NULL'],
         ];
     }
 }

@@ -63,17 +63,17 @@ Route::group(['namespace'=>'API\V1','prefix'=>'v1'], function () {
         Route::post('store_offer_listing', 'StoreOfferController@StoreOfferList');
         /*End Merchant Store offer Routes*/
 
-        /*Start Store Promocode Routes*/
-        Route::post('add_edit_promocode', 'StorePromocodeController@AddEditpromocode');
-        Route::post('delete_promocode', 'StorePromocodeController@Deletepromocode');
-        Route::post('store_promocode_list', 'StorePromocodeController@promocodeList');
-        Route::post('generate_promocode_token', 'StorePromocodeController@GeneratePromocodeToken');
-        Route::post('validate_promocode_token', 'StorePromocodeController@ValidatePromocodeToken');
-        Route::post('get_redeem', 'StorePromocodeController@getredeem');
+        /*Start Generate Unique Token and Validate Token Routes*/
+        // Old
+        Route::post('generate_promocode_token', 'UniqueTokenController@GeneratePromocodeToken');
+        Route::post('validate_promocode_token', 'UniqueTokenController@ValidatePromocodeToken');
+        // New
+        Route::post('generate_unique_token', 'UniqueTokenController@GeneratePromocodeToken');
+        Route::post('validate_unique_token', 'UniqueTokenController@ValidatePromocodeToken');
         Route::post('generate_redeem', 'MerchantStoreController@generateRedeemtoken');
         Route::post('valid_get_redeem', 'MerchantStoreController@valid_get_redeem');
         Route::post('user_point_collect', 'MerchantStoreController@userPointCollect');
-        /*End Store Promocode Routes*/
+        /*End Generate Unique Token and Validate Token Routes*/
 
 
         /*Add store to wallet*/

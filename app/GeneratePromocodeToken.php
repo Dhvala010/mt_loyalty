@@ -10,10 +10,16 @@ class GeneratePromocodeToken extends Model
         'promocode_id',
         "type",
         "count",
-        'unique_token'
+        'unique_token',
+        'coupon_id',
+        'store_id'
     ];
 
     public function promocode_detail(){
         return $this->belongsTo(StorePromocode::class,'promocode_id', 'id');
+    }
+
+    public function coupon_detail(){
+        return $this->belongsTo(StoreCoupon::class,'coupon_id', 'id');
     }
 }

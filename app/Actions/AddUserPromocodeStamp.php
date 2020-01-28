@@ -3,9 +3,11 @@
 
 namespace App\Actions;
 
-use App\UserStampCollect;
-use App\UserPointCollect;
-use App\GeneratePromocodeToken;
+use App\UserStampCollect,
+    App\UserPointCollect,
+    App\GeneratePromocodeToken,
+    App\UserCouponCollect;
+
 use Illuminate\Support\Facades\Auth;
 
 /**
@@ -27,8 +29,8 @@ class AddUserPromocodeStamp
         $unique_token = $data['unique_token'];
         $user = Auth::user();
 
-        $GeneratePromocodeToken = GeneratePromocodeToken::where('unique_token',$unique_token)->with("promocode_detail")->first();
-        
+        $GeneratePromocodeToken = GeneratePromocodeToken::where('unique_token',$unique_token)
+                                    ->with( [ "promocode_detail" ])->first();
         if($GeneratePromocodeToken->type == "point"){
             $UserPointCollectData = [
                 "promocode_id" => $GeneratePromocodeToken->promocode_id,
@@ -36,9 +38,9 @@ class AddUserPromocodeStamp
                 "user_id" => $user->id,
                 "count" => $GeneratePromocodeToken->count,
                 "is_redeem" => 0
-            ];           
+            ];
             $UserStampCollect = UserPointCollect::create($UserPointCollectData);
-        }else{
+        }elseif($GeneratePromocodeToken->type == "stamp"){
             $UserStampCollectData = [
                 "promocode_id" => $GeneratePromocodeToken->promocode_id,
                 "store_id" =>  $GeneratePromocodeToken->promocode_detail->store_id,
@@ -46,8 +48,15 @@ class AddUserPromocodeStamp
                 "count" => $GeneratePromocodeToken->count,
             ];
             $UserStampCollect = $this->UserStampCollect->create($UserStampCollectData);
+        }else{
+            $UserStampCollectData = [
+                "store_id" => $GeneratePromocodeToken->store_id,
+                "coupon_id" =>  $GeneratePromocodeToken->coupon_id,
+                "user_id" => $user->id,
+                "count" => $GeneratePromocodeToken->coupon_detail->amount,
+            ];
+            $UserStampCollect = UserCouponCollect::create($UserStampCollectData);
         }
-        
         $GeneratePromocodeToken->delete();
         return $UserStampCollect;
     }

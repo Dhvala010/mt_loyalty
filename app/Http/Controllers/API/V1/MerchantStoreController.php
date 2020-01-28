@@ -127,9 +127,11 @@ class MerchantStoreController extends Controller
         if($offer_detail && $stamp_count < $offer_detail->count && $user_redeem->type == "stamp"){
             throw new ModelNotFoundException(ResponseMessage::NOT_AUTHORIZE_REDEEM_OFFER);
         }
+
         if($store_reward && $point_count < $store_reward->count && $user_redeem->type == "point"){
             throw new ModelNotFoundException(ResponseMessage::NOT_AUTHORIZE_REDEEM_OFFER);
         }
+
         $data = $user_redeem->toArray();
         $response = $RedeemStoreOffer->execute($data,$store_detail,$offer_detail,$store_reward);
         return response()->success(ResponseMessage::COMMON_MESSAGE,replace_null_with_empty_string($response));
