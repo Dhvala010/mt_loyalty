@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use App\User;
 use App\Store;
+use Illuminate\Support\Facades\Route;
 /*
 |--------------------------------------------------------------------------
 | API Routes

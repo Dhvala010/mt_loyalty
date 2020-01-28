@@ -126,7 +126,7 @@
                $('#storedatatable').DataTable({
                processing: true,
                serverSide: true,
-               ajax: '{{ url('/admin/store') }}',
+               ajax: "{{ url('/admin/store') }}",
                columns: [
 					{data: 'DT_RowIndex', name: 'DT_RowIndex' },
 					{data: 'title', name: 'title'},

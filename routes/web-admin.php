@@ -1,7 +1,8 @@
 <?php
 use App\Store;
 use App\User;
-use App\StorePromocode;
+use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
 /*
 |--------------------------------------------------------------------------
 | Web Routes

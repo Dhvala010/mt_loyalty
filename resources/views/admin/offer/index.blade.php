@@ -87,14 +87,6 @@
 </div>
 
 @endsection
-@section('css')
-	<style>
-		.image-div img {
-			width: 120px;
-			padding: 15px;
-		}
-	</style>
-@stop
 @section('js')
 	<script>
 		$('.datepicker1').datepicker({
@@ -110,7 +102,7 @@
                $('#storedatatable').DataTable({
                processing: true,
                serverSide: true,
-               ajax: '{{ url('/admin/offer') }}',
+               ajax: "{{ url('/admin/offer') }}",
                columns: [
 					{data: 'DT_RowIndex', name: 'DT_RowIndex' },
 					{data: 'title', name: 'title'},
