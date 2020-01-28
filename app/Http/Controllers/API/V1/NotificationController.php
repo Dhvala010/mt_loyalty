@@ -22,7 +22,7 @@ class NotificationController extends Controller
         $user_id = $user->id;
 
         $offset = $request->offset ? $request->offset : 10;
-        $UserNotification = UserNotification::where('to_user_id',$user_id);
+        $UserNotification = UserNotification::where('to_user_id',$user_id)->with(["formUser"]);
 
         $UserNotification = $UserNotification->paginate($offset)->toArray();
         $notification_data = replace_null_with_empty_string($UserNotification['data']);

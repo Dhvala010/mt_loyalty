@@ -34,6 +34,7 @@ Route::group(['namespace'=>'API\V1','prefix'=>'v1'], function () {
     Route::post('forgot_password', 'AuthController@forgotPassword');
     Route::post('configuration', 'AuthController@configuration');
     Route::post('check_social_login', 'AuthController@checkSocialLogin');
+    Route::post('local_notification','AuthController@localNotification');
     /*End User Management Routes*/
 
     Route::group(['middleware' => ['auth:api']], function () {

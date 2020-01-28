@@ -48,6 +48,7 @@ class SendPushNotification implements ShouldQueue
      */
     public function handle()
     {
+        $Title = config("app.name");
         $sender  = $this->sender;
         $receiver  = $this->receiver;
         $reference_id = $this->reference_id;
@@ -61,51 +62,56 @@ class SendPushNotification implements ShouldQueue
         if(!is_array($receiver)){
             $receiver = [$receiver];
         }
-        foreach ($receiver as $key => $value) {
-            $tokens = UserDevice::whereIn('user_id',$value)->select('device_type', 'fcm_token')->orderBy("id", "desc")->get();
-            if($tokens->isNotEmpty() && $is_notification == true){
-                $tokendata = [];
-                foreach ($tokens as $t) :
-                    $tokendata[$t["device_type"]][] = $t["fcm_token"];
-                endforeach;
-                if(isset($tokendata["Android"]) && count($tokendata["Android"]) > 0){
-                    $push->setMessage([
-                        'priority' => 'normal',
-                        'data' => [
-                            'title' => "Loyalty",
-                            'body' => $message,
-                            'sound' => 'default',
-                            'extra_data' => $data
-                        ],
-                    ])
-                    ->setDevicesToken($tokendata["Android"])
-                    ->send();
-                    $NotificationResponse = $push->getFeedback();
-                }
-                if(isset($tokendata["iOS"]) && count($tokendata["iOS"]) > 0) {
-                    $push->setMessage([
-                        'priority' => 'normal',
-                        'notification' => [
-                            'title' => "Loyalty",
-                            'body' => $message,
-                            'sound' => 'default',
-                            'extra_data' => $data
-                        ]
-                    ])
-                    ->setDevicesToken($tokendata["iOS"])
-                    ->send();
-                    $NotificationResponse = $push->getFeedback();
-                }
+
+        $tokens = UserDevice::whereIn('user_id',$receiver)->select('device_type', 'fcm_token')->orderBy("id", "desc")->get();
+        if($tokens->isNotEmpty() && $is_notification == true){
+
+            $tokendata = [];
+            foreach ($tokens as $t) :
+                $tokendata[$t["device_type"]][] = $t["fcm_token"];
+            endforeach;
+            if(isset($tokendata["1"]) && count($tokendata["1"]) > 0){
+                $push->setMessage([
+                    'priority' => 'normal',
+                    'notification' => [
+                        'title' => $Title,
+                        'body' => $message,
+                        'sound' => 'default',
+                        'extra_data' => $data
+                    ],
+                ])
+                ->setDevicesToken($tokendata["1"])
+                ->send();
+                $NotificationResponse = $push->getFeedback();
             }
+            if(isset($tokendata["2"]) && count($tokendata["2"]) > 0) {
+                $push->setMessage([
+                    'priority' => 'normal',
+                    'notification' => [
+                        'title' => $Title,
+                        'body' => $message,
+                        'sound' => 'default',
+                        'extra_data' => $data
+                    ]
+                ])
+                ->setDevicesToken($tokendata["2"])
+                ->send();
+                $NotificationResponse = $push->getFeedback();
+            }
+            dump($NotificationResponse);
+        }
+        // dd($tokens);
+        foreach ($receiver as $key => $value) {
 
             $notification = new UserNotification();
             $notification->from_user_id = $sender;
-            $notification->to_user_id = $receiver;
+            $notification->to_user_id = $value;
             $notification->refference_id = $reference_id;
             $notification->refference_type = $reference_type;
             $notification->message = $message;
             $notification->is_read = 0;
             $notification->save();
+
         }
         return true;
     }

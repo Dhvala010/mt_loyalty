@@ -26,6 +26,7 @@ use App\User,
     App\UserFeedback;
 
 use Illuminate\Support\Facades\Hash;
+use App\Jobs\SendPushNotification;
 /*use App\Mail\VerifyMail;*/
 
 class AuthController extends Controller
@@ -158,8 +159,7 @@ class AuthController extends Controller
         }
     }
 
-    public function AddFeedBack(ValidateFeedBack $request)
-    {
+    public function AddFeedBack(ValidateFeedBack $request) {
         $user = Auth::user();
         $user_id = $user->id;
         $input = $request->all();
@@ -167,5 +167,10 @@ class AuthController extends Controller
         $user = UserFeedback::create($input);
 
         return response()->success(ResponseMessage::COMMON_MESSAGE);
+    }
+
+    public function localNotification(){
+        $message = "Test Notification";
+        // SendPushNotification::dispatchNow(1,1,1,"Event",$message,[],true);
     }
 }

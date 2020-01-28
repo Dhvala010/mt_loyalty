@@ -28,9 +28,10 @@ class ResponseMessage
     const NOT_AUTHORIZE_REDEEM_OFFER = "You Are not authorize to redeem this offer";
     const REQUEST_SEND_FAMILY_MEMBER_SUCCESSFULLY = "You have send request successfully";
     const REQUEST_UPDATE_REQUEST_FAMILY_MEMBER_SUCCESSFULLY = "You have request updated successfully";
-    const REQUEST_ALLREADY_SEND_FAMILY_MEMBER_SUCCESSFULLY = "You have already send request.";
-    const REQUEST_ALLREADY_FRD_FAMILY_MEMBER_SUCCESSFULLY = "You have already added as a family member.";
+    const REQUEST_ALLREADY_SEND_FAMILY_MEMBER = "You have already send request.";
+    const REQUEST_ALLREADY_FRD_FAMILY_MEMBER = "You have already added as a family member.";
     const INVALIDE_ACTION = "Invalide Action";
     const NOT_AUTHORIZE = "Not Authorize";
     const SHARE_STAMP_ERROR = "You have not enough stamp to share";
+    const FAMILY_MEMEBER_SEND_REQUEST_NOTIFICATION = "{Username} has you send a Request.";
 }

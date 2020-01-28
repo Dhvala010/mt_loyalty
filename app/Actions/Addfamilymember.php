@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Auth;
 
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Constants\ResponseMessage;
+use App\Jobs\SendPushNotification;
 /**
  * Response represents an HTTP response.
  *
@@ -44,9 +45,9 @@ class Addfamilymember
                             })->first();
         if($FamilyMemberData){
             if($FamilyMemberData->status == "pending" ){
-                throw new ModelNotFoundException(ResponseMessage::REQUEST_ALLREADY_SEND_FAMILY_MEMBER_SUCCESSFULLY);
+                throw new ModelNotFoundException(ResponseMessage::REQUEST_ALLREADY_SEND_FAMILY_MEMBER);
             }else{
-                throw new ModelNotFoundException(ResponseMessage::REQUEST_ALLREADY_FRD_FAMILY_MEMBER_SUCCESSFULLY);
+                throw new ModelNotFoundException(ResponseMessage::REQUEST_ALLREADY_FRD_FAMILY_MEMBER);
             }
         }
 
@@ -58,6 +59,8 @@ class Addfamilymember
         ];
 
         $FamilyMember = $this->FamilyMember->create($FamilyMemberManage);
+        $message = ResponseMessage::FAMILY_MEMEBER_SEND_REQUEST_NOTIFICATION;
+        dispatch(new SendPushNotification($user->id,$user_detail->id,$FamilyMember->id,"Family Request",$message,$FamilyMember,true));
 
         return $FamilyMember;
     }

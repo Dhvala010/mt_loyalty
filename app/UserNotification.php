@@ -17,4 +17,15 @@ class UserNotification extends Model
 		'message',
 		'is_read'
 	];
+
+	public function formUser(){
+        return $this->belongsTo(User::class,'from_user_id', 'id');
+	}
+
+	public function getMessageAttribute($msg)
+	{
+		$name = $this->formUser->first_name ." ".$this->formUser->last_name;
+		$msg = str_replace("{Username}",$name,$msg);
+		return $msg;
+	}
 }
