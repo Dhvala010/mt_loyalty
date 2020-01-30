@@ -121,8 +121,12 @@ class MerchantStoreController extends Controller
 
         $offer_detail = $store_detail->store_offer()->find($user_redeem->offer_id);
         $store_reward = $store_detail->store_reward()->find($user_redeem->reward_id);
+        $store_coupon = $store_detail->store_coupon()->find($user_redeem->coupon_id);
+
         $stamp_count = $store_detail->user_stemp_count($user_redeem->user_id)->sum('count');
         $point_count = $store_detail->user_point_count($user_redeem->user_id)->sum('count');
+        $coupon_count = $store_detail->user_coupon_count($user_redeem->user_id)->sum('count');
+
 
         if($offer_detail && $stamp_count < $offer_detail->count && $user_redeem->type == "stamp"){
             throw new ModelNotFoundException(ResponseMessage::NOT_AUTHORIZE_REDEEM_OFFER);
@@ -132,8 +136,12 @@ class MerchantStoreController extends Controller
             throw new ModelNotFoundException(ResponseMessage::NOT_AUTHORIZE_REDEEM_OFFER);
         }
 
+        if($store_coupon && $coupon_count < $store_coupon->amount && $user_redeem->type == "coupon"){
+            throw new ModelNotFoundException(ResponseMessage::NOT_AUTHORIZE_REDEEM_OFFER);
+        }
+
         $data = $user_redeem->toArray();
-        $response = $RedeemStoreOffer->execute($data,$store_detail,$offer_detail,$store_reward);
+        $response = $RedeemStoreOffer->execute($data,$store_detail,$offer_detail,$store_reward,$store_coupon);
         return response()->success(ResponseMessage::COMMON_MESSAGE,replace_null_with_empty_string($response));
    }
 }

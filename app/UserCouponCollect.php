@@ -10,7 +10,6 @@ class UserCouponCollect extends Model
         'store_id',
         'coupon_id',
         'user_id',
-        'count',
-        'is_redeem'
+        'count'
     ];
 }

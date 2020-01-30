@@ -11,6 +11,7 @@ class GenerateRedeemToken extends Model
         'store_id',
         'offer_id',
         'reward_id',
+        'coupon_id',
         'unique_token',
         'type',
     ];

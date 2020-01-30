@@ -26,6 +26,7 @@ class ValidateRedeemRequest extends FormRequest
         return [
             'store_id' => [ "required","numeric","exists:stores,id,deleted_at,NULL"],
             'offer_id' => [ "required","numeric","exists:store_offers,id,deleted_at,NULL"],
+            'coupon_id' => [ "required","numeric","exists:store_coupons,id,deleted_at,NULL"],
         ];
     }
 }

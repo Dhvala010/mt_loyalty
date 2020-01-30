@@ -58,6 +58,15 @@ class Store extends Model
         }
     }
 
+    public function user_coupon_count($user_id = null){
+        if($user_id){
+            return $this->hasMany(UserCouponCollect::class)->where('user_id',$user_id);
+        }else{
+            $id = Auth::id();
+            return $this->hasMany(UserCouponCollect::class)->where('user_id',$id);
+        }
+    }
+
     public function getStampCountAttribute(){
         return $this->user_stemp_count->sum('count');
     }
@@ -72,6 +81,10 @@ class Store extends Model
 
     public function store_reward(){
         return $this->hasMany(StoreReward::class,'store_id','id');
+    }
+
+    public function store_coupon(){
+        return $this->hasMany(StoreCoupon::class,'store_id','id');
     }
 
     public function store_promocode(){

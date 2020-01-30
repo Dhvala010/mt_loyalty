@@ -5,7 +5,8 @@ namespace App\Actions;
 
 use App\UserRedeem,
     App\UserStampCollect,
-    App\UserPointCollect;
+    App\UserPointCollect,
+    App\UserCouponCollect;
 
 use Illuminate\Support\Facades\Auth;
 /**
@@ -23,19 +24,23 @@ class RedeemStoreOffer
         $this->UserRedeem = $UserRedeem;
     }
 
-    public function execute($data,$store_detail,$offer_detail,$reward_detail){
-        $user = Auth::user();
+    public function execute($data,$store_detail,$offer_detail,$reward_detail,$coupon_detail){
 
         $data['user_id'] = $data['user_id'];
         $data['store_id'] =  $store_detail->id;
         $data['offer_id']=   $offer_detail ? $offer_detail->id : null;
         $data['reward_id']=   $reward_detail ? $reward_detail->id : null;
+        $data['coupon_id']=   $coupon_detail ? $coupon_detail->id : null;
+
         $data['type']= $data['type'];
         if($data['type'] == "stamp"){
             $data['count'] = (int)$offer_detail->count;
             $StoreOffer = $this->UserRedeem->create($data);
-        }else{
+        }elseif($data['type'] == "point"){
             $data['count'] = (int)$reward_detail->count;
+            $StoreOffer = $this->UserRedeem->create($data);
+        }else{
+            $data['count'] = (int)$coupon_detail->amount;
             $StoreOffer = $this->UserRedeem->create($data);
         }
 
@@ -44,7 +49,9 @@ class RedeemStoreOffer
             "store_id" => $store_detail->id,
             "user_id" => $data['user_id'],
             "count" => - $data['count'],
-            "is_redeem" => 1
+            "amount" => - $data['count'],
+            "is_redeem" => 1,
+            'coupon_id' => $data['coupon_id']
         ];
 
         if($data['type'] == "stamp"){
@@ -52,6 +59,9 @@ class RedeemStoreOffer
         }
         if($data['type'] == "point"){
             UserPointCollect::create($ManageCount);
+        }
+        if($data['type'] == "coupon"){
+            UserCouponCollect::create($ManageCount);
         }
 
         return $StoreOffer;
