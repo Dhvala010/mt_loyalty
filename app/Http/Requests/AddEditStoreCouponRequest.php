@@ -29,7 +29,7 @@ class AddEditStoreCouponRequest extends FormRequest
             'store_id' => [ 'required','exists:stores,id,deleted_at,NULL'],
             'title' => [ 'required' ],
             'amount' => [ 'required' ,'numeric' ],
-            'offer_valid' => [ 'required','date' ],
+            'offer_valid' => [ 'nullable','date' ],
         ];
     }
 }

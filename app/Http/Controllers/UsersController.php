@@ -22,9 +22,9 @@ class UsersController extends Controller
             return Datatables::of($data)
                     ->addIndexColumn()
                     ->addColumn('action', function($row){
-						$btn = '<a href="javascript:void(0)" id="EditUser" data-id="'. $row->id .'" class="btn btn-xs btn-primary"><i class="glyphicon glyphicon-edit"></i> Edit</a>';
+						            $btn = '<a href="javascript:void(0)" id="EditUser" data-id="'. $row->id .'" class="btn btn-xs btn-primary"><i class="glyphicon glyphicon-edit"></i> Edit</a>';
                         $btn .= ' <a href="javascript:void(0)" id="DeleteUser" data-id="'. $row->id .'" class="btn btn-xs btn-danger"><i class="glyphicon glyphicon-trash"></i> Delete</a>';
-						return $btn;
+						            return $btn;
                     })
                     ->rawColumns(['action'])
                     ->make(true);

@@ -103,5 +103,11 @@ Route::group(['namespace'=>'API\V1','prefix'=>'v1'], function () {
          Route::post('read_notification', 'NotificationController@ReadNotification');
          Route::post('delete_notification', 'NotificationController@DeleteNotification');
          /*End User Notification Routes*/
+
+         /*Start User StoreCoupon Routes*/
+         Route::post('coupon_listing', 'StoreCouponController@CouponListing');
+         Route::post('add_edit_coupon', 'StoreCouponController@AddEditCoupon');
+         Route::post('delete_coupon', 'StoreCouponController@DeleteStoreCoupon');
+         /*End User StoreCoupon Routes*/
     });
 });

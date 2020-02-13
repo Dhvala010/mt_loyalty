@@ -114,7 +114,7 @@
                $('#userdatatable').DataTable({
                processing: true,
                serverSide: true,
-               ajax: '{{ url('/admin/user') }}',
+               ajax: '{{ url("/admin/user") }}',
                columns: [
 					{data: 'DT_RowIndex', name: 'DT_RowIndex' },
 					{data: 'first_name', name: 'first_name'},

@@ -43,7 +43,7 @@ class StoreCouponController extends Controller
 		Delete Store Offer
     */
     public function DeleteStoreCoupon(CheckStoreCouponId $request){
-        StoreCoupon::where('id',$request->store_offer_id)->delete();
+        StoreCoupon::where('id',$request->store_coupon_id)->delete();
         return response()->success(ResponseMessage::COMMON_MESSAGE);
     }
 
