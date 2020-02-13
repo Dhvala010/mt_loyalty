@@ -28,7 +28,7 @@ class AddCouponIdGenerateRedeemTokensTable extends Migration
     public function down()
     {
         Schema::table('generate_redeem_tokens', function (Blueprint $table) {
-            //
+            $table->dropColumn('coupon_id');
         });
     }
 }

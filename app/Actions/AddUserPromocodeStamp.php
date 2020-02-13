@@ -54,6 +54,7 @@ class AddUserPromocodeStamp
                 "coupon_id" =>  $GeneratePromocodeToken->coupon_id,
                 "user_id" => $user->id,
                 "count" => $GeneratePromocodeToken->coupon_detail->amount,
+                "is_reward" => 0,
             ];
             $UserStampCollect = UserCouponCollect::create($UserStampCollectData);
         }
