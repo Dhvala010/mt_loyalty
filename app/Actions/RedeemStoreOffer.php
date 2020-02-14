@@ -61,6 +61,12 @@ class RedeemStoreOffer
             UserPointCollect::create($ManageCount);
         }
         if($data['type'] == "coupon"){
+            UserCouponCollect::where('coupon_id',$data['coupon_id'])
+                            ->where('user_id',$data['user_id'])
+                            ->whereNull('is_redeem')
+                            ->update([
+                                'is_redeem' => 1
+                            ])->limit(1);
             UserCouponCollect::create($ManageCount);
         }
 
