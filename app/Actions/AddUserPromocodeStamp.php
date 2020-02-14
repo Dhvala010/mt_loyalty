@@ -58,6 +58,8 @@ class AddUserPromocodeStamp
             ];
             $UserStampCollect = UserCouponCollect::create($UserStampCollectData);
         }
+
+        $UserStampCollect->type = $GeneratePromocodeToken->type;
         $GeneratePromocodeToken->delete();
         return $UserStampCollect;
     }
