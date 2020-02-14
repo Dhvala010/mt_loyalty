@@ -13,4 +13,9 @@ class UserCouponCollect extends Model
         'count',
         'is_redeem'
     ];
+
+    public function coupon_details()
+    {
+        return $this->hasMany(StoreCoupon::class,'id','coupon_id');
+    }
 }

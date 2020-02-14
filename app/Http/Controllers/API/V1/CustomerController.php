@@ -9,7 +9,9 @@ use App\Constants\ResponseMessage;
 use App\Http\Resources\StoreResource;
 
 use App\Store,
-    App\User;
+    App\User,
+    App\UserCouponCollect;
+use Illuminate\Support\Facades\Auth;
 
 class CustomerController extends Controller
 {
@@ -45,4 +47,20 @@ class CustomerController extends Controller
      public function storeDetail(Store $store){
         return response()->success(ResponseMessage::COMMON_MESSAGE,replace_null_with_empty_string(StoreResource::make($store)));
      }
+
+    public function couponList(UserCouponCollect $UserCouponCollect,Request $request){
+      $user = Auth::user();
+
+      $offset = $request->offset ? $request->offset : 10;
+      $UserCouponCollect = $UserCouponCollect->with('coupon_details')
+                                            ->where('user_id',$user->id)
+                                            ->whereNull('is_redeem');
+
+      $UserCouponCollect = $UserCouponCollect->paginate($offset)->toArray();
+      $store_coupon_data = replace_null_with_empty_string($UserCouponCollect['data']);
+      $total_record = $UserCouponCollect['total'];
+      $total_page = $UserCouponCollect['last_page'];
+      return response()->paginate(ResponseMessage::COMMON_MESSAGE,$store_coupon_data,$total_record,$total_page );
+
+    }
 }

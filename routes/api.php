@@ -81,6 +81,7 @@ Route::group(['namespace'=>'API\V1','prefix'=>'v1'], function () {
         Route::post('user/{user}/add_store_wallet', 'CustomerController@addWallet');
         Route::post('user/{user}/remove_store_wallet', 'CustomerController@removeWallet');
         Route::post('store/{store}/detail', 'CustomerController@storeDetail');
+        Route::post('customer/coupon_list','CustomerController@couponList');
         /*End Store to wallet*/
 
          /*Add store to wallet*/
