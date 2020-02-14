@@ -12,6 +12,7 @@ class StoreCoupon extends Model
     protected $fillable = [
         'store_id',
         'title',
+        'description',
         'amount',
         'offer_valid'
     ];
