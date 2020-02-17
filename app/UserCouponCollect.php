@@ -16,6 +16,6 @@ class UserCouponCollect extends Model
 
     public function coupon_details()
     {
-        return $this->hasMany(StoreCoupon::class,'id','coupon_id');
+        return $this->belongsTo(StoreCoupon::class,'coupon_id','id');
     }
 }
