@@ -43,9 +43,9 @@ class RedeemStoreOffer
             $data['count'] = (int)$coupon_detail->amount;
             $StoreOffer = $this->UserRedeem->create($data);
         }
-
+        $store_promocode = $store_detail->store_promocode ? $store_detail->store_promocode->id : 0;
         $ManageCount = [
-            "promocode_id" => $store_detail->store_promocode->id,
+            "promocode_id" => $store_promocode,
             "store_id" => $store_detail->id,
             "user_id" => $data['user_id'],
             "count" => - $data['count'],
@@ -64,9 +64,10 @@ class RedeemStoreOffer
             UserCouponCollect::where('coupon_id',$data['coupon_id'])
                             ->where('user_id',$data['user_id'])
                             ->whereNull('is_redeem')
+                            ->limit(1)
                             ->update([
                                 'is_redeem' => 1
-                            ])->limit(1);
+                            ]);
             UserCouponCollect::create($ManageCount);
         }
 
