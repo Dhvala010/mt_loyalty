@@ -82,6 +82,7 @@ Route::group(['namespace'=>'API\V1','prefix'=>'v1'], function () {
         Route::post('user/{user}/remove_store_wallet', 'CustomerController@removeWallet');
         Route::post('store/{store}/detail', 'CustomerController@storeDetail');
         Route::post('customer/coupon_list','CustomerController@couponList');
+        Route::post('customer/store_coupon_listing', 'CustomerController@StoreCouponListing');
         /*End Store to wallet*/
 
          /*Add store to wallet*/
@@ -109,6 +110,8 @@ Route::group(['namespace'=>'API\V1','prefix'=>'v1'], function () {
          Route::post('coupon_listing', 'StoreCouponController@CouponListing');
          Route::post('add_edit_coupon', 'StoreCouponController@AddEditCoupon');
          Route::post('delete_coupon', 'StoreCouponController@DeleteStoreCoupon');
+
+
          /*End User StoreCoupon Routes*/
     });
 });

@@ -12,7 +12,10 @@ use App\Http\Requests\CheckStoreIdRequest,
 
 use App\Actions\AddEditStoreCoupon;
 
-use App\StoreCoupon;
+use App\StoreCoupon,
+    App\Store;
+
+use Illuminate\Support\Facades\Auth;
 
 class StoreCouponController extends Controller
 {
@@ -29,6 +32,8 @@ class StoreCouponController extends Controller
         $total_page = $StoreCoupon['last_page'];
         return response()->paginate(ResponseMessage::COMMON_MESSAGE,$store_coupon_data,$total_record,$total_page );
     }
+
+
 
     /*
 		Add Edit Store Coupon
