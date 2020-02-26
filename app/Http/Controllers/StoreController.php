@@ -60,7 +60,7 @@ class StoreController extends Controller
         $input = $request->all();
         $file = $request->file('image') ?? '';
         if(!empty($file)){
-          $imagename = ImageUpload($file,'stores');
+          $imagename = ImageUpload($file,'store_image');
           $input['image'] = $imagename;
         }
           $Store = new Store();
@@ -116,7 +116,7 @@ class StoreController extends Controller
         $input = $request->all();
         $file = $request->file('image') ?? '';
         if(!empty($file)){
-          $imagename = ImageUpload($file,'stores');
+          $imagename = ImageUpload($file,'store_image');
           $input['image'] = $imagename;
         }
         $store->fill($input);
