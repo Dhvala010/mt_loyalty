@@ -80,8 +80,16 @@
 			<div class="form-group">
 			  <input type="text" class="form-control form-control-user" name="location_address" id="location_address" placeholder="Enter Location Address..." />
 				<span id="location_address_error" class="help-block"></span>
-				<input type="hidden" id="location_address_lat" name="location_address_lat">
-				<input type="hidden" id="location_address_long" name="location_address_long">
+			</div>
+
+			<div class="form-group">
+			  <input type="text" class="form-control form-control-user" name="latitude" id="latitude" placeholder="Enter Location latitude..." />
+				<span id="latitude_error" class="help-block"></span>
+			</div>
+
+			<div class="form-group">
+			  <input type="text" class="form-control form-control-user" name="longitude" id="longitude" placeholder="Enter Location longitude..." />
+				<span id="longitude_error" class="help-block"></span>
 			</div>
 
 			<div class="form-group">
@@ -117,31 +125,31 @@
 	</style>
 @stop
 @section('js')
-<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAEKhaA47gJSR33ZyDEbpPENL14jeGTvH4&libraries=places"
-  type="text/javascript"></script>
+<!-- <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAEKhaA47gJSR33ZyDEbpPENL14jeGTvH4&libraries=places"
+  type="text/javascript"></script> -->
 	<script>
          $(function() {
-			function initMap() {
-				var input = document.getElementById('location_address');
-				console.log(input);
-				var autocomplete = new google.maps.places.Autocomplete(input);
-				google.maps.event.addListener(autocomplete, 'place_changed', function () {
-					var place = autocomplete.getPlace();
-					if (!place.geometry) {
-						// User entered the name of a Place that was not suggested and
-						// pressed the Enter key, or the Place Details request failed.
-						window.alert("No details available for input: '" + place.name + "'");
-						return;
-					}
-					var lat = place.geometry.location.lat(),
-						lng = place.geometry.location.lng();
+			// function initMap() {
+			// 	var input = document.getElementById('location_address');
+			// 	console.log(input);
+			// 	var autocomplete = new google.maps.places.Autocomplete(input);
+			// 	google.maps.event.addListener(autocomplete, 'place_changed', function () {
+			// 		var place = autocomplete.getPlace();
+			// 		if (!place.geometry) {
+			// 			// User entered the name of a Place that was not suggested and
+			// 			// pressed the Enter key, or the Place Details request failed.
+			// 			window.alert("No details available for input: '" + place.name + "'");
+			// 			return;
+			// 		}
+			// 		var lat = place.geometry.location.lat(),
+			// 			lng = place.geometry.location.lng();
 
-					$("#location_address_lat").val(lat)
-					$("#location_address_long").val(lng)
-					$("#preferred_workplace_lat-error").html("")
-				})
-			}
-			initMap();
+			// 		$("#location_address_lat").val(lat)
+			// 		$("#location_address_long").val(lng)
+			// 		$("#preferred_workplace_lat-error").html("")
+			// 	})
+			// }
+			// initMap();
 			getmerchant();
 			 $.ajaxSetup({
 			  headers: {
@@ -209,6 +217,9 @@
 						$("#title").val(result.data.title);
 						$("#description").val(result.data.description);
 						$("#email").val(result.data.email);
+						$("#latitude").val(result.data.latitude);
+						$("#longitude").val(result.data.longitude);
+
 						$("#phone_number").val(result.data.phone_number);
 						$("#facebook_url").val(result.data.facebook_url);
 						$("#location_address").val(result.data.location_address);
