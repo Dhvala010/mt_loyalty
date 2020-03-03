@@ -58,6 +58,11 @@ class Store extends Model
         }
     }
 
+    public function cutomer_store(){
+        $id = Auth::id();
+        return $this->belongsToMany(User::class)->where('users.id',$id)->withTimestamps();
+    }
+
     public function user_coupon_count($user_id = null){
         if($user_id){
             return $this->hasMany(UserCouponCollect::class)->where('user_id',$user_id);

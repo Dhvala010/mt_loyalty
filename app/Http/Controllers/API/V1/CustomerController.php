@@ -81,7 +81,8 @@ class CustomerController extends Controller
       $user = Auth::user();
       $StoreCoupon = Store::whereIn('id',function($query) use($user) {
         $query->select("store_id")->from("user_coupon_collects")
-              ->where('user_id',$user->id);
+              ->where('user_id',$user->id)
+			        ->whereNull('is_redeem');
       });
 
       $StoreCoupon = $StoreCoupon->paginate($offset)->toArray();

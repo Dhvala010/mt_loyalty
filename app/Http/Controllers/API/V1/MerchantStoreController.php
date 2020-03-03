@@ -79,7 +79,7 @@ class MerchantStoreController extends Controller
         if (!empty($input["country"])) {
             $store = $store->where("country_code", $input["country"]);
         }
-        $store = $store->paginate($offset);
+        $store = $store->doesnthave('cutomer_store')->paginate($offset);
         $store_data = replace_null_with_empty_string($store->items());
         $total_record = $store->lastItem();
         $total_page = $store->lastPage();
