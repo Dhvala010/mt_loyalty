@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'title' => 'Loyalty',
+    'title' => 'Noxx Loyalty',
 
     'title_prefix' => '',
 
@@ -30,9 +30,9 @@ return [
     |
     */
 
-    'logo' => 'Loyalty',
+    'logo' => 'Noxx Loyalty',
 
-    'logo_mini' => '<b>L</b>',
+    'logo_mini' => '<b>NL</b>',
 
     /*
     |--------------------------------------------------------------------------

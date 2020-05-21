@@ -15,7 +15,7 @@ class ChangeUserStampAddSharedUser extends Migration
     {
         Schema::table('user_stamp_collects', function (Blueprint $table) {
             $table->boolean("is_shared")->default(false)->after("is_redeem");
-            $table->bigInteger("shared_user")->nullable()->after("is_shared");
+            $table->bigInteger("shared_user")->unsigned()->nullable()->after("is_shared");
 
             $table->foreign('shared_user')->references('id')->on('users');
         });

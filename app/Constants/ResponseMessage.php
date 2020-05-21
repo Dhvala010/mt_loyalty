@@ -15,8 +15,8 @@ class ResponseMessage
     const LOGOUT_SUCCESS = 'Logout successfully.';
     const FORGOT_PASSWORD_SUCCESS = 'Password is successfully sent on your registered email.';
     const LOGIN_UNAUTHORIZED = "These credentials do not match our records.";
-    const CHANGE_PASSWORD_SUCCESS = "Password change successfully.";
-    const PASSWORD_DO_NOT_MATCH = "Current password not match.";
+    const CHANGE_PASSWORD_SUCCESS = "Password change successfully";
+    const PASSWORD_DO_NOT_MATCH = "Current password not match";
     const ERROR_CREATING_USER = "Error in creating user";
     const ERROR_CREATING_DEVICE = "Error in creating user device detail";
     const USER_NOT_FOUND = 'User not found.';

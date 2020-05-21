@@ -73,7 +73,7 @@ class UsersController extends Controller
         }
 
         if(!empty($file)){
-          $imagename = ImageUpload($file,'users');
+          $imagename = ImageUpload($file,'user');
           $input['profile_picture'] = $imagename;
         }
         $role = $input['role'];
@@ -144,8 +144,8 @@ class UsersController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id){
-        User::where('id', $id)->delete();
+    public function destroy($user){
+        User::where('id', $user->id)->delete();
 		    return response()->json([ 'status' => 1 ,  'success'=>'success' ]);
     }
 

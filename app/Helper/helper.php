@@ -57,7 +57,7 @@ use Illuminate\Support\Facades\DB;
     }
 
     function totaluser(){
-        $user = User::get()->count();
+        $user = User::where('role','<>','1')->count();
         return $user;
     }
 
