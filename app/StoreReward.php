@@ -28,4 +28,8 @@ class StoreReward extends Model
     public function getIsRedeemAttribute(){
         return $this->redeemDetail->isEmpty() ? 0 : 1;
     }
+	
+	public function store(){
+        return $this->belongsTo(Store::class,'store_id', 'id');
+    }
 }
