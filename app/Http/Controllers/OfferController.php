@@ -24,7 +24,7 @@ class OfferController extends Controller
         if ($request->ajax()) {
             $user = Auth::user();
             $user_id = $user->id;
-            $data = StoreOffer::with('store');
+            $data = StoreOffer::with('store')->has('store');
             if($user->hasRole('merchant'))
                 $data = $data->whereIn('store_id', function($query) use($user_id) {
                     $query->select('id')->from('stores')->where("user_id",$user_id);
