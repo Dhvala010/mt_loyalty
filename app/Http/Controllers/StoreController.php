@@ -11,6 +11,8 @@ use Validator;
 use Auth;
 use Hash;
 
+use App\Actions\CreateMerchantStore;
+
 class StoreController extends Controller
 {
     /**
@@ -55,7 +57,7 @@ class StoreController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreRequest $request)
+    public function store(StoreRequest $request,CreateMerchantStore $createMerchantStore)
     {
         $input = $request->all();
         $file = $request->file('image') ?? '';
@@ -63,10 +65,8 @@ class StoreController extends Controller
           $imagename = ImageUpload($file,'store_image');
           $input['image'] = $imagename;
         }
-          $Store = new Store();
-          $Store->fill($input);
-          $Store->save();
-          return response()->json([ 'status' => 1 ,  'success'=>'Record added successfully' , 'data' =>$Store ]);
+		$response = $createMerchantStore->execute($input);
+		return response()->json([ 'status' => 1 ,  'success'=>'Record added successfully' , 'data' =>$Store ]);
     }
     public function getmerchant(){
         $user = Auth::user();
