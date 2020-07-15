@@ -65,7 +65,7 @@ class StoreController extends Controller
           $imagename = ImageUpload($file,'store_image');
           $input['image'] = $imagename;
         }
-		$response = $createMerchantStore->execute($input);
+		$Store = $createMerchantStore->execute($input);
 		return response()->json([ 'status' => 1 ,  'success'=>'Record added successfully' , 'data' =>$Store ]);
     }
     public function getmerchant(){
