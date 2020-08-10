@@ -110,8 +110,6 @@ Route::group(['namespace'=>'API\V1','prefix'=>'v1'], function () {
          Route::post('coupon_listing', 'StoreCouponController@CouponListing');
          Route::post('add_edit_coupon', 'StoreCouponController@AddEditCoupon');
          Route::post('delete_coupon', 'StoreCouponController@DeleteStoreCoupon');
-
-
-         /*End User StoreCoupon Routes*/
+        /*End User StoreCoupon Routes*/
     });
 });

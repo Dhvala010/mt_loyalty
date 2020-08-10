@@ -65,7 +65,6 @@ class SendPushNotification implements ShouldQueue
 
         $tokens = UserDevice::whereIn('user_id',$receiver)->select('device_type', 'fcm_token')->orderBy("id", "desc")->get();
         if($tokens->isNotEmpty() && $is_notification == true){
-
             $tokendata = [];
             foreach ($tokens as $t) :
                 $tokendata[$t["device_type"]][] = $t["fcm_token"];
@@ -98,11 +97,8 @@ class SendPushNotification implements ShouldQueue
                 ->send();
                 $NotificationResponse = $push->getFeedback();
             }
-            dump($NotificationResponse);
         }
-        // dd($tokens);
         foreach ($receiver as $key => $value) {
-
             $notification = new UserNotification();
             $notification->from_user_id = $sender;
             $notification->to_user_id = $value;
@@ -111,7 +107,6 @@ class SendPushNotification implements ShouldQueue
             $notification->message = $message;
             $notification->is_read = 0;
             $notification->save();
-
         }
         return true;
     }
